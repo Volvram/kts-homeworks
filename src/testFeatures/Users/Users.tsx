@@ -1,6 +1,6 @@
 import React from "react";
 
-import { USERS } from "@config/users";
+import { USERS } from "src/testFeatures/users";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 

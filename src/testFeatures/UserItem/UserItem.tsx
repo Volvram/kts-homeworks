@@ -10,15 +10,19 @@ const fontSize = css`
   font-size: ${props => props.large ? '32px' : '16px'}
 `
 
+// тут тоже можно использовать:   font-size: ${props => props.large ? '32px' : '16px'}
 const UserLogin = styled.div`
   font-size: 16px;
   line-height: 24px;
   margin-left: 24px;
 
    ${fontSize}
-  ${/*тут тоже можно использовать:   font-size: ${props => props.large ? '32px' : '16px'}*/}
 `
 
+// Наследование styled components
+const ExtendedUserLogin = styled(UserLogin)`
+  font-size: 24px;
+`
 
 const UserItem = ({ user }: any) => {
   // Context

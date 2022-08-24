@@ -1,6 +1,6 @@
 import React from "react";
 
-import { USERS } from "@config/users";
+import { USERS } from "src/testFeatures/users";
 import { useParams } from "react-router-dom";
 
 type User = {
