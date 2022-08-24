@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom"
-import { USERS } from "src/shared/users";
+import { useNavigate } from "react-router-dom";
+import { USERS } from "@config/users";
 
 const Users = () => {
     
@@ -30,3 +30,5 @@ const Users = () => {
     );
     
 }
+
+export default Users;

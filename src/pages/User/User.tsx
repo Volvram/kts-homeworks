@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-import { USERS } from "src/shared/users";
+import { USERS } from "@config/users";
 
 type User = {
     id: string;
@@ -20,3 +20,5 @@ const User = () => {
         </div>
     )
 }
+
+export default User;
