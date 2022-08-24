@@ -1,0 +1,10 @@
+$black-color: #000000;
+
+@mixin square($size, $border-radius: none){
+    width: $size;
+    height: $size;
+
+    @if($border-radius != none){
+        border-radius: $border-radius;
+    }
+}

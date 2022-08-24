@@ -1,24 +1,20 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 
 import { USERS } from "@config/users";
+import { useParams } from "react-router-dom";
 
 type User = {
-    id: string;
-    name: string
-}
+  id: string;
+  name: string;
+};
 
 const User = () => {
-    // Получаем id из url с помощью хука useParams
-    const { id } = useParams();
+  // Получаем id из url с помощью хука useParams
+  const { id } = useParams();
 
-    const user = USERS.find((user:User) => user.id === id);
+  const user = USERS.find((user: User) => user.id === id);
 
-    return (
-        <div>
-            {user && user.name}
-        </div>
-    )
-}
+  return <div>{user && user.name}</div>;
+};
 
 export default User;

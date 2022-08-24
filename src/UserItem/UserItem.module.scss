@@ -1,0 +1,34 @@
+// yarn add node-sass
+
+@import "./config/variables.scss";
+
+.item{
+    display: flex;
+    align-items: center;
+
+    &__avatar {     // Вместо .item__avatar (знак & заменяет родительское название)
+        width: 40px;
+        height:40px;
+        border-radius: 50%;
+        margin-right: 24px;
+        background-size:contain;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    &__login {
+        color: $black-color;
+        font-family: Roboto;
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+.example{
+    @include square(100px, 3px);
+}
+
+// можно использовать без импорта модуля, прописывая просто (global-style)
+:global(.global-style){
+    color:red;
+}
