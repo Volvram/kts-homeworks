@@ -1,5 +1,7 @@
-import React  from "react"; //CreateContext для работы с Context API
+import React from "react"; //CreateContext для работы с Context API
 
+import Coin from "@pages/Coin/Coin";
+import Market from "@pages/Market/Market";
 import axios from "axios"; //yarn add axios
 import {
   BrowserRouter,
@@ -10,10 +12,15 @@ import {
 } from "react-router-dom"; //yarn add react-router-dom@6
 
 const App = () => {
-
   return (
     <div className="App">
-        
+      <Routes>
+        <Route path="/" element={<Market />} />
+        <Route path="/coin" element={<Coin />}>
+          {/* <Route path=":id" element={<Coin />} /> */}
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </div>
   );
 };

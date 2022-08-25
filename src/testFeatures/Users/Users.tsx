@@ -1,8 +1,8 @@
 import React from "react";
 
-import { USERS } from "src/testFeatures/users";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { USERS } from "src/testFeatures/users";
 
 const Users = () => {
   const navigate = useNavigate(); // Навигация вместо Link

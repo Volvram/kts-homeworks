@@ -1,7 +1,7 @@
 import React from "react";
 
-import { USERS } from "src/testFeatures/users";
 import { useParams } from "react-router-dom";
+import { USERS } from "src/testFeatures/users";
 
 type User = {
   id: string;

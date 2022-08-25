@@ -11,8 +11,8 @@ import {
 
 import Header from "./Header";
 import User from "./User/User";
-import Users from "./Users/Users";
 import UserItem from "./UserItem/UserItem";
+import Users from "./Users/Users";
 
 // Context
 // const ThemeContext = createContext({
