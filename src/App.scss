@@ -1,0 +1,9 @@
+@import "@config/variables.scss";
+
+.App{
+    background: #F5F5F5;
+
+    max-width: $screen-size__phone;
+
+    margin: $content-align-center;
+}

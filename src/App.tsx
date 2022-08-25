@@ -11,13 +11,15 @@ import {
   useLocation,
 } from "react-router-dom"; //yarn add react-router-dom@6
 
+import "./App.scss";
+
 const App = () => {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Market />} />
-        <Route path="/coin" element={<Coin />}>
-          {/* <Route path=":id" element={<Coin />} /> */}
+        <Route path="/coin">
+          <Route path=":id" element={<Coin />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -1,12 +1,17 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
+import CoinList from "./components/CoinList/CoinList";
+import MarketChange from "./components/MarketChange/MarketChange";
+
+import "./Market.scss";
 
 const Market: React.FC = () => {
   return (
     <div>
       <div>Это страница Market</div>
-      <Link to={`/coin`}>Перейти на страницу coin</Link>
+      <MarketChange />
+      <hr className="list-hr"></hr>
+      <CoinList />
     </div>
   );
 };

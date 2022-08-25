@@ -1,0 +1,38 @@
+@import "@config/variables.scss";
+
+.card{
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
+    border-radius: 8px;
+
+    display:flex;
+
+    text-decoration:none;
+
+    &_image{
+        @include square(40px, 40px);
+    }
+
+    &_title-and-subtitle{
+        margin-left:12px;
+    }
+
+    &_title{
+        text-decoration:none;
+
+        color: $black-color;
+
+        font-family:$font-family;
+        font-weight:450;
+    }
+
+    &_subtitle{
+        text-decoration:none;
+
+        color: $grey-color;
+
+        font-family:$font-family;
+        font-weight:450;
+        font-size: 12px;
+    }
+}

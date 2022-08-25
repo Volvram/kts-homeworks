@@ -12,7 +12,6 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <div>Here is homework</div>
       <App />
     </BrowserRouter>
   </React.StrictMode>
