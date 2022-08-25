@@ -26,17 +26,26 @@ const CoinList: React.FC<CoinListProps> = ({ currency = "usd" }) => {
     const fetch = async (): Promise<void> => {
       const result = await axios({
         method: "get",
-        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}`,
+        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency.toLowerCase()}`,
       });
+
+      let currencySign: string = "";
+      if (currency.toLowerCase() == "usd") {
+        currencySign = "$";
+      } else if (currency.toLowerCase() == "rub") {
+        currencySign = "₽";
+      } else if (currency.toLowerCase() == "eur") {
+        currencySign = "€";
+      }
 
       setCoins(
         result.data.map((coin: any) => {
           let priceChange: string = "";
 
           if (coin.price_change_percentage_24h > 0) {
-            priceChange = `+${coin.price_change_percentage_24h}%`;
+            priceChange = `+${coin.price_change_percentage_24h.toFixed(2)}%`;
           } else if (coin.price_change_percentage_24h <= 0) {
-            priceChange = `${coin.price_change_percentage_24h}%`;
+            priceChange = `${coin.price_change_percentage_24h.toFixed(2)}%`;
           }
 
           return {
@@ -44,7 +53,7 @@ const CoinList: React.FC<CoinListProps> = ({ currency = "usd" }) => {
             name: coin.name,
             symbol: coin.symbol.toUpperCase(),
             image: coin.image,
-            currentPrice: `$ ${coin.current_price}`,
+            currentPrice: `${currencySign} ${coin.current_price.toFixed(2)}`,
             priceChangePercentage24hr: priceChange,
           };
         })
@@ -59,14 +68,14 @@ const CoinList: React.FC<CoinListProps> = ({ currency = "usd" }) => {
       {coins.map((coin) => {
         const coinPriceChange: string = coin.priceChangePercentage24hr;
 
-        let coinPriceChangeColor: string = "coin_change-percentage-24hr";
+        let coinPricePercentage: string = "coin_change-percentage-24hr";
 
         if (coinPriceChange.startsWith("+")) {
-          coinPriceChangeColor += "__positive";
+          coinPricePercentage += " positive";
         } else if (coinPriceChange.startsWith("-")) {
-          coinPriceChangeColor += "__negative";
+          coinPricePercentage += " negative";
         } else {
-          coinPriceChangeColor += "__neutral";
+          coinPricePercentage += " neutral";
         }
 
         return (
@@ -92,11 +101,9 @@ const CoinList: React.FC<CoinListProps> = ({ currency = "usd" }) => {
                     style={{ width: "50px", height: "25px" }}
                   ></div>
                   <div className="coin_price-and-change-percentage-24hr">
-                    <div className="coin_price">
-                      <b>{coin.currentPrice}</b>
-                    </div>
-                    <div className={coinPriceChangeColor}>
-                      <b>{coin.priceChangePercentage24hr}</b>
+                    <div className="coin_price">{coin.currentPrice}</div>
+                    <div className={coinPricePercentage}>
+                      {coin.priceChangePercentage24hr}
                     </div>
                   </div>
                 </div>

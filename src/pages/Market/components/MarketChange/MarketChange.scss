@@ -1,0 +1,20 @@
+@import "@config/variables.scss";
+
+.market-change{
+    margin-left: 16px;
+
+    display:flex;
+
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.market-change-period{
+    margin-top:4px;
+    margin-left: 16px;
+
+    color: $grey-color;
+
+    font-size: 12px;
+    font-weight: 450;
+}

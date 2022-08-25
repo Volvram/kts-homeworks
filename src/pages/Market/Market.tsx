@@ -7,8 +7,7 @@ import "./Market.scss";
 
 const Market: React.FC = () => {
   return (
-    <div>
-      <div>Это страница Market</div>
+    <div className="market">
       <MarketChange />
       <hr className="list-hr"></hr>
       <CoinList />
