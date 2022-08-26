@@ -2,6 +2,7 @@ import React from "react";
 
 import { Option } from "@components/Dropdown/Dropdown";
 
+import CoinFilter from "./components/CoinFilter/CoinFilter";
 import CoinList from "./components/CoinList/CoinList";
 import CurrencyFilter from "./components/CurrencyFilter/CurrencyFilter";
 import MarketChange from "./components/MarketChange/MarketChange";
@@ -14,8 +15,14 @@ const Market: React.FC = () => {
     value: "$",
   });
 
-  const handleOptions = (option: Option) => {
+  const [coinTrend, setCoinTrend] = React.useState<string>("All");
+
+  const handleCurrencies = (option: Option) => {
     setCoinCurrency(option);
+  };
+
+  const handleCoinTrends = (trend: string) => {
+    setCoinTrend(trend);
   };
 
   return (
@@ -23,11 +30,12 @@ const Market: React.FC = () => {
       <MarketChange />
       <CurrencyFilter
         onChange={(option: Option) => {
-          handleOptions(option);
+          handleCurrencies(option);
         }}
       />
-      <hr className="list-hr"></hr>
-      <CoinList currency={coinCurrency} />
+      <CoinFilter onChange={(trend: string) => handleCoinTrends(trend)} />
+      <hr className="list-line"></hr>
+      <CoinList currency={coinCurrency} coinTrend={coinTrend} />
     </div>
   );
 };

@@ -18,12 +18,16 @@ type Coin = {
 
 type CoinListProps = {
   currency: Option;
+  coinTrend: string;
 };
 
-const CoinList: React.FC<CoinListProps> = ({ currency }) => {
+const CoinList: React.FC<CoinListProps> = ({ currency, coinTrend }) => {
   const [coins, setCoins] = React.useState<Coin[]>([]);
 
   React.useEffect(() => {
+    // При изменении валюты или фильтра монет
+
+    // Запрашиваем монеты
     const fetch = async (): Promise<void> => {
       const result = await axios({
         method: "get",
@@ -33,29 +37,39 @@ const CoinList: React.FC<CoinListProps> = ({ currency }) => {
       let currencySign: string = currency.value;
 
       setCoins(
-        result.data.map((coin: any) => {
-          let priceChange: string = "";
+        result.data
+          .filter((coin: any) => {
+            if (coinTrend === "Gainer") {
+              return coin.price_change_percentage_24h > 0;
+            } else if (coinTrend === "Loser") {
+              return coin.price_change_percentage_24h < 0;
+            } else {
+              return true;
+            }
+          })
+          .map((coin: any) => {
+            let priceChange: string = "";
 
-          if (coin.price_change_percentage_24h > 0) {
-            priceChange = `+${coin.price_change_percentage_24h.toFixed(2)}%`;
-          } else if (coin.price_change_percentage_24h <= 0) {
-            priceChange = `${coin.price_change_percentage_24h.toFixed(2)}%`;
-          }
+            if (coin.price_change_percentage_24h > 0) {
+              priceChange = `+${coin.price_change_percentage_24h.toFixed(2)}%`;
+            } else if (coin.price_change_percentage_24h <= 0) {
+              priceChange = `${coin.price_change_percentage_24h.toFixed(2)}%`;
+            }
 
-          return {
-            id: coin.id,
-            name: coin.name,
-            symbol: coin.symbol.toUpperCase(),
-            image: coin.image,
-            currentPrice: `${currencySign} ${coin.current_price.toFixed(2)}`,
-            priceChangePercentage24hr: priceChange,
-          };
-        })
+            return {
+              id: coin.id,
+              name: coin.name,
+              symbol: coin.symbol.toUpperCase(),
+              image: coin.image,
+              currentPrice: `${currencySign} ${coin.current_price.toFixed(2)}`,
+              priceChangePercentage24hr: priceChange,
+            };
+          })
       );
     };
 
     fetch();
-  }, [currency]);
+  }, [currency, coinTrend]);
 
   return (
     <div className="coin-list">
