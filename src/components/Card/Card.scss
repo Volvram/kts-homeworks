@@ -15,6 +15,10 @@
 
     &_title-and-subtitle{
         margin-left:12px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
     }
 
     &_title{
@@ -22,7 +26,7 @@
 
         color: $black-color;
 
-        font-family:$font-family;
+        font-family:$main-font-family;
         font-weight:450;
     }
 
@@ -31,7 +35,7 @@
 
         color: $grey-color;
 
-        font-family:$font-family;
+        font-family:$main-font-family;
         font-weight:450;
         font-size: 12px;
     }

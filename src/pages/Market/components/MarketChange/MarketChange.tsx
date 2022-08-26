@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 
+import { Button } from "@components/Button/Button";
 import axios from "axios";
+
+import enableSearch from "../../../../assets/img/enableSearch.svg";
 
 import "./MarketChange.scss";
 
@@ -47,7 +50,7 @@ const MarketChange: React.FC<MarketChangeProps> = ({ currency = "usd" }) => {
       marketPercentage = `+${sum.toFixed(2)}%`;
     } else if (sum < 0) {
       marketTrend = "down";
-      marketColor = " neutral";
+      marketColor = " negative";
     }
 
     return {
@@ -62,8 +65,13 @@ const MarketChange: React.FC<MarketChangeProps> = ({ currency = "usd" }) => {
   return (
     <div>
       <div className="market-change">
-        <div>Market is {marketChange.trend}</div>
+        <div className="market-change_trend">
+          Market is {marketChange.trend}
+        </div>
         <div className={marketChange.color}>{marketChange.percentage}</div>
+        <Button className="enable-search">
+          <img src={enableSearch} alt="search"></img>
+        </Button>
       </div>
       <div className="market-change-period">In the past 24 hours</div>
     </div>

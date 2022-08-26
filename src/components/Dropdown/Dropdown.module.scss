@@ -1,0 +1,45 @@
+@import "@config/variables.scss";
+
+.dropdown{
+    list-style: none;
+
+    color: $grey-color;
+
+    font-family: 'Circular Std';
+    font-style: normal;
+    font-weight: 450;
+    font-size: 12px;
+    line-height: 15px;
+
+    &__closed{
+        border: 0.5px solid #DFE2E4;
+        border-radius: 12px;
+    }
+
+    &__opened{
+        border: 0.5px solid #DFE2E4;
+
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+
+    &_choice{
+        padding: 5px 8px;
+
+        background: #F8F9FA;
+        border: 0.5px solid #DFE2E4;
+    }
+
+    &_option{
+        padding: 5px 8px;
+        
+        background: #F8F9FA;
+        border-width: 0px 0.5px 0.5px 0.5px;
+        border-style: solid;
+        border-color: #DFE2E4;
+        border-radius: 0px;
+    }
+}

@@ -2,18 +2,12 @@ import React from "react"; //CreateContext для работы с Context API
 
 import Coin from "@pages/Coin/Coin";
 import Market from "@pages/Market/Market";
-import axios from "axios"; //yarn add axios
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  useLocation,
-} from "react-router-dom"; //yarn add react-router-dom@6
+import axios from "axios";
+import { Routes, Route, Navigate } from "react-router-dom"; //yarn add react-router-dom@6
 
 import "./App.scss";
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <div className="App">
       <Routes>

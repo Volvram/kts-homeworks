@@ -1,7 +1,8 @@
 import React from "react";
 
 import { Card } from "@components/Card/Card";
-import axios from "axios";
+import { Option } from "@components/Dropdown/Dropdown";
+import axios from "axios"; //yarn add axios
 import { Link } from "react-router-dom";
 
 import "./CoinList.scss";
@@ -16,27 +17,20 @@ type Coin = {
 };
 
 type CoinListProps = {
-  currency?: string;
+  currency: Option;
 };
 
-const CoinList: React.FC<CoinListProps> = ({ currency = "usd" }) => {
+const CoinList: React.FC<CoinListProps> = ({ currency }) => {
   const [coins, setCoins] = React.useState<Coin[]>([]);
 
   React.useEffect(() => {
     const fetch = async (): Promise<void> => {
       const result = await axios({
         method: "get",
-        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency.toLowerCase()}`,
+        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency.key.toLowerCase()}`,
       });
 
-      let currencySign: string = "";
-      if (currency.toLowerCase() == "usd") {
-        currencySign = "$";
-      } else if (currency.toLowerCase() == "rub") {
-        currencySign = "₽";
-      } else if (currency.toLowerCase() == "eur") {
-        currencySign = "€";
-      }
+      let currencySign: string = currency.value;
 
       setCoins(
         result.data.map((coin: any) => {
@@ -61,7 +55,7 @@ const CoinList: React.FC<CoinListProps> = ({ currency = "usd" }) => {
     };
 
     fetch();
-  }, []);
+  }, [currency]);
 
   return (
     <div className="coin-list">
