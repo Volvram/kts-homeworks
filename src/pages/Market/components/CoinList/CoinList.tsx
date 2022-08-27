@@ -13,7 +13,7 @@ type Coin = {
   symbol: string;
   image: string;
   currentPrice: string;
-  priceChangePercentage24hr: string;
+  priceChangePercentage24h: string;
 };
 
 type CoinListProps = {
@@ -62,7 +62,7 @@ const CoinList: React.FC<CoinListProps> = ({ currency, coinTrend }) => {
               symbol: coin.symbol.toUpperCase(),
               image: coin.image,
               currentPrice: `${currencySign} ${coin.current_price.toFixed(2)}`,
-              priceChangePercentage24hr: priceChange,
+              priceChangePercentage24h: priceChange,
             };
           })
       );
@@ -74,9 +74,9 @@ const CoinList: React.FC<CoinListProps> = ({ currency, coinTrend }) => {
   return (
     <div className="coin-list">
       {coins.map((coin) => {
-        const coinPriceChange: string = coin.priceChangePercentage24hr;
+        const coinPriceChange: string = coin.priceChangePercentage24h;
 
-        let coinPricePercentage: string = "coin_change-percentage-24hr";
+        let coinPricePercentage: string = "coin_change-percentage-24h";
 
         if (coinPriceChange.startsWith("+")) {
           coinPricePercentage += " positive";
@@ -103,15 +103,15 @@ const CoinList: React.FC<CoinListProps> = ({ currency, coinTrend }) => {
               subtitle={coin.symbol}
               className="coin"
               content={
-                <div className="coin_chart-and-price-and-change-percentage-24hr">
+                <div className="coin_chart-and-price-and-change-percentage-24h">
                   <div
                     className="coin_chart"
                     style={{ width: "50px", height: "25px" }}
                   ></div>
-                  <div className="coin_price-and-change-percentage-24hr">
+                  <div className="coin_price-and-change-percentage-24h">
                     <div className="coin_price">{coin.currentPrice}</div>
                     <div className={coinPricePercentage}>
-                      {coin.priceChangePercentage24hr}
+                      {coin.priceChangePercentage24h}
                     </div>
                   </div>
                 </div>

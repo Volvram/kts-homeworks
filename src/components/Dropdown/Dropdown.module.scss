@@ -1,6 +1,8 @@
 @import "@config/variables.scss";
 
 .dropdown{
+    cursor: pointer;
+
     list-style: none;
 
     color: $grey-color;

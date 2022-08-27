@@ -9,7 +9,11 @@ import MarketChange from "./components/MarketChange/MarketChange";
 
 import "./Market.scss";
 
-const Market: React.FC = () => {
+type MarketProps = {
+  onCurrencyChange: (value: Option) => void;
+};
+
+const Market: React.FC<MarketProps> = ({ onCurrencyChange }) => {
   const [coinCurrency, setCoinCurrency] = React.useState<Option>({
     key: "USD",
     value: "$",
@@ -17,8 +21,9 @@ const Market: React.FC = () => {
 
   const [coinTrend, setCoinTrend] = React.useState<string>("All");
 
-  const handleCurrencies = (option: Option) => {
-    setCoinCurrency(option);
+  const handleCurrencies = (currency: Option) => {
+    setCoinCurrency(currency);
+    onCurrencyChange(currency);
   };
 
   const handleCoinTrends = (trend: string) => {
@@ -29,8 +34,8 @@ const Market: React.FC = () => {
     <div className="market">
       <MarketChange />
       <CurrencyFilter
-        onChange={(option: Option) => {
-          handleCurrencies(option);
+        onChange={(currency: Option) => {
+          handleCurrencies(currency);
         }}
       />
       <CoinFilter onChange={(trend: string) => handleCoinTrends(trend)} />

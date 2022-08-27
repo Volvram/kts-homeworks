@@ -9,7 +9,7 @@
 .coin{
     padding: 16px;
 
-    &_chart-and-price-and-change-percentage-24hr{
+    &_chart-and-price-and-change-percentage-24h{
         margin-left: auto;
 
         display:flex;
@@ -19,7 +19,7 @@
         
     }
 
-    &_price-and-change-percentage-24hr{
+    &_price-and-change-percentage-24h{
         display:flex;
         flex-direction:column;
         align-items: flex-end;
@@ -34,7 +34,7 @@
         font-weight:450;
     }
 
-    &_change-percentage-24hr{
+    &_change-percentage-24h{
 
         font-family: $main-font-family;
         font-weight:500;

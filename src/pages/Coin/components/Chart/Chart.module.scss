@@ -1,0 +1,37 @@
+.chart{
+    margin-top: 18px;
+
+    &_line{
+        // Временно
+        height: 335px;
+    }
+
+    &_buttons{
+        margin-top: 26px;
+
+        padding-left: 16px;
+        padding-right: 16px;
+
+        display: flex;
+        justify-content: space-around;
+
+        &_button{
+
+            padding: 6px 10px;
+
+            background: #F8F9FA;
+            border: 0.5px solid #DFE2E4;
+            border-radius: 20px;
+
+            &__clicked{
+                padding: 6px 10px;
+
+                color: #0063F5;
+
+                background: #ECF4FF;
+                border: 0.5px solid #0063F5;
+                border-radius: 20px;
+            }
+        }
+    }
+}

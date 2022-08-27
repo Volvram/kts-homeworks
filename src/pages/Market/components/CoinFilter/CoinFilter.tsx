@@ -9,8 +9,6 @@ type CoinFilterProps = {
 };
 
 const CoinFilter: React.FC<CoinFilterProps> = ({ onChange }) => {
-  const coinTrends = ["All", "Gainer", "Loser", "Favourites"];
-
   const handleClick = (e: React.MouseEvent) => {
     const target: any = e.target;
 
@@ -20,35 +18,38 @@ const CoinFilter: React.FC<CoinFilterProps> = ({ onChange }) => {
           coinFilterStyle.coin__filter_choice__clicked
         );
       }
-
-      // eslint-disable-next-line no-console
-      console.log(target.parentNode.children[i]);
     }
 
-    if (
-      target.classList.contains(coinFilterStyle.coin__filter_choice__clicked)
-    ) {
-      onChange(coinTrends[0]);
-      target.classList.remove(coinFilterStyle.coin__filter_choice__clicked);
-    } else {
-      target.classList.add(coinFilterStyle.coin__filter_choice__clicked);
-      onChange(target.firstChild.data);
-    }
+    target.classList.add(coinFilterStyle.coin__filter_choice__clicked);
+    onChange(target.firstChild.data);
   };
 
   return (
     <div className={coinFilterStyle.coin__filter}>
-      {coinTrends.map((trend) => {
-        return (
-          <Button
-            key={trend}
-            className={coinFilterStyle.coin__filter_choice}
-            onClick={handleClick}
-          >
-            {trend}
-          </Button>
-        );
-      })}
+      <Button
+        className={`${coinFilterStyle.coin__filter_choice} ${coinFilterStyle.coin__filter_choice__clicked}`}
+        onClick={handleClick}
+      >
+        All
+      </Button>
+      <Button
+        className={coinFilterStyle.coin__filter_choice}
+        onClick={handleClick}
+      >
+        Gainer
+      </Button>
+      <Button
+        className={coinFilterStyle.coin__filter_choice}
+        onClick={handleClick}
+      >
+        Loser
+      </Button>
+      <Button
+        className={coinFilterStyle.coin__filter_choice}
+        onClick={handleClick}
+      >
+        Favourites
+      </Button>
     </div>
   );
 };
