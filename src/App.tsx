@@ -1,6 +1,7 @@
-import React from "react"; //CreateContext для работы с Context API
+import React, { createContext, useContext } from "react"; //CreateContext для работы с Context API
 
 import { Option } from "@components/Dropdown/Dropdown";
+import { CURRENCIES } from "@config/currencies";
 import Coin from "@pages/Coin/Coin";
 import Market from "@pages/Market/Market";
 import { Routes, Route, Navigate } from "react-router-dom"; //yarn add react-router-dom@6
@@ -8,14 +9,22 @@ import { Routes, Route, Navigate } from "react-router-dom"; //yarn add react-rou
 import "./App.scss";
 
 const App: React.FC = () => {
-  const [coinCurrency, setCoinCurrency] = React.useState<Option>({
-    key: "USD",
-    value: "$",
-  });
+  const [coinCurrency, setCoinCurrency] = React.useState<Option | null>(null);
 
   const handleCurrency = (currency: Option) => {
     setCoinCurrency(currency);
   };
+
+  React.useEffect(() => {
+    const savedCurrency: string | null =
+      window.localStorage.getItem("currency");
+
+    if (typeof savedCurrency === "string") {
+      setCoinCurrency(JSON.parse(savedCurrency));
+    } else {
+      setCoinCurrency(CURRENCIES[0]);
+    }
+  }, []);
 
   return (
     <div className="App">
@@ -30,6 +39,7 @@ const App: React.FC = () => {
             />
           }
         />
+
         <Route path="/coin">
           <Route path=":id" element={<Coin currency={coinCurrency} />} />
         </Route>

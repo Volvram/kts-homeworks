@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 
 import { Button } from "@components/Button/Button";
+import { useOpenSearchContext } from "@pages/Market/Market";
 import axios from "axios";
 
 import enableSearch from "../../../../assets/img/enableSearch.svg";
-
-import "./MarketChange.scss";
+import styleMarketChange from "./MarketChange.module.scss";
 
 type MarketChangeProps = {
   currency?: string;
@@ -14,7 +14,9 @@ type MarketChangeProps = {
 const MarketChange: React.FC<MarketChangeProps> = ({ currency = "usd" }) => {
   const [sum, setSum] = React.useState(0);
 
-  useEffect(() => {
+  const openContext = useOpenSearchContext();
+
+  React.useEffect(() => {
     let sumPercentage: number = 0;
 
     const fetch = async (): Promise<number> => {
@@ -64,16 +66,21 @@ const MarketChange: React.FC<MarketChangeProps> = ({ currency = "usd" }) => {
 
   return (
     <div>
-      <div className="market-change">
-        <div className="market-change_trend">
+      <div className={styleMarketChange.market_change}>
+        <div className={styleMarketChange.market_change_trend}>
           Market is {marketChange.trend}
         </div>
         <div className={marketChange.color}>{marketChange.percentage}</div>
-        <Button className="enable-search">
+        <Button
+          className={styleMarketChange.enableSearch}
+          onClick={() => openContext.setSearch(true)}
+        >
           <img src={enableSearch} alt="search"></img>
         </Button>
       </div>
-      <div className="market-change-period">In the past 24 hours</div>
+      <div className={styleMarketChange.market_change_period}>
+        In the past 24 hours
+      </div>
     </div>
   );
 };

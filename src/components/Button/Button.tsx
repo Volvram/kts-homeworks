@@ -1,5 +1,6 @@
 import React from "react";
-import "./Button.scss";
+
+import styleButton from "./Button.module.scss";
 
 export type ButtonProps = React.PropsWithChildren<{
   onClick?: (e: React.MouseEvent) => void;
@@ -15,10 +16,14 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   ...rest
 }) => {
-  let classes: string = "button ";
+  let classes: string = `${styleButton.button}`;
 
   if (className) {
-    classes += className;
+    classes += ` ${className}`;
+  }
+
+  if (disabled) {
+    classes += ` ${styleButton.button_disabled}`;
   }
 
   return (

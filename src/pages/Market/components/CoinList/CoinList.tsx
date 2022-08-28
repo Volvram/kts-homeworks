@@ -5,7 +5,7 @@ import { Option } from "@components/Dropdown/Dropdown";
 import axios from "axios"; //yarn add axios
 import { Link } from "react-router-dom";
 
-import "./CoinList.scss";
+import styleCoinList from "./CoinList.module.scss";
 
 type Coin = {
   id: string;
@@ -17,7 +17,7 @@ type Coin = {
 };
 
 type CoinListProps = {
-  currency: Option;
+  currency: Option | null;
   coinTrend: string;
 };
 
@@ -29,12 +29,19 @@ const CoinList: React.FC<CoinListProps> = ({ currency, coinTrend }) => {
 
     // Запрашиваем монеты
     const fetch = async (): Promise<void> => {
+      let requestCurrency: Option;
+      if (currency !== null) {
+        requestCurrency = currency;
+      } else {
+        requestCurrency = { key: "", value: "" };
+      }
+
       const result = await axios({
         method: "get",
-        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency.key.toLowerCase()}`,
+        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${requestCurrency.key.toLowerCase()}`,
       });
 
-      let currencySign: string = currency.value;
+      let currencySign: string = requestCurrency.value;
 
       setCoins(
         result.data
@@ -67,16 +74,17 @@ const CoinList: React.FC<CoinListProps> = ({ currency, coinTrend }) => {
           })
       );
     };
-
-    fetch();
+    if (currency !== null) {
+      fetch();
+    }
   }, [currency, coinTrend]);
 
   return (
-    <div className="coin-list">
+    <div className={styleCoinList.coinList}>
       {coins.map((coin) => {
         const coinPriceChange: string = coin.priceChangePercentage24h;
 
-        let coinPricePercentage: string = "coin_change-percentage-24h";
+        let coinPricePercentage: string = `${styleCoinList.coin_changePercentage24h}`;
 
         if (coinPriceChange.startsWith("+")) {
           coinPricePercentage += " positive";
@@ -101,15 +109,23 @@ const CoinList: React.FC<CoinListProps> = ({ currency, coinTrend }) => {
               image={coin.image}
               title={coin.name}
               subtitle={coin.symbol}
-              className="coin"
+              className={styleCoinList.coin}
               content={
-                <div className="coin_chart-and-price-and-change-percentage-24h">
+                <div
+                  className={
+                    styleCoinList.coin_chartAndPriceAndChangePercentage24h
+                  }
+                >
                   <div
-                    className="coin_chart"
+                    className={styleCoinList.coin_chart}
                     style={{ width: "50px", height: "25px" }}
                   ></div>
-                  <div className="coin_price-and-change-percentage-24h">
-                    <div className="coin_price">{coin.currentPrice}</div>
+                  <div
+                    className={styleCoinList.coin_priceAndChangePercentage24h}
+                  >
+                    <div className={styleCoinList.coin_price}>
+                      {coin.currentPrice}
+                    </div>
                     <div className={coinPricePercentage}>
                       {coin.priceChangePercentage24h}
                     </div>

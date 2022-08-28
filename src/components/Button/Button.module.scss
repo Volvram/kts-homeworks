@@ -4,7 +4,8 @@
 
     background-color: inherit;
     border: none;
-}
-.button_disabled{
-    opacity: 0.5;
+
+    &_disabled{
+        opacity: 0.5;
+    }
 }

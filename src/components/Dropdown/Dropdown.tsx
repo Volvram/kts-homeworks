@@ -15,7 +15,7 @@ export type DropdownProps = {
   /** Массив возможных вариантов для выбора */
   options: Option[];
   /** Текущие выбранные значения поля, массив может быть пустым */
-  defaultValue: Option;
+  defaultValue: Option | null;
   /** Callback, вызываемый при выборе варианта */
   onChange: (value: Option) => void;
   description?: string;
@@ -31,9 +31,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   disabled,
 }) => {
   const [listClosed, setListClick] = React.useState<boolean>(true);
-  const [choice, setChoice] = React.useState<Option>(
-    Object.assign({}, defaultValue)
-  );
+  const [choice, setChoice] = React.useState<Option | null>(defaultValue);
 
   const list = () => {
     if (listClosed) {
@@ -62,7 +60,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
   };
 
   const changeOption: any = (newOption: Option) => {
-    if (newOption.key !== choice.key && newOption.value !== choice.value) {
+    if (
+      choice === null ||
+      (newOption.key !== choice.key && newOption.value !== choice.value)
+    ) {
       setChoice(newOption);
       onChange(newOption);
     } else {
@@ -79,7 +80,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
             : `${dropdownStyle.dropdown_choice} ${dropdownStyle.dropdown__opened}`
         }
         onClick={() => setListClick(!listClosed)}
-      >{`${description} ${choice.key}`}</div>
+      >
+        {choice !== null && `${description} ${choice.key}`}
+        {choice === null && `${description}`}
+      </div>
       {list()}
     </div>
   );

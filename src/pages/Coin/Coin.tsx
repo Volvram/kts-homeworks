@@ -11,7 +11,7 @@ import Chart from "./components/Chart/Chart";
 import Header from "./components/Header/Header";
 
 type CoinProps = {
-  currency: Option;
+  currency: Option | null;
 };
 
 export type CoinData = {
@@ -41,6 +41,13 @@ const Coin: React.FC<CoinProps> = ({ currency }) => {
 
   React.useEffect(() => {
     const fetch = async () => {
+      let requestCurrency: Option;
+      if (currency !== null) {
+        requestCurrency = currency;
+      } else {
+        requestCurrency = { key: "", value: "" };
+      }
+
       const result = await axios({
         method: "get",
         url: `https://api.coingecko.com/api/v3/coins/${id}`,
@@ -53,24 +60,23 @@ const Coin: React.FC<CoinProps> = ({ currency }) => {
         image: result.data.image.large,
         currentPrice:
           result.data.market_data.current_price[
-            currency.key.toLowerCase()
+            requestCurrency.key.toLowerCase()
           ].toFixed(2),
-        currency: currency.value,
+        currency: requestCurrency.value,
         priceChange24h:
           result.data.market_data.price_change_24h_in_currency[
-            currency.key.toLowerCase()
+            requestCurrency.key.toLowerCase()
           ].toFixed(3),
         priceChangePercentage24h:
           result.data.market_data.price_change_percentage_24h_in_currency[
-            currency.key.toLowerCase()
+            requestCurrency.key.toLowerCase()
           ].toFixed(2),
       });
-
-      // eslint-disable-next-line no-console
-      console.log(result.data.market_data);
     };
 
-    fetch();
+    if (currency !== null) {
+      fetch();
+    }
   }, [currency]);
 
   // Обработка текущих изменений
@@ -78,11 +84,11 @@ const Coin: React.FC<CoinProps> = ({ currency }) => {
   let priceChangePercentage24h: string = `${coinData.priceChangePercentage24h}%`;
   let priceChangeColor: string = "neutral";
 
-  if (coinData.priceChange24h > 0) {
+  if (coinData.priceChangePercentage24h > 0) {
     priceChange24h = `+ ${coinData.priceChange24h}`;
     priceChangePercentage24h = `${coinData.priceChangePercentage24h}%`;
     priceChangeColor = "positive";
-  } else if (coinData.priceChange24h < 0) {
+  } else if (coinData.priceChangePercentage24h < 0) {
     priceChange24h = `- ${-coinData.priceChange24h}`;
     priceChangePercentage24h = `${-coinData.priceChangePercentage24h}%`;
     priceChangeColor = "negative";

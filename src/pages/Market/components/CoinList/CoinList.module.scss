@@ -1,6 +1,6 @@
 @import '@config/variables.scss';
 
-.coin-list{
+.coinList{
     display: flex;
     justify-content: space-around;
     flex-direction: column;
@@ -9,7 +9,7 @@
 .coin{
     padding: 16px;
 
-    &_chart-and-price-and-change-percentage-24h{
+    &_chartAndPriceAndChangePercentage24h{
         margin-left: auto;
 
         display:flex;
@@ -19,7 +19,7 @@
         
     }
 
-    &_price-and-change-percentage-24h{
+    &_priceAndChangePercentage24h{
         display:flex;
         flex-direction:column;
         align-items: flex-end;
@@ -34,7 +34,7 @@
         font-weight:450;
     }
 
-    &_change-percentage-24h{
+    &_changePercentage24h{
 
         font-family: $main-font-family;
         font-weight:500;
