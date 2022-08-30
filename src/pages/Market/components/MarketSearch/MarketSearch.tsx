@@ -4,7 +4,7 @@ import { Button } from "@components/Button/Button";
 import { Input } from "@components/Input/Input";
 import { useOpenSearchContext } from "@pages/Market/Market";
 
-import search from "../../../../assets/img/search.svg";
+import search from "@assets/img/search.svg";
 import searchMarketSearch from "./MarketSearch.module.scss";
 
 const MarketSearch: React.FC = () => {
