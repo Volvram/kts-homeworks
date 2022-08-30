@@ -1,6 +1,5 @@
 import React from "react";
 
-import { Button } from "@components/Button/Button";
 import { Card } from "@components/Card/Card";
 import { Option } from "@components/Dropdown/Dropdown";
 import axios from "axios";
@@ -77,7 +76,7 @@ const Coin: React.FC<CoinProps> = ({ currency }) => {
     if (currency !== null) {
       fetch();
     }
-  }, [currency]);
+  }, [currency, id]);
 
   // Обработка текущих изменений
   let priceChange24h: string = `${coinData.priceChange24h}`;

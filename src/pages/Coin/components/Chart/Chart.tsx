@@ -9,7 +9,7 @@ const Chart: React.FC = () => {
     const target: any = e.target;
 
     for (let i = 0; i < target.parentNode.children.length; i++) {
-      if (target.parentNode.children[i] != target) {
+      if (target.parentNode.children[i] !== target) {
         target.parentNode.children[i].classList.remove(
           chartStyle.chart_buttons_button__clicked
         );

@@ -1,12 +1,12 @@
 import React from "react";
 
+import enableSearch from "@assets/img/enableSearch.svg";
 import { Button } from "@components/Button/Button";
 import { Option } from "@components/Dropdown/Dropdown";
 import { CURRENCIES } from "@config/currencies";
 import { useOpenSearchContext } from "@pages/Market/Market";
 import axios from "axios";
 
-import enableSearch from "../../../../assets/img/enableSearch.svg";
 import styleMarketChange from "./MarketChange.module.scss";
 
 type MarketChangeProps = {

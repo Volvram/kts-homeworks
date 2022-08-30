@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react"; //CreateContext для работы с Context API
+import React from "react"; //CreateContext для работы с Context API
 
 import { Option } from "@components/Dropdown/Dropdown";
 import { CURRENCIES } from "@config/currencies";

@@ -33,7 +33,7 @@ export const Card: React.FC<CardProps> = ({
 
   return (
     <div className={classes} onClick={onClick}>
-      <img src={image} className={styleCard.card_image}></img>
+      <img src={image} className={styleCard.card_image} alt=""></img>
       <div className={styleCard.card_titleAndSubtitle}>
         <div className={styleCard.card_title}>{title}</div>
         <div className={styleCard.card_subtitle}>{subtitle}</div>
