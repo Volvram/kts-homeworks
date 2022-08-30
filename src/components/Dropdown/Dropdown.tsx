@@ -19,6 +19,7 @@ export type DropdownProps = {
   /** Callback, вызываемый при выборе варианта */
   onChange: (value: Option) => void;
   description?: string;
+  defaultOptionDescription?: string;
   /** Заблокирован ли дропдаун */
   disabled?: boolean;
 };
@@ -28,6 +29,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   defaultValue,
   onChange,
   description = "",
+  defaultOptionDescription = "",
   disabled,
 }) => {
   const [listClosed, setListClick] = React.useState<boolean>(true);
@@ -59,17 +61,23 @@ export const Dropdown: React.FC<DropdownProps> = ({
     }
   };
 
+  // Обработка смены выбора
   const changeOption: any = (newOption: Option) => {
     if (
       choice === null ||
       (newOption.key !== choice.key && newOption.value !== choice.value)
     ) {
       setChoice(newOption);
-      onChange(newOption);
-    } else {
-      onChange(choice);
     }
   };
+
+  React.useEffect(() => {
+    changeOption(defaultValue);
+  }, [defaultValue]);
+
+  React.useEffect(() => {
+    if (choice !== null) onChange(choice);
+  }, [choice]);
 
   return (
     <div className={dropdownStyle.dropdown}>
@@ -82,7 +90,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
         onClick={() => setListClick(!listClosed)}
       >
         {choice !== null && `${description} ${choice.key}`}
-        {choice === null && `${description}`}
+        {choice === null && `${description} ${defaultOptionDescription}`}
       </div>
       {list()}
     </div>

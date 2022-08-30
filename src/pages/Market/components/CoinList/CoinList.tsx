@@ -5,6 +5,7 @@ import { Option } from "@components/Dropdown/Dropdown";
 import axios from "axios"; //yarn add axios
 import { Link } from "react-router-dom";
 
+import { CoinCategories } from "../CoinFilter/CoinFilter";
 import styleCoinList from "./CoinList.module.scss";
 
 type Coin = {
@@ -29,26 +30,19 @@ const CoinList: React.FC<CoinListProps> = ({ currency, coinTrend }) => {
 
     // Запрашиваем монеты
     const fetch = async (): Promise<void> => {
-      let requestCurrency: Option;
-      if (currency !== null) {
-        requestCurrency = currency;
-      } else {
-        requestCurrency = { key: "", value: "" };
-      }
-
       const result = await axios({
         method: "get",
-        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${requestCurrency.key.toLowerCase()}`,
+        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency?.key.toLowerCase()}`,
       });
 
-      let currencySign: string = requestCurrency.value;
+      let currencySign: string | undefined = currency?.value;
 
       setCoins(
         result.data
           .filter((coin: any) => {
-            if (coinTrend === "Gainer") {
+            if (coinTrend === CoinCategories.Gainer) {
               return coin.price_change_percentage_24h > 0;
-            } else if (coinTrend === "Loser") {
+            } else if (coinTrend === CoinCategories.Loser) {
               return coin.price_change_percentage_24h < 0;
             } else {
               return true;

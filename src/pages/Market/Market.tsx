@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, useContext } from "react";
+import React, { createContext, useContext } from "react";
 
 import { Option } from "@components/Dropdown/Dropdown";
 import { CURRENCIES } from "@config/currencies";
@@ -52,15 +52,16 @@ const Market: React.FC<MarketProps> = ({ onCurrencyChange }) => {
     onCurrencyChange(currency);
   };
 
-  const handleCoinTrends = (trend: string) => {
-    setCoinTrend(trend);
-  };
+  const handleCoinTrends = React.useCallback(
+    (trend: string) => setCoinTrend(trend),
+    []
+  );
 
   return (
     <div className={styleMarket.market}>
       {!openSearch && (
         <OpenSearchProvider value={{ openSearch, setSearch }}>
-          <MarketChange />
+          <MarketChange currency={coinCurrency} />
           <CurrencyFilter
             onChange={(currency: Option) => {
               handleCurrencies(currency);

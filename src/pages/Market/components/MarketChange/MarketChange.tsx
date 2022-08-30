@@ -1,6 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { Button } from "@components/Button/Button";
+import { Option } from "@components/Dropdown/Dropdown";
+import { CURRENCIES } from "@config/currencies";
 import { useOpenSearchContext } from "@pages/Market/Market";
 import axios from "axios";
 
@@ -8,10 +10,12 @@ import enableSearch from "../../../../assets/img/enableSearch.svg";
 import styleMarketChange from "./MarketChange.module.scss";
 
 type MarketChangeProps = {
-  currency?: string;
+  currency?: Option | null;
 };
 
-const MarketChange: React.FC<MarketChangeProps> = ({ currency = "usd" }) => {
+const MarketChange: React.FC<MarketChangeProps> = ({
+  currency = CURRENCIES[0],
+}) => {
   const [sum, setSum] = React.useState(0);
 
   const openContext = useOpenSearchContext();
@@ -22,24 +26,26 @@ const MarketChange: React.FC<MarketChangeProps> = ({ currency = "usd" }) => {
     const fetch = async (): Promise<number> => {
       const result = await axios({
         method: "get",
-        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}`,
+        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency?.key.toLowerCase()}`,
       });
 
-      result.data.map((coin: any) => {
+      result.data.forEach((coin: any) => {
         sumPercentage += coin.price_change_percentage_24h;
       });
 
       sumPercentage = sumPercentage / result.data.length;
+
+      setSum(sumPercentage);
 
       return new Promise((resolve, reject) => {
         resolve(sumPercentage);
       });
     };
 
-    fetch().then((response) => {
-      setSum(response);
-    });
-  }, []);
+    if (currency !== null) {
+      fetch();
+    }
+  }, [currency]);
 
   const handleMarketChange = () => {
     let marketTrend: string = "";

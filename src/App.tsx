@@ -11,9 +11,9 @@ import "./App.scss";
 const App: React.FC = () => {
   const [coinCurrency, setCoinCurrency] = React.useState<Option | null>(null);
 
-  const handleCurrency = (currency: Option) => {
+  const handleCurrency = React.useCallback((currency: Option) => {
     setCoinCurrency(currency);
-  };
+  }, []);
 
   React.useEffect(() => {
     const savedCurrency: string | null =

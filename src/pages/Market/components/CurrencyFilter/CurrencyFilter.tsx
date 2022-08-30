@@ -25,6 +25,7 @@ const CurrencyFilter: React.FC<CurrencyFilterProps> = ({
         defaultValue={defaultCurrency}
         onChange={onChange}
         description={description}
+        defaultOptionDescription="INR"
       ></Dropdown>
     </div>
   );
