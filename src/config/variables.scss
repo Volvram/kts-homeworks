@@ -6,16 +6,6 @@ $main-font-family: "Circular Std";
 $screen-size__phone: 375px;
 $content-align-center: 0 auto;
 
-@font-face {
-    font-family: 'Circular Std';
-    src: local('Circular Std Medium'), local('Circular-Std-Medium'),
-        url('../assets/fonts/CircularStd-Medium.woff2') format('woff2'),
-        url('../assets/fonts/CircularStd-Medium.woff') format('woff'),
-        url('../assets/fonts/CircularStd-Medium.ttf') format('truetype');
-    font-weight: 500;
-    font-style: normal;
-}
-
 @mixin square($size, $border-radius: none){
     width: $size;
     height: $size;

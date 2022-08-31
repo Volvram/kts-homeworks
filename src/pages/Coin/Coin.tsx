@@ -19,7 +19,7 @@ export type CoinData = {
   symbol: string;
   image: string;
   currentPrice: number;
-  currency: string;
+  currencySymbol: string;
   priceChange24h: number;
   priceChangePercentage24h: number;
 };
@@ -33,7 +33,7 @@ const Coin: React.FC<CoinProps> = ({ currency }) => {
     symbol: "",
     image: "",
     currentPrice: 0,
-    currency: "",
+    currencySymbol: "",
     priceChange24h: 0,
     priceChangePercentage24h: 0,
   });
@@ -44,7 +44,7 @@ const Coin: React.FC<CoinProps> = ({ currency }) => {
       if (currency !== null) {
         requestCurrency = currency;
       } else {
-        requestCurrency = { key: "", value: "" };
+        requestCurrency = { key: "", value: "", symbol: "" };
       }
 
       const result = await axios({
@@ -61,7 +61,7 @@ const Coin: React.FC<CoinProps> = ({ currency }) => {
           result.data.market_data.current_price[
             requestCurrency.key.toLowerCase()
           ].toFixed(2),
-        currency: requestCurrency.value,
+        currencySymbol: requestCurrency.symbol,
         priceChange24h:
           result.data.market_data.price_change_24h_in_currency[
             requestCurrency.key.toLowerCase()
@@ -99,7 +99,7 @@ const Coin: React.FC<CoinProps> = ({ currency }) => {
       <div className={coinStyle.price}>
         <div className={coinStyle.price_current}>
           <div className={coinStyle.price_current_currency}>
-            {coinData.currency}
+            {coinData.currencySymbol}
           </div>
           <div>{coinData.currentPrice}</div>
         </div>
@@ -123,7 +123,7 @@ const Coin: React.FC<CoinProps> = ({ currency }) => {
         content={
           <div className={coinStyle.coinCard_content}>
             <div className={coinStyle.coinCard_content_price}>
-              {coinData.currency}
+              {coinData.currencySymbol}
               {coinData.currentPrice}
             </div>
             <div

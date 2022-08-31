@@ -2,15 +2,18 @@ import { Option } from "@components/Dropdown/Dropdown";
 
 export const CURRENCIES: Option[] = [
   {
-    key: "USD",
-    value: "$",
+    key: "usd",
+    value: "USD",
+    symbol: "$",
   },
   {
-    key: "EUR",
-    value: "€",
+    key: "eur",
+    value: "EUR",
+    symbol: "€",
   },
   {
-    key: "RUB",
-    value: "₽",
+    key: "rub",
+    value: "RUB",
+    symbol: "₽",
   },
 ];

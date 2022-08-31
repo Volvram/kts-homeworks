@@ -35,7 +35,7 @@ const CoinList: React.FC<CoinListProps> = ({ currency, coinTrend }) => {
         url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency?.key.toLowerCase()}`,
       });
 
-      let currencySign: string | undefined = currency?.value;
+      let currencySymbol: string | undefined = currency?.symbol;
 
       setCoins(
         result.data
@@ -62,7 +62,9 @@ const CoinList: React.FC<CoinListProps> = ({ currency, coinTrend }) => {
               name: coin.name,
               symbol: coin.symbol.toUpperCase(),
               image: coin.image,
-              currentPrice: `${currencySign} ${coin.current_price.toFixed(2)}`,
+              currentPrice: `${currencySymbol} ${coin.current_price.toFixed(
+                2
+              )}`,
               priceChangePercentage24h: priceChange,
             };
           })

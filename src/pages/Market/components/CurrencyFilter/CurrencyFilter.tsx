@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Dropdown } from "@components/Dropdown/Dropdown";
+import Dropdown from "@components/Dropdown";
 import { Option } from "@components/Dropdown/Dropdown";
 import { CURRENCIES } from "@config/currencies";
 
