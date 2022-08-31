@@ -16,7 +16,7 @@ export type Option = {
 /** Пропсы, которые принимает компонент Dropdown */
 export type DropdownProps = {
   options: Option[];
-  defaultValue: Option | null;
+  defaultValue: Option;
   /** Callback, вызываемый при выборе варианта */
   onChange: (value: Option) => void;
   description?: string;
@@ -26,7 +26,7 @@ export type DropdownProps = {
 
 const Dropdown: React.FC<DropdownProps> = ({
   options,
-  defaultValue = null,
+  defaultValue,
   onChange,
   description = "",
   defaultOptionDescription = "",
@@ -35,11 +35,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const dropdownStore = useLocalStore(() => new DropDownStore());
   dropdownStore.setOnChange(onChange);
 
-  // setDefaultValue
-
-  React.useEffect(() => {
-    dropdownStore.setChoice(defaultValue);
-  }, [defaultValue]);
+  dropdownStore.setChoice(defaultValue);
 
   return (
     <div className={dropdownStyle.dropdown}>

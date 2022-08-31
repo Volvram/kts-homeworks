@@ -2,6 +2,8 @@ import React, { createContext, useContext } from "react";
 
 import { Option } from "@components/Dropdown/Dropdown";
 import { CURRENCIES } from "@config/currencies";
+import MarketStore from "@store/MarketStore/MarketStore";
+import { useLocalStore } from "@utils/useLocalStore";
 
 import CoinFilter from "./components/CoinFilter/CoinFilter";
 import CoinList from "./components/CoinList/CoinList";
@@ -12,7 +14,7 @@ import styleMarket from "./Market.module.scss";
 
 const OpenSearch = createContext({
   openSearch: false,
-  setSearch: (value: boolean) => {},
+  setOpenSearch: (value: boolean) => {},
 });
 const OpenSearchProvider = OpenSearch.Provider;
 export const useOpenSearchContext = () => useContext(OpenSearch);
@@ -22,63 +24,29 @@ type MarketProps = {
 };
 
 const Market: React.FC<MarketProps> = ({ onCurrencyChange }) => {
-  const [openSearch, setSearch] = React.useState<boolean>(false);
+  const [openSearch, setOpenSearch] = React.useState<boolean>(false);
 
-  const [coinCurrency, setCoinCurrency] = React.useState<Option | null>(null);
-
-  const [coinTrend, setCoinTrend] = React.useState<string>("All");
-
-  React.useEffect(() => {
-    const savedCurrency: string | null =
-      window.localStorage.getItem("currency");
-
-    if (typeof savedCurrency === "string") {
-      setCoinCurrency(JSON.parse(savedCurrency));
-      onCurrencyChange(JSON.parse(savedCurrency));
-    } else {
-      setCoinCurrency(CURRENCIES[0]);
-      onCurrencyChange(CURRENCIES[0]);
-    }
-    return () => {
-      setTimeout(() => {
-        window.localStorage.clear();
-      }, 90000);
-    };
-  }, []);
-
-  const handleCurrencies = (currency: Option) => {
-    setCoinCurrency(currency);
-    window.localStorage.setItem("currency", JSON.stringify(currency));
-    onCurrencyChange(currency);
-  };
-
-  const handleCoinTrends = React.useCallback(
-    (trend: string) => setCoinTrend(trend),
-    []
-  );
+  const marketStore = useLocalStore(() => new MarketStore());
 
   return (
     <div className={styleMarket.market}>
       {!openSearch && (
-        <OpenSearchProvider value={{ openSearch, setSearch }}>
-          <MarketChange currency={coinCurrency} />
-          <CurrencyFilter
-            onChange={(currency: Option) => {
-              handleCurrencies(currency);
-            }}
-            defaultCurrency={coinCurrency}
+        <OpenSearchProvider value={{ openSearch, setOpenSearch }}>
+          <MarketChange currency={marketStore.currency} />
+          <CurrencyFilter />
+          <CoinFilter
+            onChange={(trend: string) => marketStore.setCoinTrend(trend)}
           />
-          <CoinFilter onChange={(trend: string) => handleCoinTrends(trend)} />
           <hr className={styleMarket.listLine}></hr>
         </OpenSearchProvider>
       )}
 
       {openSearch && (
-        <OpenSearchProvider value={{ openSearch, setSearch }}>
+        <OpenSearchProvider value={{ openSearch, setOpenSearch }}>
           <MarketSearch />
         </OpenSearchProvider>
       )}
-      <CoinList currency={coinCurrency} coinTrend={coinTrend} />
+      <CoinList />
     </div>
   );
 };

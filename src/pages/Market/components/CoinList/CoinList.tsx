@@ -1,83 +1,23 @@
 import React from "react";
 
 import { Card } from "@components/Card/Card";
-import { Option } from "@components/Dropdown/Dropdown";
-import axios from "axios"; //yarn add axios
+import CoinListStore from "@store/CoinListStore/CoinListStore";
+import { useLocalStore } from "@utils/useLocalStore";
+import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 
-import { CoinCategories } from "../CoinFilter/CoinFilter";
 import styleCoinList from "./CoinList.module.scss";
 
-type Coin = {
-  id: string;
-  name: string;
-  symbol: string;
-  image: string;
-  currentPrice: string;
-  priceChangePercentage24h: string;
-};
-
-type CoinListProps = {
-  currency: Option | null;
-  coinTrend: string;
-};
-
-const CoinList: React.FC<CoinListProps> = ({ currency, coinTrend }) => {
-  const [coins, setCoins] = React.useState<Coin[]>([]);
+const CoinList: React.FC = () => {
+  const coinListStore = useLocalStore(() => new CoinListStore());
 
   React.useEffect(() => {
-    // При изменении валюты или фильтра монет
-
-    // Запрашиваем монеты
-    const fetch = async (): Promise<void> => {
-      const result = await axios({
-        method: "get",
-        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency?.key.toLowerCase()}`,
-      });
-
-      let currencySymbol: string | undefined = currency?.symbol;
-
-      setCoins(
-        result.data
-          .filter((coin: any) => {
-            if (coinTrend === CoinCategories.Gainer) {
-              return coin.price_change_percentage_24h > 0;
-            } else if (coinTrend === CoinCategories.Loser) {
-              return coin.price_change_percentage_24h < 0;
-            } else {
-              return true;
-            }
-          })
-          .map((coin: any) => {
-            let priceChange: string = "";
-
-            if (coin.price_change_percentage_24h > 0) {
-              priceChange = `+${coin.price_change_percentage_24h.toFixed(2)}%`;
-            } else if (coin.price_change_percentage_24h <= 0) {
-              priceChange = `${coin.price_change_percentage_24h.toFixed(2)}%`;
-            }
-
-            return {
-              id: coin.id,
-              name: coin.name,
-              symbol: coin.symbol.toUpperCase(),
-              image: coin.image,
-              currentPrice: `${currencySymbol} ${coin.current_price.toFixed(
-                2
-              )}`,
-              priceChangePercentage24h: priceChange,
-            };
-          })
-      );
-    };
-    if (currency !== null) {
-      fetch();
-    }
-  }, [currency, coinTrend]);
+    coinListStore.coinRequest();
+  }, []);
 
   return (
     <div className={styleCoinList.coinList}>
-      {coins.map((coin) => {
+      {coinListStore.getCoins().map((coin) => {
         const coinPriceChange: string = coin.priceChangePercentage24h;
 
         let coinPricePercentage: string = `${styleCoinList.coin_changePercentage24h}`;
@@ -136,4 +76,4 @@ const CoinList: React.FC<CoinListProps> = ({ currency, coinTrend }) => {
   );
 };
 
-export default CoinList;
+export default observer(CoinList);

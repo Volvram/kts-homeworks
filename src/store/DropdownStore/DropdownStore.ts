@@ -7,6 +7,7 @@ import {
   action,
   reaction,
   IReactionDisposer,
+  toJS,
 } from "mobx";
 
 type PrivateFields = "_onChange" | "_listClosed" | "_choice";
@@ -27,6 +28,7 @@ export default class DropDownStore implements ILocalStore {
       listClosed: computed,
       setChoice: action,
       choice: computed,
+      destroy: action,
     });
   }
 
@@ -40,10 +42,8 @@ export default class DropDownStore implements ILocalStore {
   get listClosed() {
     return this._listClosed;
   }
-  setChoice(newChoice: Option | null): void {
-    if (newChoice != null) {
-      this._choice = newChoice;
-    }
+  setChoice(newChoice: Option): void {
+    this._choice = newChoice;
   }
   get choice() {
     return this._choice;
@@ -59,7 +59,9 @@ export default class DropDownStore implements ILocalStore {
   private readonly _choiceChangeHandler: IReactionDisposer = reaction(
     () => this._choice,
     () => {
-      if (this._choice) this._onChange(this._choice);
+      if (this._choice) {
+        this._onChange(this._choice);
+      }
     }
   );
 }

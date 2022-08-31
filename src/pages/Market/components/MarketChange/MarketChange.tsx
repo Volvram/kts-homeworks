@@ -79,7 +79,7 @@ const MarketChange: React.FC<MarketChangeProps> = ({
         <div className={marketChange.color}>{marketChange.percentage}</div>
         <Button
           className={styleMarketChange.enableSearch}
-          onClick={() => openContext.setSearch(true)}
+          onClick={() => openContext.setOpenSearch(true)}
         >
           <img src={enableSearch} alt="search"></img>
         </Button>

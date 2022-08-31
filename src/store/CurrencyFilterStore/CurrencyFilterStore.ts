@@ -1,5 +1,7 @@
 import { Option } from "@components/Dropdown/Dropdown";
 import { CURRENCIES } from "@config/currencies";
+import rootStore from "@store/RootStore/instance";
+import { log } from "@utils/log";
 import { ILocalStore } from "@utils/useLocalStore";
 import {
   makeObservable,
@@ -8,25 +10,56 @@ import {
   action,
   reaction,
   IReactionDisposer,
+  toJS,
 } from "mobx";
 
-import DropDownStore from "../DropdownStore/DropdownStore";
+type PrivateFields = "_currency";
 
-type PrivateFields = "_currencies";
-
-class CurrencyFilterStore implements ILocalStore {
-  private readonly _dropDownStore = new DropDownStore();
+export default class CurrencyFilterStore implements ILocalStore {
+  private _currency: Option = rootStore.currency.currency;
+  private _description: string = "Market-";
+  private _defaultOptionDescription: string = "INR";
   private _currencies: Option[] = CURRENCIES;
-  private _currentCurrency: Option | null = CURRENCIES[0];
 
-  destroy(): void {}
+  constructor() {
+    makeObservable<CurrencyFilterStore, PrivateFields>(this, {
+      _currency: observable,
+      setCurrency: action,
+      currency: computed,
+      description: computed,
+      defaultOptionDescription: computed,
+      currencies: computed,
+    });
+  }
 
-  private readonly _changeCurrencyHandler: IReactionDisposer = reaction(
-    () => this._dropDownStore.choice,
+  setCurrency(currency: Option) {
+    rootStore.currency.setCurrency(currency);
+  }
+
+  get currency() {
+    return this._currency;
+  }
+
+  get description() {
+    return this._description;
+  }
+
+  get defaultOptionDescription() {
+    return this._defaultOptionDescription;
+  }
+
+  get currencies() {
+    return this._currencies;
+  }
+
+  destroy(): void {
+    this._currencyHandler();
+  }
+
+  readonly _currencyHandler: IReactionDisposer = reaction(
+    () => rootStore.currency.currency,
     () => {
-      this._currentCurrency = this._dropDownStore?.choice;
+      this._currency = rootStore.currency.currency;
     }
   );
 }
-
-export default CurrencyFilterStore;
