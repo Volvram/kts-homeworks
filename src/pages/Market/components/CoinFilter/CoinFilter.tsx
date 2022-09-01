@@ -26,7 +26,6 @@ const CoinFilter: React.FC = () => {
   return (
     <div className={styles.coin__filter}>
       {coinFilterStore.categories.map((category, index) => {
-        log(category);
         return (
           <Button
             key={category}

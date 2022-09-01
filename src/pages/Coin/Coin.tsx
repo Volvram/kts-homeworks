@@ -2,6 +2,8 @@ import React from "react";
 
 import { Card } from "@components/Card/Card";
 import { Option } from "@components/Dropdown/Dropdown";
+import CoinStore from "@store/CoinStore/CoinStore";
+import { useLocalStore } from "@utils/useLocalStore";
 import axios from "axios";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
@@ -28,109 +30,50 @@ export type CoinData = {
 const Coin: React.FC<CoinProps> = ({ currency }) => {
   const { id } = useParams();
 
-  const [coinData, setCoinData] = React.useState<CoinData>({
-    id: "",
-    name: "",
-    symbol: "",
-    image: "",
-    currentPrice: 0,
-    currencySymbol: "",
-    priceChange24h: 0,
-    priceChangePercentage24h: 0,
-  });
+  const coinStore = useLocalStore(() => new CoinStore());
 
   React.useEffect(() => {
-    const fetch = async () => {
-      let requestCurrency: Option;
-      if (currency !== null) {
-        requestCurrency = currency;
-      } else {
-        requestCurrency = { key: "", value: "", symbol: "" };
-      }
-
-      const result = await axios({
-        method: "get",
-        url: `https://api.coingecko.com/api/v3/coins/${id}`,
-      });
-
-      setCoinData({
-        id: result.data.id,
-        name: result.data.name,
-        symbol: result.data.symbol,
-        image: result.data.image.large,
-        currentPrice:
-          result.data.market_data.current_price[
-            requestCurrency.key.toLowerCase()
-          ].toFixed(2),
-        currencySymbol: requestCurrency.symbol,
-        priceChange24h:
-          result.data.market_data.price_change_24h_in_currency[
-            requestCurrency.key.toLowerCase()
-          ].toFixed(3),
-        priceChangePercentage24h:
-          result.data.market_data.price_change_percentage_24h_in_currency[
-            requestCurrency.key.toLowerCase()
-          ].toFixed(2),
-      });
-    };
-
-    if (currency !== null) {
-      fetch();
-    }
-  }, [currency, id]);
-
-  // Обработка текущих изменений
-  let priceChange24h: string = `${coinData.priceChange24h}`;
-  let priceChangePercentage24h: string = `${coinData.priceChangePercentage24h}%`;
-  let priceChangeColor: string = "neutral";
-
-  if (coinData.priceChangePercentage24h > 0) {
-    priceChange24h = `+ ${coinData.priceChange24h}`;
-    priceChangePercentage24h = `${coinData.priceChangePercentage24h}%`;
-    priceChangeColor = "positive";
-  } else if (coinData.priceChangePercentage24h < 0) {
-    priceChange24h = `- ${-coinData.priceChange24h}`;
-    priceChangePercentage24h = `${-coinData.priceChangePercentage24h}%`;
-    priceChangeColor = "negative";
-  }
+    coinStore.setId(id);
+    coinStore.coinDataRequest();
+  }, []);
 
   return (
     <div className={coinStyle.coinPage}>
-      <Header coinData={coinData} />
+      <Header coinData={coinStore.coinData} />
       <div className={coinStyle.price}>
         <div className={coinStyle.price_current}>
           <div className={coinStyle.price_current_currency}>
-            {coinData.currencySymbol}
+            {coinStore.coinData.currencySymbol}
           </div>
-          <div>{coinData.currentPrice}</div>
+          <div>{coinStore.coinData.currentPrice}</div>
         </div>
         <div className={coinStyle.price_change}>
           <div
-            className={`${coinStyle.price_change_number} ${priceChangeColor}`}
+            className={`${coinStyle.price_change_number} ${coinStore.priceChangeColor}`}
           >
-            {priceChange24h}
+            {coinStore.coinData.priceChange24hToString}
           </div>
-          <div className={`${priceChangeColor}`}>
-            ({priceChangePercentage24h})
+          <div className={`${coinStore.priceChangeColor}`}>
+            ({coinStore.coinData.priceChangePercentage24hToString})
           </div>
         </div>
       </div>
       <Chart />
       <Card
-        image={coinData.image}
-        title={coinData.name}
-        subtitle={coinData.symbol.toUpperCase()}
+        image={coinStore.coinData.image}
+        title={coinStore.coinData.name}
+        subtitle={coinStore.coinData.symbol.toUpperCase()}
         className={coinStyle.coinCard}
         content={
           <div className={coinStyle.coinCard_content}>
             <div className={coinStyle.coinCard_content_price}>
-              {coinData.currencySymbol}
-              {coinData.currentPrice}
+              {coinStore.coinData.currencySymbol}
+              {coinStore.coinData.currentPrice}
             </div>
             <div
-              className={`${coinStyle.coinCard_content_percentage} ${priceChangeColor}`}
+              className={`${coinStyle.coinCard_content_percentage} ${coinStore.priceChangeColor}`}
             >
-              {priceChangePercentage24h}
+              {coinStore.coinData.priceChangePercentage24hToString}
             </div>
           </div>
         }
