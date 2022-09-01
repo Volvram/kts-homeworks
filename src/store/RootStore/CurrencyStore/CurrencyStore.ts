@@ -1,6 +1,15 @@
 import { Option } from "@components/Dropdown/Dropdown";
 import { CURRENCIES } from "@config/currencies";
-import { makeObservable, observable, action, computed } from "mobx";
+import { log } from "@utils/log";
+import {
+  makeObservable,
+  observable,
+  action,
+  computed,
+  IReactionDisposer,
+  reaction,
+  toJS,
+} from "mobx";
 
 type PrivateFields = "_currency";
 
@@ -16,7 +25,9 @@ export default class CurrencyStore {
   }
 
   setCurrency(currency: Option) {
-    this._currency = currency;
+    if (this._currency !== currency) {
+      this._currency = currency;
+    }
   }
 
   get currency() {

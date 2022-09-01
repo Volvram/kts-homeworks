@@ -3,6 +3,7 @@ import React from "react";
 import { Card } from "@components/Card/Card";
 import { Option } from "@components/Dropdown/Dropdown";
 import axios from "axios";
+import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 
 import coinStyle from "./Coin.module.scss";
@@ -139,4 +140,4 @@ const Coin: React.FC<CoinProps> = ({ currency }) => {
   );
 };
 
-export default Coin;
+export default observer(Coin);

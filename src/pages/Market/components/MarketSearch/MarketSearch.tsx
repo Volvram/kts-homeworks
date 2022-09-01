@@ -5,7 +5,7 @@ import { Button } from "@components/Button/Button";
 import { Input } from "@components/Input/Input";
 import { useOpenSearchContext } from "@pages/Market/Market";
 import MarketSearchStore from "@store/MarketSearchStore/MarketSearchStore";
-import { useQueryParamsStoreInit } from "@store/RootStore/hooks/useQueryParamsInit";
+import { useQueryParamsStoreInit } from "@store/RootStore/hooks/useQueryParamsStoreInit";
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
 import { useSearchParams } from "react-router-dom";
@@ -16,6 +16,7 @@ const MarketSearch: React.FC = () => {
   const OpenSearchContext = useOpenSearchContext();
 
   let [searchParams, setSearchParams] = useSearchParams();
+
   useQueryParamsStoreInit();
 
   const marketSearchStore = useLocalStore(() => new MarketSearchStore());
@@ -32,9 +33,10 @@ const MarketSearch: React.FC = () => {
 
         <Input
           className={searchMarketSearch.search_line_input}
-          value={marketSearchStore.paramsToString}
+          value={marketSearchStore.params}
           onChange={(value: string) => {
-            setSearchParams({ search: value });
+            searchParams.set("search", value);
+            setSearchParams(searchParams);
           }}
           placeholder={"Search Cryptocurrency"}
         />

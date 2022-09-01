@@ -1,23 +1,23 @@
 import React from "react";
 
 import { Button } from "@components/Button/Button";
+import { CoinCategories } from "@store/RootStore/CoinTrendStore/CoinTrendStore";
+import { useSearchParams } from "react-router-dom";
 
 import coinFilterStyle from "./CoinFilter.module.scss";
 
-export enum CoinCategories {
-  All = "All",
-  Gainer = "Gainer",
-  Loser = "Loser",
-  Favourite = "Favourite",
-}
-
 type CoinFilterProps = {
-  onChange: (trend: string) => void;
+  // onChange: (trend: string) => void;
 };
 
-const CoinFilter: React.FC<CoinFilterProps> = ({ onChange }) => {
+const CoinFilter: React.FC<CoinFilterProps> = () => {
+  let [searchParams, setSearchParams] = useSearchParams();
+
   const handleClick = React.useCallback((e: React.MouseEvent) => {
     const target: any = e.target;
+
+    searchParams.set("coinTrend", target.firstChild.data);
+    setSearchParams(searchParams);
 
     for (let i = 0; i < target.parentNode.children.length; i++) {
       if (target.parentNode.children[i] !== target) {
@@ -28,7 +28,6 @@ const CoinFilter: React.FC<CoinFilterProps> = ({ onChange }) => {
     }
 
     target.classList.add(coinFilterStyle.coin__filter_choice__clicked);
-    onChange(target.firstChild.data);
   }, []);
 
   return (

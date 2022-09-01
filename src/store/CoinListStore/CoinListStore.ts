@@ -12,6 +12,8 @@ import {
   action,
   reaction,
   IReactionDisposer,
+  runInAction,
+  toJS,
 } from "mobx";
 
 type Coin = {
@@ -23,38 +25,32 @@ type Coin = {
   priceChangePercentage24h: string;
 };
 
-type PrivateFields = "_currency" | "_coinTrend" | "_coinParams" | "_coins";
+type PrivateFields =
+  | "_currencyParams"
+  | "_coinTrendParams"
+  | "_searchParams"
+  | "_coins";
 
 export default class CoinListStore implements ILocalStore {
-  private _currency: Option = rootStore.currency.currency;
   private _currencies: Option[] = CURRENCIES;
-  private _coinTrend: string = rootStore.coinTrend.coinTrend;
-  private _coinParams = `${rootStore.query.getParam("search")}`;
+  private _currencyParams = `${rootStore.query.getParam("currency")}`;
+  private _coinTrendParams = `${rootStore.query.getParam("coinTrend")}`;
+  private _searchParams = `${rootStore.query.getParam("search")}`;
   private _coins: Coin[] = [];
 
   constructor() {
     makeObservable<CoinListStore, PrivateFields>(this, {
-      _currency: observable,
-      currency: computed,
       currencies: computed,
-      _coinTrend: observable,
-      coinTrend: computed,
-      _coinParams: observable,
+      _currencyParams: observable,
+      _coinTrendParams: observable,
+      _searchParams: observable,
       _coins: observable,
       setCoins: action,
     });
   }
 
-  get currency() {
-    return this._currency;
-  }
-
   get currencies() {
     return this._currencies;
-  }
-
-  get coinTrend() {
-    return this._coinTrend;
   }
 
   setCoins(coins: Coin[]) {
@@ -66,32 +62,37 @@ export default class CoinListStore implements ILocalStore {
   }
 
   coinRequest = async () => {
-    if (this._currency !== null) {
-      const result = await axios({
-        method: "get",
-        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${this._currency?.key.toLowerCase()}`,
-      });
+    const requestParams =
+      this._currencyParams === "undefined" || this._currencyParams === ""
+        ? CURRENCIES[0].key
+        : this._currencyParams;
 
-      let currencySymbol: string | undefined = this._currency?.symbol;
+    const result = await axios({
+      method: "get",
+      url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${requestParams}`,
+    });
 
+    runInAction(() => {
+      let currencySymbol: string | undefined = this._currencies.find(
+        (currency) => currency.key === requestParams
+      )?.symbol;
 
-      if (this._coinParams !== "undefined") {
-        log("фильтр с параметрами прошёл")
+      if (this._searchParams !== "undefined") {
         this.setCoins(
           result.data
             .filter((coin: any) => {
               const name = coin.name.toLowerCase();
               const symbol = coin.symbol.toLowerCase();
               const params =
-                this._coinParams !== undefined
-                  ? this._coinParams.toLowerCase()
-                  : this._coinParams;
-              return name.includes(params) || symbol.includes(params)
+                this._searchParams !== undefined
+                  ? this._searchParams.toLowerCase()
+                  : this._searchParams;
+              return name.includes(params) || symbol.includes(params);
             })
             .filter((coin: any) => {
-              if (this._coinTrend === CoinCategories.Gainer) {
+              if (this._coinTrendParams === CoinCategories.Gainer) {
                 return coin.price_change_percentage_24h > 0;
-              } else if (this._coinTrend === CoinCategories.Loser) {
+              } else if (this._coinTrendParams === CoinCategories.Loser) {
                 return coin.price_change_percentage_24h < 0;
               } else {
                 return true;
@@ -121,13 +122,12 @@ export default class CoinListStore implements ILocalStore {
             })
         );
       } else {
-          log("фильтр без параметров прошёл")
         this.setCoins(
           result.data
             .filter((coin: any) => {
-              if (this._coinTrend === CoinCategories.Gainer) {
+              if (this._coinTrendParams === CoinCategories.Gainer) {
                 return coin.price_change_percentage_24h > 0;
-              } else if (this._coinTrend === CoinCategories.Loser) {
+              } else if (this._coinTrendParams === CoinCategories.Loser) {
                 return coin.price_change_percentage_24h < 0;
               } else {
                 return true;
@@ -157,42 +157,48 @@ export default class CoinListStore implements ILocalStore {
             })
         );
       }
-    }
+    });
   };
 
   destroy(): void {
     this._currencyHandler();
+    this._coinTrendHandler();
+    this._searchHandler();
+    this._coinRequestHandler();
   }
 
   readonly _currencyHandler: IReactionDisposer = reaction(
-    () => rootStore.currency.currency,
+    () => `${rootStore.query.getParam("currency")}`,
     () => {
-      this._currency = rootStore.currency.currency;
+      if (this._currencyParams !== `${rootStore.query.getParam("currency")}`)
+        this._currencyParams = `${rootStore.query.getParam("currency")}`;
     }
   );
 
   readonly _coinTrendHandler: IReactionDisposer = reaction(
-    () => rootStore.coinTrend.coinTrend,
+    () => `${rootStore.query.getParam("coinTrend")}`,
     () => {
-      this._coinTrend = rootStore.coinTrend.coinTrend;
+      if (this._coinTrendParams !== `${rootStore.query.getParam("coinTrend")}`)
+        this._coinTrendParams = `${rootStore.query.getParam("coinTrend")}`;
     }
   );
 
-  readonly _coinParamsHandler: IReactionDisposer = reaction(
-      () => rootStore.query.getParam("search"),
-      () => {
-          this._coinParams = `${rootStore.query.getParam("search")}`;
-      }
-  )
+  readonly _searchHandler: IReactionDisposer = reaction(
+    () => rootStore.query.getParam("search"),
+    () => {
+      if (this._searchParams !== `${rootStore.query.getParam("search")}`)
+        this._searchParams = `${rootStore.query.getParam("search")}`;
+    }
+  );
 
   readonly _coinRequestHandler: IReactionDisposer = reaction(
     () => ({
-      currency: this._currency,
-      coinTrend: this._coinTrend,
-      coinParams: this._coinParams,
+      currencyParams: this._currencyParams,
+      coinTrendParams: this._coinTrendParams,
+      searchParams: this._searchParams,
     }),
     () => {
-        this.coinRequest();
+      this.coinRequest();
     }
   );
 }

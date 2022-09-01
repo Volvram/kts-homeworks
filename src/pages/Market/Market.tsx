@@ -1,9 +1,6 @@
 import React, { createContext, useContext } from "react";
 
-import { Option } from "@components/Dropdown/Dropdown";
-import { CURRENCIES } from "@config/currencies";
-import MarketStore from "@store/MarketStore/MarketStore";
-import { useLocalStore } from "@utils/useLocalStore";
+import { observer } from "mobx-react-lite";
 
 import CoinFilter from "./components/CoinFilter/CoinFilter";
 import CoinList from "./components/CoinList/CoinList";
@@ -19,24 +16,16 @@ const OpenSearch = createContext({
 const OpenSearchProvider = OpenSearch.Provider;
 export const useOpenSearchContext = () => useContext(OpenSearch);
 
-type MarketProps = {
-  onCurrencyChange: (value: Option) => void;
-};
-
-const Market: React.FC<MarketProps> = ({ onCurrencyChange }) => {
+const Market: React.FC = () => {
   const [openSearch, setOpenSearch] = React.useState<boolean>(false);
-
-  const marketStore = useLocalStore(() => new MarketStore());
 
   return (
     <div className={styleMarket.market}>
       {!openSearch && (
         <OpenSearchProvider value={{ openSearch, setOpenSearch }}>
-          <MarketChange currency={marketStore.currency} />
+          <MarketChange />
           <CurrencyFilter />
-          <CoinFilter
-            onChange={(trend: string) => marketStore.setCoinTrend(trend)}
-          />
+          <CoinFilter />
           <hr className={styleMarket.listLine}></hr>
         </OpenSearchProvider>
       )}
@@ -51,4 +40,4 @@ const Market: React.FC<MarketProps> = ({ onCurrencyChange }) => {
   );
 };
 
-export default Market;
+export default observer(Market);

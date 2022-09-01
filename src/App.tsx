@@ -4,6 +4,8 @@ import { Option } from "@components/Dropdown/Dropdown";
 import { CURRENCIES } from "@config/currencies";
 import Coin from "@pages/Coin/Coin";
 import Market from "@pages/Market/Market";
+import { useQueryParamsStoreInit } from "@store/RootStore/hooks/useQueryParamsStoreInit";
+import { observer } from "mobx-react-lite";
 import { Routes, Route, Navigate } from "react-router-dom"; //yarn add react-router-dom@6
 
 import "./App.scss";
@@ -29,16 +31,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Market
-              onCurrencyChange={(currency: Option) => {
-                handleCurrency(currency);
-              }}
-            />
-          }
-        />
+        <Route path="/" element={<Market />} />
 
         <Route path="/coin">
           <Route path=":id" element={<Coin currency={coinCurrency} />} />
@@ -49,4 +42,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default observer(App);
