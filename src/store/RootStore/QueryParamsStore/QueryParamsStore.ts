@@ -1,3 +1,4 @@
+import { log } from "@utils/log";
 import { action, makeObservable, observable } from "mobx";
 import * as qs from "qs"; // Библиотека query string (запросов url)
 
@@ -17,6 +18,7 @@ export default class QueryParamsStore {
   getParam(
     key: string
   ): undefined | string | string[] | qs.ParsedQs | qs.ParsedQs[] {
+    log("параметры запрошены")
     return this._params[key];
   }
 

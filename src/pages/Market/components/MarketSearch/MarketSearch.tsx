@@ -33,7 +33,7 @@ const MarketSearch: React.FC = () => {
 
         <Input
           className={searchMarketSearch.search_line_input}
-          value={marketSearchStore.params}
+          value={marketSearchStore.params != undefined ? `${marketSearchStore.params}` : ""}
           onChange={(value: string) => {
             searchParams.set("search", value);
             setSearchParams(searchParams);
