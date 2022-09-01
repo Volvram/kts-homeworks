@@ -1,17 +1,18 @@
 import React from "react";
 
 import { Button } from "@components/Button/Button";
+import CoinFilterStore from "@store/CoinFilterStore/CoinFilterStore";
 import { CoinCategories } from "@store/RootStore/CoinTrendStore/CoinTrendStore";
+import { log } from "@utils/log";
+import { useLocalStore } from "@utils/useLocalStore";
 import { useSearchParams } from "react-router-dom";
 
-import coinFilterStyle from "./CoinFilter.module.scss";
+import styles from "./styles.module.scss";
 
-type CoinFilterProps = {
-  // onChange: (trend: string) => void;
-};
-
-const CoinFilter: React.FC<CoinFilterProps> = () => {
+const CoinFilter: React.FC = () => {
   let [searchParams, setSearchParams] = useSearchParams();
+
+  const coinFilterStore = useLocalStore(() => new CoinFilterStore());
 
   const handleClick = React.useCallback((e: React.MouseEvent) => {
     const target: any = e.target;
@@ -19,39 +20,27 @@ const CoinFilter: React.FC<CoinFilterProps> = () => {
     searchParams.set("coinTrend", target.firstChild.data);
     setSearchParams(searchParams);
 
-    for (let i = 0; i < target.parentNode.children.length; i++) {
-      if (target.parentNode.children[i] !== target) {
-        target.parentNode.children[i].classList.remove(
-          coinFilterStyle.coin__filter_choice__clicked
-        );
-      }
-    }
-
-    target.classList.add(coinFilterStyle.coin__filter_choice__clicked);
+    coinFilterStore.setClickedCategory(target.firstChild.data);
   }, []);
 
   return (
-    <div className={coinFilterStyle.coin__filter}>
-      {Object.values(CoinCategories)
-        .filter((value) => isNaN(Number(value)))
-        .map((category, index) => {
-          let defaultClass: string = `${coinFilterStyle.coin__filter_choice}`;
-          defaultClass =
-            index === 0
-              ? defaultClass +
-                ` ${coinFilterStyle.coin__filter_choice__clicked}`
-              : defaultClass;
-
-          return (
-            <Button
-              key={category}
-              className={defaultClass}
-              onClick={handleClick}
-            >
-              {category}
-            </Button>
-          );
-        })}
+    <div className={styles.coin__filter}>
+      {coinFilterStore.categories.map((category, index) => {
+        log(category);
+        return (
+          <Button
+            key={category}
+            className={
+              category === coinFilterStore.clickedCategory
+                ? coinFilterStore.clickedStyle
+                : coinFilterStore.unclickedStyle
+            }
+            onClick={handleClick}
+          >
+            {category}
+          </Button>
+        );
+      })}
     </div>
   );
 };
