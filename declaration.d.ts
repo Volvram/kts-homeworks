@@ -3,6 +3,8 @@ declare module '*.ts';
 declare module '*.scss';
 declare module 'styled-components';
 
+declare module 'paginate-array';
+
 // Images declared
 declare module '*.svg';
 declare module '*.png';

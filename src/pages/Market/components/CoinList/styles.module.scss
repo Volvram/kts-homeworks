@@ -1,0 +1,10 @@
+.paginator{
+    padding-left: 0px;
+
+    display:flex;
+    justify-content: space-around;
+
+    &_li{
+        list-style: none;
+    }
+}

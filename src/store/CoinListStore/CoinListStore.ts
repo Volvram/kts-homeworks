@@ -4,6 +4,7 @@ import { CoinCategories } from "@store/RootStore/CoinTrendStore/CoinTrendStore";
 import rootStore from "@store/RootStore/instance";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
+import paginate from "paginate-array";
 import {
   makeObservable,
   observable,
@@ -15,7 +16,7 @@ import {
 } from "mobx";
 import { ParsedQs } from "qs";
 
-type Coin = {
+export type Coin = {
   id: string;
   name: string;
   symbol: string;
@@ -24,7 +25,10 @@ type Coin = {
   priceChangePercentage24h: string;
 };
 
-type PrivateFields = "_currencyParams" | "_coinTrendParams" | "_coins";
+type PrivateFields =
+  | "_currencyParams"
+  | "_coinTrendParams"
+  | "_coins";
 
 export default class CoinListStore implements ILocalStore {
   private _currencies: Option[] = CURRENCIES;
@@ -39,6 +43,7 @@ export default class CoinListStore implements ILocalStore {
       _coinTrendParams: observable,
       _coins: observable,
       setCoins: action,
+      coins: computed,
     });
   }
 
@@ -46,11 +51,19 @@ export default class CoinListStore implements ILocalStore {
     return this._currencies;
   }
 
+  get currencyParams(){
+    return this._currencyParams;
+  }
+
+  get coinTrendParams(){
+    return this._coinTrendParams;
+  }
+
   setCoins(coins: Coin[]) {
     this._coins = coins;
   }
 
-  getCoins() {
+  get coins() {
     return this._coins;
   }
 
@@ -63,6 +76,7 @@ export default class CoinListStore implements ILocalStore {
     });
 
     runInAction(() => {
+
       let currencySymbol: string | undefined = this._currencies.find(
         (currency) => currency.key === this._currencyParams.key
       )?.symbol;
