@@ -4,9 +4,6 @@ import search from "@assets/img/search.svg";
 import { Button } from "@components/Button/Button";
 import { Input } from "@components/Input/Input";
 import { useOpenSearchContext } from "@pages/Market/Market";
-import MarketSearchStore from "@store/MarketSearchStore/MarketSearchStore";
-import { useQueryParamsStoreInit } from "@store/RootStore/hooks/useQueryParamsStoreInit";
-import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
 import { useSearchParams } from "react-router-dom";
 
@@ -16,10 +13,6 @@ const MarketSearch: React.FC = () => {
   const OpenSearchContext = useOpenSearchContext();
 
   let [searchParams, setSearchParams] = useSearchParams();
-
-  useQueryParamsStoreInit();
-
-  const marketSearchStore = useLocalStore(() => new MarketSearchStore());
 
   return (
     <div className={searchMarketSearch.search}>
@@ -33,7 +26,11 @@ const MarketSearch: React.FC = () => {
 
         <Input
           className={searchMarketSearch.search_line_input}
-          value={marketSearchStore.params != undefined ? `${marketSearchStore.params}` : ""}
+          value={
+            searchParams.get("search") != null
+              ? `${searchParams.get("search")}`
+              : ""
+          }
           onChange={(value: string) => {
             searchParams.set("search", value);
             setSearchParams(searchParams);

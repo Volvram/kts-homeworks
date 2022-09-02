@@ -2,17 +2,23 @@ import React from "react";
 
 import { Card } from "@components/Card/Card";
 import CoinListStore from "@store/CoinListStore/CoinListStore";
+import { useQueryParamsStoreInit } from "@store/RootStore/hooks/useQueryParamsStoreInit";
+import rootStore from "@store/RootStore/instance";
+import { log } from "@utils/log";
 import { useLocalStore } from "@utils/useLocalStore";
+import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 import styleCoinList from "./CoinList.module.scss";
 
 const CoinList: React.FC = () => {
   const coinListStore = useLocalStore(() => new CoinListStore());
+  let [searchParams, setSearchParams] = useSearchParams();
+  useQueryParamsStoreInit();
 
   React.useEffect(() => {
-    coinListStore.coinRequest();
+    coinListStore.coinRequest(searchParams.get("search"));
   }, []);
 
   return (

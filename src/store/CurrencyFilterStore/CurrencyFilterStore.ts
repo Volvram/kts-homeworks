@@ -22,7 +22,7 @@ export default class CurrencyFilterStore implements ILocalStore {
 
   constructor() {
     makeObservable<CurrencyFilterStore, PrivateFields>(this, {
-      _currency: observable,
+      _currency: observable.ref,
       setCurrency: action,
       currency: computed,
       description: computed,
@@ -33,6 +33,10 @@ export default class CurrencyFilterStore implements ILocalStore {
 
   setCurrency(currency: Option) {
     rootStore.currency.setCurrency(currency);
+
+    if (currency != this._currency) {
+      this._currency = currency;
+    }
   }
 
   get currency() {
@@ -51,15 +55,5 @@ export default class CurrencyFilterStore implements ILocalStore {
     return this._currencies;
   }
 
-  destroy(): void {
-    this._currencyHandler();
-  }
-
-  readonly _currencyHandler: IReactionDisposer = reaction(
-    () => rootStore.currency.currency,
-    () => {
-      if (this._currency !== rootStore.currency.currency)
-        this._currency = rootStore.currency.currency;
-    }
-  );
+  destroy(): void {}
 }

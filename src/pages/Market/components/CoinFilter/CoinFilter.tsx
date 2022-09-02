@@ -2,23 +2,16 @@ import React from "react";
 
 import { Button } from "@components/Button/Button";
 import CoinFilterStore from "@store/CoinFilterStore/CoinFilterStore";
-import { CoinCategories } from "@store/RootStore/CoinTrendStore/CoinTrendStore";
-import { log } from "@utils/log";
 import { useLocalStore } from "@utils/useLocalStore";
-import { useSearchParams } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 
 import styles from "./styles.module.scss";
 
 const CoinFilter: React.FC = () => {
-  let [searchParams, setSearchParams] = useSearchParams();
-
   const coinFilterStore = useLocalStore(() => new CoinFilterStore());
 
   const handleClick = React.useCallback((e: React.MouseEvent) => {
     const target: any = e.target;
-
-    searchParams.set("coinTrend", target.firstChild.data);
-    setSearchParams(searchParams);
 
     coinFilterStore.setClickedCategory(target.firstChild.data);
   }, []);
@@ -44,4 +37,4 @@ const CoinFilter: React.FC = () => {
   );
 };
 
-export default CoinFilter;
+export default observer(CoinFilter);

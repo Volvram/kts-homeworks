@@ -1,5 +1,6 @@
 import styles from "@pages/Market/components/CoinFilter/styles.module.scss";
 import { CoinCategories } from "@store/RootStore/CoinTrendStore/CoinTrendStore";
+import rootStore from "@store/RootStore/instance";
 import { ILocalStore } from "@utils/useLocalStore";
 import { makeObservable, observable, action, computed, reaction } from "mobx";
 
@@ -13,7 +14,7 @@ export default class CoinFilterStore implements ILocalStore {
   private _categories = Object.values(CoinCategories).filter((value) =>
     isNaN(Number(value))
   );
-  private _clickedCategory: string = this._categories[0];
+  private _clickedCategory: string = rootStore.coinTrend.coinTrend;
   private _clickedStyle = `${styles.coin__filter_choice}  ${styles.coin__filter_choice__clicked}`;
   private _unclickedStyle = `${styles.coin__filter_choice}`;
 
@@ -41,6 +42,7 @@ export default class CoinFilterStore implements ILocalStore {
 
   setClickedCategory(category: string) {
     this._clickedCategory = category;
+    rootStore.coinTrend.setCoinTrend(category);
   }
 
   get clickedStyle() {

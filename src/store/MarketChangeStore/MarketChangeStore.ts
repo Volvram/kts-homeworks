@@ -1,5 +1,3 @@
-import { Option } from "@components/Dropdown/Dropdown";
-import { CoinCategories } from "@store/RootStore/CoinTrendStore/CoinTrendStore";
 import rootStore from "@store/RootStore/instance";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
@@ -23,7 +21,7 @@ type PrivateFields =
 export default class MarketChangeStore implements ILocalStore {
   private _currency = rootStore.currency.currency;
   private _marketChangeSum = 0;
-  private _marketPercentage = `${this._marketChangeSum.toFixed(2)}`;
+  private _marketPercentage = `${this._marketChangeSum.toFixed(2)}%`;
   private _marketColor = ` neutral`;
   private _marketTrend = "";
 
@@ -105,15 +103,15 @@ export default class MarketChangeStore implements ILocalStore {
     () => this._marketChangeSum,
     () => {
       if (this._marketChangeSum > 0) {
-        this._marketPercentage = `+${this._marketChangeSum.toFixed(2)}`;
+        this._marketPercentage = `+${this._marketChangeSum.toFixed(2)}%`;
         this._marketColor = " positive";
         this._marketTrend = "up";
       } else if (this._marketChangeSum < 0) {
-        this._marketPercentage = `${this._marketChangeSum.toFixed(2)}`;
+        this._marketPercentage = `${this._marketChangeSum.toFixed(2)}%`;
         this._marketColor = " negative";
         this._marketTrend = "down";
       } else {
-        this._marketPercentage = `${this._marketChangeSum.toFixed(2)}`;
+        this._marketPercentage = `${this._marketChangeSum.toFixed(2)}%`;
       }
     }
   );

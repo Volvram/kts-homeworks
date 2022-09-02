@@ -12,10 +12,6 @@ import coinStyle from "./Coin.module.scss";
 import Chart from "./components/Chart/Chart";
 import Header from "./components/Header/Header";
 
-type CoinProps = {
-  currency: Option | null;
-};
-
 export type CoinData = {
   id: string;
   name: string;
@@ -27,7 +23,7 @@ export type CoinData = {
   priceChangePercentage24h: number;
 };
 
-const Coin: React.FC<CoinProps> = ({ currency }) => {
+const Coin: React.FC = () => {
   const { id } = useParams();
 
   const coinStore = useLocalStore(() => new CoinStore());
