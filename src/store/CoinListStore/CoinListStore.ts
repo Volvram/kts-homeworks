@@ -2,9 +2,9 @@ import { Option } from "@components/Dropdown/Dropdown";
 import { CURRENCIES } from "@config/currencies";
 import { CoinCategories } from "@store/RootStore/CoinTrendStore/CoinTrendStore";
 import rootStore from "@store/RootStore/instance";
+import { log } from "@utils/log";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
-import paginate from "paginate-array";
 import {
   makeObservable,
   observable,
@@ -28,13 +28,26 @@ export type Coin = {
 type PrivateFields =
   | "_currencyParams"
   | "_coinTrendParams"
-  | "_coins";
+  | "_coins"
+  | "_currentItems"
+  | "_pageCount"
+  | "_itemsPerPage"
+  | "_itemOffset"
+  | "_endOffset";
 
 export default class CoinListStore implements ILocalStore {
   private _currencies: Option[] = CURRENCIES;
   private _currencyParams = rootStore.currency.currency;
   private _coinTrendParams = rootStore.coinTrend.coinTrend;
   private _coins: Coin[] = [];
+
+  // fields for pagination
+  private _currentItems: Coin[] | null = null;
+  private _pageCount = 0;
+  private _itemsPerPage = 5;
+  private _itemOffset = 0;
+
+  private _endOffset = 0;
 
   constructor() {
     makeObservable<CoinListStore, PrivateFields>(this, {
@@ -44,6 +57,17 @@ export default class CoinListStore implements ILocalStore {
       _coins: observable,
       setCoins: action,
       coins: computed,
+      _currentItems: observable,
+      currentItems: computed,
+      _pageCount: observable,
+      pageCount: computed,
+      _itemOffset: observable,
+      setItemOffset: action,
+      _itemsPerPage: observable,
+      setItemsPerPage: action,
+      _endOffset: observable,
+      endOffset: computed,
+      coinsFetch: action,
     });
   }
 
@@ -51,11 +75,11 @@ export default class CoinListStore implements ILocalStore {
     return this._currencies;
   }
 
-  get currencyParams(){
+  get currencyParams() {
     return this._currencyParams;
   }
 
-  get coinTrendParams(){
+  get coinTrendParams() {
     return this._coinTrendParams;
   }
 
@@ -67,6 +91,27 @@ export default class CoinListStore implements ILocalStore {
     return this._coins;
   }
 
+  // fields for pagination
+  get currentItems() {
+    return this._currentItems;
+  }
+
+  get pageCount() {
+    return this._pageCount;
+  }
+
+  setItemOffset(itemOffset: number) {
+    this._itemOffset = itemOffset;
+  }
+
+  setItemsPerPage(itemsPerPage: number) {
+    this._itemsPerPage = itemsPerPage;
+  }
+
+  get endOffset() {
+    return this._endOffset;
+  }
+
   coinRequest = async (
     searchParams: string | null | string[] | ParsedQs | ParsedQs[] | undefined
   ) => {
@@ -76,7 +121,6 @@ export default class CoinListStore implements ILocalStore {
     });
 
     runInAction(() => {
-
       let currencySymbol: string | undefined = this._currencies.find(
         (currency) => currency.key === this._currencyParams.key
       )?.symbol;
@@ -164,6 +208,28 @@ export default class CoinListStore implements ILocalStore {
     });
   };
 
+  handlePageClick = (event: { selected: number }) => {
+    const newOffset: number =
+      (event.selected * this._itemsPerPage) % this._coins.length;
+    log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
+    this.setItemOffset(newOffset);
+  };
+
+  coinsFetch = async (
+    searchParams: string | ParsedQs | string[] | ParsedQs[] | undefined
+  ) => {
+    await this.coinRequest(searchParams);
+
+    runInAction(() => {
+      this._endOffset = this._itemOffset + this._itemsPerPage;
+      log(`Loading items from ${this._itemOffset} to ${this._endOffset}`);
+      this._currentItems = this._coins.slice(this._itemOffset, this._endOffset);
+      this._pageCount = Math.ceil(this._coins.length / this._itemsPerPage);
+    });
+  };
+
   destroy(): void {
     this._currencyHandler();
     this._coinTrendHandler();
@@ -191,9 +257,11 @@ export default class CoinListStore implements ILocalStore {
       currencyParams: this._currencyParams,
       coinTrendParams: this._coinTrendParams,
       searchParams: rootStore.query.getParam("search"),
+      itemOffset: this._itemOffset,
+      itemsPerPage: this._itemsPerPage,
     }),
     ({ currencyParams, coinTrendParams, searchParams }) => {
-      this.coinRequest(searchParams);
+      this.coinsFetch(searchParams);
     }
   );
 }

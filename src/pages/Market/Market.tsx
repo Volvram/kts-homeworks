@@ -35,7 +35,7 @@ const Market: React.FC = () => {
           <MarketSearch />
         </OpenSearchProvider>
       )}
-      <CoinList itemsPerPage={5} />
+      <CoinList />
     </div>
   );
 };

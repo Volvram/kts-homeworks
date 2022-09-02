@@ -1,19 +1,20 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
 import { Card } from "@components/Card";
 import { Coin } from "@store/CoinListStore/CoinListStore";
+import { observer } from "mobx-react-lite";
+import { Link } from "react-router-dom";
 
 import styles from "./styles.module.scss";
 
 type CoinsProps = {
-    currentCoins: Coin[] | null;
-}
+  currentCoins: Coin[] | null;
+};
 
-const Coins: React.FC<CoinsProps> = ({currentCoins}) => {
-    return (
-        <div className={styles.coinList}>
-            {currentCoins?.map((coin) => {
+const Coins: React.FC<CoinsProps> = ({ currentCoins }) => {
+  return (
+    <div className={styles.coinList}>
+      {currentCoins?.map((coin) => {
         const coinPriceChange: string = coin.priceChangePercentage24h;
 
         let coinPricePercentage: string = `${styles.coin_changePercentage24h}`;
@@ -44,20 +45,14 @@ const Coins: React.FC<CoinsProps> = ({currentCoins}) => {
               className={styles.coin}
               content={
                 <div
-                  className={
-                    styles.coin_chartAndPriceAndChangePercentage24h
-                  }
+                  className={styles.coin_chartAndPriceAndChangePercentage24h}
                 >
                   <div
                     className={styles.coin_chart}
                     style={{ width: "50px", height: "25px" }}
                   ></div>
-                  <div
-                    className={styles.coin_priceAndChangePercentage24h}
-                  >
-                    <div className={styles.coin_price}>
-                      {coin.currentPrice}
-                    </div>
+                  <div className={styles.coin_priceAndChangePercentage24h}>
+                    <div className={styles.coin_price}>{coin.currentPrice}</div>
                     <div className={coinPricePercentage}>
                       {coin.priceChangePercentage24h}
                     </div>
@@ -69,7 +64,7 @@ const Coins: React.FC<CoinsProps> = ({currentCoins}) => {
         );
       })}
     </div>
-    );
-}
+  );
+};
 
-export default Coins;
+export default observer(Coins);
