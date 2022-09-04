@@ -16,7 +16,7 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   ...rest
 }) => {
-  let classes: string = `${styleButton.button}`;
+  let classes = `${styleButton.button}`;
 
   if (className) {
     classes += ` ${className}`;

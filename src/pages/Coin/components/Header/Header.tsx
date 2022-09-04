@@ -2,9 +2,9 @@ import React from "react";
 
 import back from "@assets//img/back.svg";
 import favourite from "@assets/img/favourite.svg";
+import { CoinData } from "@store/CoinStore/CoinStore";
 import { Link } from "react-router-dom";
 
-import { CoinData } from "../../../Coin/Coin";
 import headerStyle from "./Header.module.scss";
 
 type HeaderProps = {

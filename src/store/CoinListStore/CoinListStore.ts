@@ -13,6 +13,7 @@ import {
   reaction,
   IReactionDisposer,
   runInAction,
+  toJS,
 } from "mobx";
 import { ParsedQs } from "qs";
 
@@ -32,8 +33,7 @@ type PrivateFields =
   | "_currentItems"
   | "_pageCount"
   | "_itemsPerPage"
-  | "_itemOffset"
-  | "_endOffset";
+  | "_itemOffset";
 
 export default class CoinListStore implements ILocalStore {
   private _currencies: Option[] = CURRENCIES;
@@ -45,9 +45,7 @@ export default class CoinListStore implements ILocalStore {
   private _currentItems: Coin[] | null = null;
   private _pageCount = 0;
   private _itemsPerPage = 5;
-  private _itemOffset = 0;
-
-  private _endOffset = 0;
+  private _itemOffset = -1;
 
   constructor() {
     makeObservable<CoinListStore, PrivateFields>(this, {
@@ -59,15 +57,16 @@ export default class CoinListStore implements ILocalStore {
       coins: computed,
       _currentItems: observable,
       currentItems: computed,
+      setCurrentItems: action,
       _pageCount: observable,
       pageCount: computed,
+      setPageCount: action,
       _itemOffset: observable,
+      itemOffset: computed,
       setItemOffset: action,
+      handlePageClick: action,
       _itemsPerPage: observable,
       setItemsPerPage: action,
-      _endOffset: observable,
-      endOffset: computed,
-      coinsFetch: action,
     });
   }
 
@@ -96,20 +95,32 @@ export default class CoinListStore implements ILocalStore {
     return this._currentItems;
   }
 
+  setCurrentItems(currentItems: Coin[]) {
+    this._currentItems = currentItems;
+  }
+
   get pageCount() {
     return this._pageCount;
+  }
+
+  setPageCount(pageCount: number) {
+    this._pageCount = pageCount;
+  }
+
+  get itemsPerPage() {
+    return this._itemsPerPage;
   }
 
   setItemOffset(itemOffset: number) {
     this._itemOffset = itemOffset;
   }
 
-  setItemsPerPage(itemsPerPage: number) {
-    this._itemsPerPage = itemsPerPage;
+  get itemOffset() {
+    return this._itemOffset;
   }
 
-  get endOffset() {
-    return this._endOffset;
+  setItemsPerPage(itemsPerPage: number) {
+    this._itemsPerPage = itemsPerPage;
   }
 
   coinRequest = async (
@@ -209,34 +220,33 @@ export default class CoinListStore implements ILocalStore {
   };
 
   handlePageClick = (event: { selected: number }) => {
-    const newOffset: number =
+    const newOffset =
       (event.selected * this._itemsPerPage) % this._coins.length;
     log(
       `User requested page number ${event.selected}, which is offset ${newOffset}`
     );
     this.setItemOffset(newOffset);
+    this.changePage();
   };
 
-  coinsFetch = async (
-    searchParams: string | ParsedQs | string[] | ParsedQs[] | undefined
-  ) => {
-    await this.coinRequest(searchParams);
-
-    runInAction(() => {
-      this._endOffset = this._itemOffset + this._itemsPerPage;
-      log(`Loading items from ${this._itemOffset} to ${this._endOffset}`);
-      this._currentItems = this._coins.slice(this._itemOffset, this._endOffset);
-      this._pageCount = Math.ceil(this._coins.length / this._itemsPerPage);
+  changePage() {
+    this.coinRequest(rootStore.query.getParam("search")).then(() => {
+      const endOffset = this._itemOffset + this._itemsPerPage;
+      log(`Loading items from ${this._itemOffset} to ${endOffset}`);
+      this.setCurrentItems(this._coins.slice(this._itemOffset, endOffset));
+      this.setPageCount(Math.ceil(this._coins.length / this._itemsPerPage));
     });
-  };
-
-  destroy(): void {
-    this._currencyHandler();
-    this._coinTrendHandler();
-    this._coinRequestHandler();
   }
 
-  readonly _currencyHandler: IReactionDisposer = reaction(
+  destroy(): void {
+    this._currencyParamsHandler();
+    this._coinTrendParamsHandler();
+    this._currencyHandler();
+    this._coinTrendHandler();
+    this._searchHandler();
+  }
+
+  readonly _currencyParamsHandler: IReactionDisposer = reaction(
     () => rootStore.currency.currency,
     () => {
       if (this._currencyParams !== rootStore.currency.currency)
@@ -244,7 +254,7 @@ export default class CoinListStore implements ILocalStore {
     }
   );
 
-  readonly _coinTrendHandler: IReactionDisposer = reaction(
+  readonly _coinTrendParamsHandler: IReactionDisposer = reaction(
     () => rootStore.coinTrend.coinTrend,
     () => {
       if (this._coinTrendParams !== rootStore.coinTrend.coinTrend)
@@ -252,16 +262,26 @@ export default class CoinListStore implements ILocalStore {
     }
   );
 
-  readonly _coinRequestHandler: IReactionDisposer = reaction(
-    () => ({
-      currencyParams: this._currencyParams,
-      coinTrendParams: this._coinTrendParams,
-      searchParams: rootStore.query.getParam("search"),
-      itemOffset: this._itemOffset,
-      itemsPerPage: this._itemsPerPage,
-    }),
-    ({ currencyParams, coinTrendParams, searchParams }) => {
-      this.coinsFetch(searchParams);
+  readonly _currencyHandler: IReactionDisposer = reaction(
+    () => this._currencyParams,
+    () => {
+      log("in coinListStore: ", toJS(this._currencyParams));
+      this.changePage();
+    }
+  );
+
+  readonly _coinTrendHandler: IReactionDisposer = reaction(
+    () => this._coinTrendParams,
+    () => {
+      this.changePage();
+    }
+  );
+
+  readonly _searchHandler: IReactionDisposer = reaction(
+    () => rootStore.query.getParam("search"),
+    (searchParams) => {
+      log("search: ", toJS(searchParams));
+      this.changePage();
     }
   );
 }

@@ -1,4 +1,5 @@
 import rootStore from "@store/RootStore/instance";
+import { log } from "@utils/log";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
 import {
@@ -9,6 +10,7 @@ import {
   reaction,
   IReactionDisposer,
   runInAction,
+  toJS,
 } from "mobx";
 
 type PrivateFields =
@@ -76,6 +78,18 @@ export default class MarketChangeStore implements ILocalStore {
       });
 
       this._marketChangeSum = this._marketChangeSum / result.data.length;
+
+      // if (this._marketChangeSum > 0) {
+      //   this._marketPercentage = `+${this._marketChangeSum.toFixed(2)}%`;
+      //   this._marketColor = " positive";
+      //   this._marketTrend = "up";
+      // } else if (this._marketChangeSum < 0) {
+      //   this._marketPercentage = `${this._marketChangeSum.toFixed(2)}%`;
+      //   this._marketColor = " negative";
+      //   this._marketTrend = "down";
+      // } else {
+      //   this._marketPercentage = `${this._marketChangeSum.toFixed(2)}%`;
+      // }
     });
   };
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-import CoinListStore from "@store/CoinListStore/CoinListStore";
+import CoinListStore, { Coin } from "@store/CoinListStore/CoinListStore";
 import { useQueryParamsStoreInit } from "@store/RootStore/hooks/useQueryParamsStoreInit";
 import rootStore from "@store/RootStore/instance";
 import { log } from "@utils/log";
@@ -20,15 +20,18 @@ const CoinList: React.FC = () => {
   useQueryParamsStoreInit();
 
   React.useEffect(() => {
-    coinListStore.coinsFetch(rootStore.query.getParam("search")).then(() => {
-      if (rootStore.query.getParam("page")) {
-        const event = {
-          selected: Number(rootStore.query.getParam("page")) - 1,
-        };
-        coinListStore.handlePageClick(event);
-      }
-    });
+    const initialPage = rootStore.query.getParam("page");
+    if (initialPage) {
+      coinListStore.setItemOffset(
+        coinListStore.itemsPerPage * (Number(initialPage) - 1)
+      );
+    } else {
+      coinListStore.setItemOffset(0);
+    }
+
+    coinListStore.changePage();
   }, []);
+
 
   return (
     <>
@@ -42,9 +45,9 @@ const CoinList: React.FC = () => {
           setSearchParams(searchParams);
         }}
         forcePage={
-          `${rootStore.query.getParam("page")}` != undefined
+          rootStore.query.getParam("page") != undefined
             ? Number(rootStore.query.getParam("page")) - 1
-            : 0
+            : undefined
         }
         pageRangeDisplayed={3}
         pageCount={coinListStore.pageCount}

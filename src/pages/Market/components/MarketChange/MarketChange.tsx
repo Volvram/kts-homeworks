@@ -4,7 +4,9 @@ import enableSearch from "@assets/img/enableSearch.svg";
 import { Button } from "@components/Button/Button";
 import { useOpenSearchContext } from "@pages/Market/Market";
 import MarketChangeStore from "@store/MarketChangeStore/MarketChangeStore";
+import { log } from "@utils/log";
 import { useLocalStore } from "@utils/useLocalStore";
+import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 
 import styleMarketChange from "./MarketChange.module.scss";
