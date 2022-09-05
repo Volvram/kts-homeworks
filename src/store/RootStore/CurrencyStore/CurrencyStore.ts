@@ -1,4 +1,4 @@
-import { Option } from "@components/Dropdown/Dropdown";
+import { OptionType } from "@components/Dropdown/Dropdown";
 import { CURRENCIES } from "@config/currencies";
 import { log } from "@utils/log";
 import {
@@ -14,7 +14,7 @@ import {
 type PrivateFields = "_currency";
 
 export default class CurrencyStore {
-  private _currency: Option = CURRENCIES[0];
+  private _currency: OptionType = CURRENCIES[0];
 
   constructor() {
     makeObservable<CurrencyStore, PrivateFields>(this, {
@@ -24,7 +24,7 @@ export default class CurrencyStore {
     });
   }
 
-  setCurrency(currency: Option) {
+  setCurrency(currency: OptionType) {
     if (this._currency !== currency) {
       this._currency = currency;
     }

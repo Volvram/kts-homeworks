@@ -1,5 +1,5 @@
+import { COLORS } from "@config/colors";
 import rootStore from "@store/RootStore/instance";
-import { log } from "@utils/log";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
 import {
@@ -24,7 +24,7 @@ export default class MarketChangeStore implements ILocalStore {
   private _currency = rootStore.currency.currency;
   private _marketChangeSum = 0;
   private _marketPercentage = `${this._marketChangeSum.toFixed(2)}%`;
-  private _marketColor = ` neutral`;
+  private _marketColor: string = COLORS.neutral;
   private _marketTrend = "";
 
   constructor() {
@@ -78,18 +78,6 @@ export default class MarketChangeStore implements ILocalStore {
       });
 
       this._marketChangeSum = this._marketChangeSum / result.data.length;
-
-      // if (this._marketChangeSum > 0) {
-      //   this._marketPercentage = `+${this._marketChangeSum.toFixed(2)}%`;
-      //   this._marketColor = " positive";
-      //   this._marketTrend = "up";
-      // } else if (this._marketChangeSum < 0) {
-      //   this._marketPercentage = `${this._marketChangeSum.toFixed(2)}%`;
-      //   this._marketColor = " negative";
-      //   this._marketTrend = "down";
-      // } else {
-      //   this._marketPercentage = `${this._marketChangeSum.toFixed(2)}%`;
-      // }
     });
   };
 
@@ -118,11 +106,11 @@ export default class MarketChangeStore implements ILocalStore {
     () => {
       if (this._marketChangeSum > 0) {
         this._marketPercentage = `+${this._marketChangeSum.toFixed(2)}%`;
-        this._marketColor = " positive";
+        this._marketColor = COLORS.positive;
         this._marketTrend = "up";
       } else if (this._marketChangeSum < 0) {
         this._marketPercentage = `${this._marketChangeSum.toFixed(2)}%`;
-        this._marketColor = " negative";
+        this._marketColor = COLORS.negative;
         this._marketTrend = "down";
       } else {
         this._marketPercentage = `${this._marketChangeSum.toFixed(2)}%`;

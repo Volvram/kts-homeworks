@@ -1,5 +1,4 @@
-import { Option } from "@components/Dropdown/Dropdown";
-import { log } from "@utils/log";
+import { OptionType } from "@components/Dropdown/Dropdown";
 import { ILocalStore } from "@utils/useLocalStore";
 import {
   makeObservable,
@@ -14,10 +13,10 @@ import {
 type PrivateFields = "_onChange" | "_listClosed" | "_choice";
 
 export default class DropDownStore implements ILocalStore {
-  private _onChange = (value: Option) => {};
+  private _onChange = (value: OptionType) => {};
 
   private _listClosed: boolean = true;
-  private _choice: Option | null = null;
+  private _choice: OptionType | null = null;
 
   constructor() {
     makeObservable<DropDownStore, PrivateFields>(this, {
@@ -33,7 +32,7 @@ export default class DropDownStore implements ILocalStore {
     });
   }
 
-  setOnChange(onChange: (value: Option) => void) {
+  setOnChange(onChange: (value: OptionType) => void) {
     this._onChange = onChange;
   }
 
@@ -45,7 +44,7 @@ export default class DropDownStore implements ILocalStore {
     return this._listClosed;
   }
 
-  setChoice(newChoice: Option | null): void {
+  setChoice(newChoice: OptionType | null): void {
     if (newChoice && this._choice?.key != newChoice?.key) {
       this._choice = newChoice;
     }

@@ -1,7 +1,7 @@
 import React from "react";
 
 import Dropdown from "@components/Dropdown";
-import { Option } from "@components/Dropdown/Dropdown";
+import { OptionType } from "@components/Dropdown/Dropdown";
 import CurrencyFilterStore from "@store/CurrencyFilterStore/CurrencyFilterStore";
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
@@ -17,7 +17,7 @@ const CurrencyFilter: React.FC = () => {
       <Dropdown
         options={currencyFilterStore.currencies}
         defaultValue={currencyFilterStore.currency}
-        onChange={(currency: Option) => {
+        onChange={(currency: OptionType) => {
           currencyFilterStore.setCurrency(currency);
         }}
         description={currencyFilterStore.description}

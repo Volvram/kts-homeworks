@@ -53,5 +53,11 @@ export default class CoinFilterStore implements ILocalStore {
     return this._unclickedStyle;
   }
 
+  handleClick = (e: React.MouseEvent) => {
+    const target: any = e.target;
+
+    this.setClickedCategory(target.textContent);
+  };
+
   destroy(): void {}
 }

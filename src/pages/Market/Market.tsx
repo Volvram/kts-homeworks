@@ -17,24 +17,21 @@ const OpenSearchProvider = OpenSearch.Provider;
 export const useOpenSearchContext = () => useContext(OpenSearch);
 
 const Market: React.FC = () => {
-  const [openSearch, setOpenSearch] = React.useState<boolean>(false);
+  const [openSearch, setOpenSearch] = React.useState(false);
 
   return (
     <div className={styles.market}>
-      {!openSearch && (
-        <OpenSearchProvider value={{ openSearch, setOpenSearch }}>
-          <MarketChange />
-          <CurrencyFilter />
-          <CoinFilter />
-          <hr className={styles.listLine}></hr>
-        </OpenSearchProvider>
-      )}
-
-      {openSearch && (
-        <OpenSearchProvider value={{ openSearch, setOpenSearch }}>
-          <MarketSearch />
-        </OpenSearchProvider>
-      )}
+      <OpenSearchProvider value={{ openSearch, setOpenSearch }}>
+        {!openSearch && (
+          <>
+            <MarketChange />
+            <CurrencyFilter />
+            <CoinFilter />
+            <hr className={styles.listLine}></hr>
+          </>
+        )}
+        {openSearch && <MarketSearch />}
+      </OpenSearchProvider>
       <CoinList />
     </div>
   );

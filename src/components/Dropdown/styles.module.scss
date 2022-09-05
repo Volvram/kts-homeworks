@@ -9,6 +9,8 @@ $choice-border: 0.5px solid #DFE2E4;
 
     list-style: none;
 
+    position: relative;
+
     color: $grey-color;
 
     font-family: $main-font-family;
@@ -30,6 +32,8 @@ $choice-border: 0.5px solid #DFE2E4;
     &_choice{
         padding: $option-padding;
 
+        min-width:71px;
+
         background: $option-background;
         border: $choice-border;
     }
@@ -40,5 +44,9 @@ $choice-border: 0.5px solid #DFE2E4;
         background: $option-background;
         border: solid #DFE2E4;
         border-width: 0px 0.5px 0.5px 0.5px;
+    }
+
+    &_options_container{
+        position: absolute;
     }
 }

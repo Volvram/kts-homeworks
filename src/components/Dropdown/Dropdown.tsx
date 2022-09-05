@@ -7,7 +7,7 @@ import { observer } from "mobx-react-lite";
 import styles from "./styles.module.scss";
 
 /** Вариант для выбора в фильтре */
-export type Option = {
+export type OptionType = {
   key: string;
   value: string;
   symbol: string;
@@ -15,10 +15,10 @@ export type Option = {
 
 /** Пропсы, которые принимает компонент Dropdown */
 export type DropdownProps = {
-  options: Option[];
-  defaultValue?: Option;
+  options: OptionType[];
+  defaultValue?: OptionType;
   /** Callback, вызываемый при выборе варианта */
-  onChange: (value: Option) => void;
+  onChange: (value: OptionType) => void;
   description?: string;
   defaultOptionDescription?: string;
   disabled?: boolean;
@@ -54,7 +54,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       </div>
       {dropdownStore.listClosed && <></>}
       {!dropdownStore.listClosed && (
-        <div>
+        <div className={styles.dropdown_options_container}>
           {!disabled &&
             options.map((option) => {
               return (

@@ -1,4 +1,4 @@
-import { Option } from "@components/Dropdown/Dropdown";
+import { OptionType } from "@components/Dropdown/Dropdown";
 import { CURRENCIES } from "@config/currencies";
 import { CoinCategories } from "@store/RootStore/CoinTrendStore/CoinTrendStore";
 import rootStore from "@store/RootStore/instance";
@@ -36,7 +36,7 @@ type PrivateFields =
   | "_itemOffset";
 
 export default class CoinListStore implements ILocalStore {
-  private _currencies: Option[] = CURRENCIES;
+  private _currencies: OptionType[] = CURRENCIES;
   private _currencyParams = rootStore.currency.currency;
   private _coinTrendParams = rootStore.coinTrend.coinTrend;
   private _coins: Coin[] = [];

@@ -10,7 +10,7 @@ import { useSearchParams } from "react-router-dom";
 import styles from "./styles.module.scss";
 
 const MarketSearch: React.FC = () => {
-  const OpenSearchContext = useOpenSearchContext();
+  const { setOpenSearch } = useOpenSearchContext();
 
   let [searchParams, setSearchParams] = useSearchParams();
 
@@ -37,7 +37,7 @@ const MarketSearch: React.FC = () => {
       </div>
       <Button
         onClick={() => {
-          OpenSearchContext.setOpenSearch(false);
+          setOpenSearch(false);
         }}
       >
         Cancel

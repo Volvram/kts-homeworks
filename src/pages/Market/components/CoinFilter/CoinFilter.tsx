@@ -10,15 +10,9 @@ import styles from "./styles.module.scss";
 const CoinFilter: React.FC = () => {
   const coinFilterStore = useLocalStore(() => new CoinFilterStore());
 
-  const handleClick = React.useCallback((e: React.MouseEvent) => {
-    const target: any = e.target;
-
-    coinFilterStore.setClickedCategory(target.firstChild.data);
-  }, []);
-
   return (
     <div className={styles.coin__filter}>
-      {coinFilterStore.categories.map((category, index) => {
+      {coinFilterStore.categories.map((category) => {
         return (
           <Button
             key={category}
@@ -27,7 +21,7 @@ const CoinFilter: React.FC = () => {
                 ? coinFilterStore.clickedStyle
                 : coinFilterStore.unclickedStyle
             }
-            onClick={handleClick}
+            onClick={coinFilterStore.handleClick}
           >
             {category}
           </Button>

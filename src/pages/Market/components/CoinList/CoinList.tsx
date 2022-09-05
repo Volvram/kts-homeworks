@@ -1,11 +1,9 @@
 import React from "react";
 
-import CoinListStore, { Coin } from "@store/CoinListStore/CoinListStore";
+import CoinListStore from "@store/CoinListStore/CoinListStore";
 import { useQueryParamsStoreInit } from "@store/RootStore/hooks/useQueryParamsStoreInit";
 import rootStore from "@store/RootStore/instance";
-import { log } from "@utils/log";
 import { useLocalStore } from "@utils/useLocalStore";
-import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import ReactPaginate from "react-paginate";
 import { useSearchParams } from "react-router-dom";

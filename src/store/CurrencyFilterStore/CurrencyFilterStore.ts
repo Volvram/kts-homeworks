@@ -1,4 +1,4 @@
-import { Option } from "@components/Dropdown/Dropdown";
+import { OptionType } from "@components/Dropdown/Dropdown";
 import { CURRENCIES } from "@config/currencies";
 import rootStore from "@store/RootStore/instance";
 import { ILocalStore } from "@utils/useLocalStore";
@@ -15,10 +15,10 @@ import {
 type PrivateFields = "_currency";
 
 export default class CurrencyFilterStore implements ILocalStore {
-  private _currency: Option = rootStore.currency.currency;
+  private _currency: OptionType = rootStore.currency.currency;
   private _description = "Market-";
   private _defaultOptionDescription = "INR";
-  private _currencies: Option[] = CURRENCIES;
+  private _currencies: OptionType[] = CURRENCIES;
 
   constructor() {
     makeObservable<CurrencyFilterStore, PrivateFields>(this, {
@@ -31,7 +31,7 @@ export default class CurrencyFilterStore implements ILocalStore {
     });
   }
 
-  setCurrency(currency: Option) {
+  setCurrency(currency: OptionType) {
     rootStore.currency.setCurrency(currency);
 
     if (currency != this._currency) {

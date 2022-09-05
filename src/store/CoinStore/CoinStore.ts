@@ -1,5 +1,5 @@
+import { COLORS } from "@config/colors";
 import rootStore from "@store/RootStore/instance";
-import { log } from "@utils/log";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
 import {
@@ -43,7 +43,7 @@ export default class CoinStore implements ILocalStore {
     priceChangePercentage24h: 0,
     priceChangePercentage24hToString: "",
   };
-  private _priceChangeColor = "neutral";
+  private _priceChangeColor: string = COLORS.neutral;
 
   constructor() {
     makeObservable<CoinStore, PrivateFields>(this, {
@@ -115,13 +115,13 @@ export default class CoinStore implements ILocalStore {
         if (this._coinData.priceChangePercentage24h > 0) {
           this._coinData.priceChange24hToString = `+ ${this._coinData.priceChange24h}`;
           this._coinData.priceChangePercentage24hToString = `${this._coinData.priceChangePercentage24h}%`;
-          this._priceChangeColor = "positive";
+          this._priceChangeColor = COLORS.positive;
         } else if (this._coinData.priceChangePercentage24h < 0) {
           this._coinData.priceChange24hToString = `- ${-this._coinData
             .priceChange24h}`;
           this._coinData.priceChangePercentage24hToString = `${-this._coinData
             .priceChangePercentage24h}%`;
-          this._priceChangeColor = "negative";
+          this._priceChangeColor = COLORS.negative;
         }
       });
     }

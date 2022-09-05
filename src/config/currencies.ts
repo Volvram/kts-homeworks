@@ -1,8 +1,6 @@
-import { encode, toUnicode } from "punycode";
+import { OptionType } from "@components/Dropdown/Dropdown";
 
-import { Option } from "@components/Dropdown/Dropdown";
-
-export const CURRENCIES: Option[] = [
+export const CURRENCIES: OptionType[] = [
   {
     key: "usd",
     value: "USD",

@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Card } from "@components/Card";
+import { COLORS } from "@config/colors";
 import { Coin } from "@store/CoinListStore/CoinListStore";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
@@ -17,14 +18,14 @@ const Coins: React.FC<CoinsProps> = ({ currentCoins }) => {
       {currentCoins?.map((coin) => {
         const coinPriceChange: string = coin.priceChangePercentage24h;
 
-        let coinPricePercentage: string = `${styles.coin_changePercentage24h}`;
+        let coinPricePercentage: string = `${styles.coin_changePercentage24h} `;
 
         if (coinPriceChange.startsWith("+")) {
-          coinPricePercentage += " positive";
+          coinPricePercentage += COLORS.positive;
         } else if (coinPriceChange.startsWith("-")) {
-          coinPricePercentage += " negative";
+          coinPricePercentage += COLORS.negative;
         } else {
-          coinPricePercentage += " neutral";
+          coinPricePercentage += COLORS.neutral;
         }
 
         return (

@@ -10,7 +10,7 @@ import { observer } from "mobx-react-lite";
 import styles from "./styles.module.scss";
 
 const MarketChange: React.FC = () => {
-  const openContext = useOpenSearchContext();
+  const { setOpenSearch } = useOpenSearchContext();
 
   const marketChangeStore = useLocalStore(() => new MarketChangeStore());
 
@@ -29,7 +29,7 @@ const MarketChange: React.FC = () => {
         </div>
         <Button
           className={styles.enableSearch}
-          onClick={() => openContext.setOpenSearch(true)}
+          onClick={() => setOpenSearch(true)}
         >
           <img src={enableSearch} alt="search"></img>
         </Button>
