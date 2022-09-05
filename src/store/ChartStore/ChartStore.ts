@@ -1,7 +1,6 @@
 import styles from "@pages/Coin/components/Chart/styles.module.scss";
-import { log } from "@utils/log";
 import { ILocalStore } from "@utils/useLocalStore";
-import { makeObservable, observable, action, computed, reaction } from "mobx";
+import { makeObservable, observable, action, computed } from "mobx";
 
 export enum Periods {
   H1 = "1 H",

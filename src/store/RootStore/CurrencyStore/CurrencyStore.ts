@@ -1,15 +1,6 @@
 import { OptionType } from "@components/Dropdown/Dropdown";
 import { CURRENCIES } from "@config/currencies";
-import { log } from "@utils/log";
-import {
-  makeObservable,
-  observable,
-  action,
-  computed,
-  IReactionDisposer,
-  reaction,
-  toJS,
-} from "mobx";
+import { makeObservable, observable, action, computed } from "mobx";
 
 type PrivateFields = "_currency";
 

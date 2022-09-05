@@ -13,7 +13,7 @@ const CurrencyFilter: React.FC = () => {
 
   return (
     <div className={styles.currencyFilter}>
-      <div className={styles.coinsHeader}>Coins</div>
+      <div className={styles.currencyFilter_coinsHeader}>Coins</div>
       <Dropdown
         options={currencyFilterStore.currencies}
         defaultValue={currencyFilterStore.currency}

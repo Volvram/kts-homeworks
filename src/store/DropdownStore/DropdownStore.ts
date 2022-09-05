@@ -7,7 +7,6 @@ import {
   action,
   reaction,
   IReactionDisposer,
-  toJS,
 } from "mobx";
 
 type PrivateFields = "_onChange" | "_listClosed" | "_choice";

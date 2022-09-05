@@ -18,7 +18,7 @@ const MarketSearch: React.FC = () => {
     <div className={styles.search}>
       <div className={styles.search_line}>
         <Button className={styles.search_line_submit} onClick={() => {}}>
-          <img src={search}></img>
+          <img src={search} alt="" />
         </Button>
 
         <Input

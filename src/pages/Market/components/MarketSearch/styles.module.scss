@@ -1,39 +1,39 @@
 @import "@styles/variables.scss";
 
-.search{
-    margin-left: 16px;
-    margin-bottom: 34px;
+.search {
+  margin-left: 16px;
+  margin-bottom: 34px;
 
-    display:flex;
+  display: flex;
 
-    &_line{
-        margin-right: 16px;
+  &_line {
+    margin-right: 16px;
 
-        width: 269px;
-        height: 40px;
+    width: 269px;
+    height: 40px;
 
-        background: #FFFFFF;
-        border: 1px solid #DFE2E4;
-        border-radius: 4px;
+    background: #ffffff;
+    border: 1px solid #dfe2e4;
+    border-radius: 4px;
 
-        display: flex;
-        align-items: center;
+    display: flex;
+    align-items: center;
 
-        &_submit{
-            margin-left: 8px;
-            margin-right: 12px;
+    &_submit {
+      margin-left: 8px;
+      margin-right: 12px;
 
-            width: 16px;
-            height: 16px;
-        }
-
-        &_input{
-            padding: 0px 2px;
-    
-            height: 40px;
-            width: 229px;
-
-            font-family: $main-font-family;
-        }
+      width: 16px;
+      height: 16px;
     }
+
+    &_input {
+      padding: 0px 2px;
+
+      height: 40px;
+      width: 229px;
+
+      font-family: $main-font-family;
+    }
+  }
 }

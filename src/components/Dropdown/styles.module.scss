@@ -1,52 +1,52 @@
 @import "@styles/variables.scss";
 
 $option-padding: 5px 8px;
-$option-background: #F8F9FA;
-$choice-border: 0.5px solid #DFE2E4;
+$option-background: #f8f9fa;
+$choice-border: 0.5px solid #dfe2e4;
 
-.dropdown{
-    cursor: pointer;
+.dropdown {
+  cursor: pointer;
 
-    list-style: none;
+  list-style: none;
 
-    position: relative;
+  position: relative;
 
-    color: $grey-color;
+  color: $grey-color;
 
-    font-family: $main-font-family;
-    font-style: normal;
-    font-weight: 450;
-    font-size: 12px;
-    line-height: 15px;
+  font-family: $main-font-family;
+  font-style: normal;
+  font-weight: 450;
+  font-size: 12px;
+  line-height: 15px;
 
-    &__closed{
-        border: $choice-border;
-        border-radius: 12px;
-    }
+  &__closed {
+    border: $choice-border;
+    border-radius: 12px;
+  }
 
-    &__opened{
-        border: $choice-border;
-        border-radius: 12px 12px 0 0;
-    }
+  &__opened {
+    border: $choice-border;
+    border-radius: 12px 12px 0 0;
+  }
 
-    &_choice{
-        padding: $option-padding;
+  &_choice {
+    padding: $option-padding;
 
-        min-width:71px;
+    min-width: 71px;
 
-        background: $option-background;
-        border: $choice-border;
-    }
+    background: $option-background;
+    border: $choice-border;
+  }
 
-    &_option{
-        padding: $option-padding;
-        
-        background: $option-background;
-        border: solid #DFE2E4;
-        border-width: 0px 0.5px 0.5px 0.5px;
-    }
+  &_option {
+    padding: $option-padding;
 
-    &_options_container{
-        position: absolute;
-    }
+    background: $option-background;
+    border: solid #dfe2e4;
+    border-width: 0px 0.5px 0.5px 0.5px;
+  }
+
+  &_options_container {
+    position: absolute;
+  }
 }

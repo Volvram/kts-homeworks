@@ -1,5 +1,9 @@
 import { OptionType } from "@components/Dropdown/Dropdown";
 import { CURRENCIES } from "@config/currencies";
+import {
+  coinItemApi,
+  normalizeCoinItem,
+} from "@store/models/CoinItem/CoinItem";
 import { CoinCategories } from "@store/RootStore/CoinTrendStore/CoinTrendStore";
 import rootStore from "@store/RootStore/instance";
 import { log } from "@utils/log";
@@ -132,14 +136,10 @@ export default class CoinListStore implements ILocalStore {
     });
 
     runInAction(() => {
-      let currencySymbol: string | undefined = this._currencies.find(
-        (currency) => currency.key === this._currencyParams.key
-      )?.symbol;
-
       if (searchParams != null && searchParams != undefined) {
         this.setCoins(
           result.data
-            .filter((coin: any) => {
+            .filter((coin: coinItemApi) => {
               const name = coin.name.toLowerCase();
               const symbol = coin.symbol.toLowerCase();
               const params =
@@ -148,7 +148,7 @@ export default class CoinListStore implements ILocalStore {
                   : `${searchParams}`;
               return name.includes(params) || symbol.includes(params);
             })
-            .filter((coin: any) => {
+            .filter((coin: coinItemApi) => {
               if (this._coinTrendParams === CoinCategories.Gainer) {
                 return coin.price_change_percentage_24h > 0;
               } else if (this._coinTrendParams === CoinCategories.Loser) {
@@ -157,33 +157,12 @@ export default class CoinListStore implements ILocalStore {
                 return true;
               }
             })
-            .map((coin: any) => {
-              let priceChange: string = "";
-
-              if (coin.price_change_percentage_24h > 0) {
-                priceChange = `+${coin.price_change_percentage_24h.toFixed(
-                  2
-                )}%`;
-              } else if (coin.price_change_percentage_24h <= 0) {
-                priceChange = `${coin.price_change_percentage_24h.toFixed(2)}%`;
-              }
-
-              return {
-                id: coin.id,
-                name: coin.name,
-                symbol: coin.symbol.toUpperCase(),
-                image: coin.image,
-                currentPrice: `${currencySymbol} ${coin.current_price.toFixed(
-                  2
-                )}`,
-                priceChangePercentage24h: priceChange,
-              };
-            })
+            .map(normalizeCoinItem)
         );
       } else {
         this.setCoins(
           result.data
-            .filter((coin: any) => {
+            .filter((coin: coinItemApi) => {
               if (this._coinTrendParams === CoinCategories.Gainer) {
                 return coin.price_change_percentage_24h > 0;
               } else if (this._coinTrendParams === CoinCategories.Loser) {
@@ -192,28 +171,7 @@ export default class CoinListStore implements ILocalStore {
                 return true;
               }
             })
-            .map((coin: any) => {
-              let priceChange: string = "";
-
-              if (coin.price_change_percentage_24h > 0) {
-                priceChange = `+${coin.price_change_percentage_24h.toFixed(
-                  2
-                )}%`;
-              } else if (coin.price_change_percentage_24h <= 0) {
-                priceChange = `${coin.price_change_percentage_24h.toFixed(2)}%`;
-              }
-
-              return {
-                id: coin.id,
-                name: coin.name,
-                symbol: coin.symbol.toUpperCase(),
-                image: coin.image,
-                currentPrice: `${currencySymbol} ${coin.current_price.toFixed(
-                  2
-                )}`,
-                priceChangePercentage24h: priceChange,
-              };
-            })
+            .map(normalizeCoinItem)
         );
       }
     });

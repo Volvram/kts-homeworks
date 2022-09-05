@@ -27,4 +27,4 @@ const Header: React.FC<HeaderProps> = ({ coinData }) => {
   );
 };
 
-export default Header; // с React.memo не отображаются данные
+export default Header;

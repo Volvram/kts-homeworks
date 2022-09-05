@@ -1,43 +1,50 @@
-@import '@styles/variables.scss';
+@import "@styles/variables.scss";
 
-.coinList{
-    display: flex;
-    justify-content: space-around;
-    flex-direction: column;
+.link {
+  text-decoration: none;
+  margin-top: 8px;
+  margin-left: 16px;
+  margin-right: 16px;
 }
 
-.coin{
-    padding: 16px;
+.coins {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
 
-    &_chartAndPriceAndChangePercentage24h{
-        margin-left: auto;
+.coin {
+  padding: 16px;
 
-        display:flex;
-    }
+  &_chartAndPriceAndChangePercentage24h {
+    margin-left: auto;
 
-    &_chart{
-        
-    }
+    display: flex;
+  }
 
-    &_priceAndChangePercentage24h{
-        display:flex;
-        flex-direction:column;
-        align-items: flex-end;
-    }
+  &_chart {
+    width: 50px;
+    height: 25px;
+  }
 
-    &_price{
-        margin-bottom:5px;
+  &_priceAndChangePercentage24h {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
 
-        color: $black-color;
+  &_price {
+    margin-bottom: 5px;
 
-        font-family: $main-font-family;
-        font-weight:450;
-    }
+    color: $black-color;
 
-    &_changePercentage24h{
+    font-family: $main-font-family;
+    font-weight: 450;
+  }
 
-        font-family: $main-font-family;
-        font-weight:500;
-        font-size: 10px;
-    }
+  &_changePercentage24h {
+    font-family: $main-font-family;
+    font-weight: 500;
+    font-size: 10px;
+  }
 }

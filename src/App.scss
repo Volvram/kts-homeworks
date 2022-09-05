@@ -1,22 +1,22 @@
 @import "@styles/variables.scss";
 @import "@assets/fonts/CircularStd/CircularStd.css";
 
-.App{
-    background: #F8F9FA;
+.App {
+  background: #f8f9fa;
 
-    max-width: $screen-size__phone;
+  max-width: $screen-size__phone;
 
-    margin: $content-align-center;
+  margin: $content-align-center;
 }
 
-.positive{
-    color: #21BF73;
+.positive {
+  color: #21bf73;
 }
 
-.negative{
-    color: #D90429;
+.negative {
+  color: #d90429;
 }
 
-.neutral{
-    color: #6C757D;
+.neutral {
+  color: #6c757d;
 }

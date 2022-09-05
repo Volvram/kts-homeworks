@@ -1,18 +1,18 @@
 @import "@styles/variables.scss";
 
 .currencyFilter {
-    margin-top: 31px;
-    padding-left: 16px;
-    padding-right: 16px;
+  margin-top: 31px;
+  padding-left: 16px;
+  padding-right: 16px;
 
-    display: flex;
-    justify-content: space-between;
-}
+  display: flex;
+  justify-content: space-between;
 
-.coinsHeader {
+  &_coinsHeader {
     font-family: $main-font-family;
     font-style: normal;
     font-weight: 500;
     font-size: 18px;
     line-height: 23px;
+  }
 }

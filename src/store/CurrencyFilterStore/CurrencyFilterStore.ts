@@ -2,15 +2,7 @@ import { OptionType } from "@components/Dropdown/Dropdown";
 import { CURRENCIES } from "@config/currencies";
 import rootStore from "@store/RootStore/instance";
 import { ILocalStore } from "@utils/useLocalStore";
-import {
-  makeObservable,
-  observable,
-  computed,
-  action,
-  reaction,
-  IReactionDisposer,
-  toJS,
-} from "mobx";
+import { makeObservable, observable, computed, action } from "mobx";
 
 type PrivateFields = "_currency";
 

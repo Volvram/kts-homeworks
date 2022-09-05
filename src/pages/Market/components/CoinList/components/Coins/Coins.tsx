@@ -14,7 +14,7 @@ type CoinsProps = {
 
 const Coins: React.FC<CoinsProps> = ({ currentCoins }) => {
   return (
-    <div className={styles.coinList}>
+    <div className={styles.coins}>
       {currentCoins?.map((coin) => {
         const coinPriceChange: string = coin.priceChangePercentage24h;
 
@@ -29,16 +29,7 @@ const Coins: React.FC<CoinsProps> = ({ currentCoins }) => {
         }
 
         return (
-          <Link
-            to={`/coin/${coin.id}`}
-            key={coin.id}
-            style={{
-              textDecoration: "none",
-              marginTop: "8px",
-              marginLeft: "16px",
-              marginRight: "16px",
-            }}
-          >
+          <Link to={`/coin/${coin.id}`} key={coin.id} className={styles.link}>
             <Card
               image={coin.image}
               title={coin.name}
@@ -48,10 +39,7 @@ const Coins: React.FC<CoinsProps> = ({ currentCoins }) => {
                 <div
                   className={styles.coin_chartAndPriceAndChangePercentage24h}
                 >
-                  <div
-                    className={styles.coin_chart}
-                    style={{ width: "50px", height: "25px" }}
-                  ></div>
+                  <div className={styles.coin_chart}></div>
                   <div className={styles.coin_priceAndChangePercentage24h}>
                     <div className={styles.coin_price}>{coin.currentPrice}</div>
                     <div className={coinPricePercentage}>

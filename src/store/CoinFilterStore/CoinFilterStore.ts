@@ -2,7 +2,7 @@ import styles from "@pages/Market/components/CoinFilter/styles.module.scss";
 import { CoinCategories } from "@store/RootStore/CoinTrendStore/CoinTrendStore";
 import rootStore from "@store/RootStore/instance";
 import { ILocalStore } from "@utils/useLocalStore";
-import { makeObservable, observable, action, computed, reaction } from "mobx";
+import { makeObservable, observable, action, computed } from "mobx";
 
 type PrivateFields =
   | "_categories"

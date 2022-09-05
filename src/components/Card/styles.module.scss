@@ -1,42 +1,42 @@
 @import "@styles/variables.scss";
 
-.card{
-    background: #FFFFFF;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
-    border-radius: 8px;
+.card {
+  background: #ffffff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
+  border-radius: 8px;
 
-    display:flex;
+  display: flex;
 
-    text-decoration:none;
+  text-decoration: none;
 
-    &_image{
-        @include square(40px, 40px);
-    }
+  &_image {
+    @include square(40px, 40px);
+  }
 
-    &_titleAndSubtitle{
-        margin-left:12px;
+  &_titleAndSubtitle {
+    margin-left: 12px;
 
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-    }
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
 
-    &_title{
-        text-decoration:none;
+  &_title {
+    text-decoration: none;
 
-        color: $black-color;
+    color: $black-color;
 
-        font-family:$main-font-family;
-        font-weight:450;
-    }
+    font-family: $main-font-family;
+    font-weight: 450;
+  }
 
-    &_subtitle{
-        text-decoration:none;
+  &_subtitle {
+    text-decoration: none;
 
-        color: $grey-color;
+    color: $grey-color;
 
-        font-family:$main-font-family;
-        font-weight:450;
-        font-size: 12px;
-    }
+    font-family: $main-font-family;
+    font-weight: 450;
+    font-size: 12px;
+  }
 }
