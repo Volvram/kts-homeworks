@@ -32,7 +32,6 @@ const CoinList: React.FC = () => {
     coinListStore.changePage();
   }, []);
 
-
   return (
     <>
       <Coins currentCoins={coinListStore.currentItems} />

@@ -7,7 +7,7 @@ import CoinList from "./components/CoinList/CoinList";
 import CurrencyFilter from "./components/CurrencyFilter/CurrencyFilter";
 import MarketChange from "./components/MarketChange/MarketChange";
 import MarketSearch from "./components/MarketSearch/MarketSearch";
-import styleMarket from "./Market.module.scss";
+import styles from "./styles.module.scss";
 
 const OpenSearch = createContext({
   openSearch: false,
@@ -20,13 +20,13 @@ const Market: React.FC = () => {
   const [openSearch, setOpenSearch] = React.useState<boolean>(false);
 
   return (
-    <div className={styleMarket.market}>
+    <div className={styles.market}>
       {!openSearch && (
         <OpenSearchProvider value={{ openSearch, setOpenSearch }}>
           <MarketChange />
           <CurrencyFilter />
           <CoinFilter />
-          <hr className={styleMarket.listLine}></hr>
+          <hr className={styles.listLine}></hr>
         </OpenSearchProvider>
       )}
 

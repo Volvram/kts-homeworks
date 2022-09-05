@@ -4,12 +4,10 @@ import enableSearch from "@assets/img/enableSearch.svg";
 import { Button } from "@components/Button/Button";
 import { useOpenSearchContext } from "@pages/Market/Market";
 import MarketChangeStore from "@store/MarketChangeStore/MarketChangeStore";
-import { log } from "@utils/log";
 import { useLocalStore } from "@utils/useLocalStore";
-import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 
-import styleMarketChange from "./MarketChange.module.scss";
+import styles from "./styles.module.scss";
 
 const MarketChange: React.FC = () => {
   const openContext = useOpenSearchContext();
@@ -22,23 +20,21 @@ const MarketChange: React.FC = () => {
 
   return (
     <div>
-      <div className={styleMarketChange.market_change}>
-        <div className={styleMarketChange.market_change_trend}>
+      <div className={styles.market_change}>
+        <div className={styles.market_change_trend}>
           Market is {marketChangeStore.marketTrend}
         </div>
         <div className={marketChangeStore.marketColor}>
           {marketChangeStore.marketPercentage}
         </div>
         <Button
-          className={styleMarketChange.enableSearch}
+          className={styles.enableSearch}
           onClick={() => openContext.setOpenSearch(true)}
         >
           <img src={enableSearch} alt="search"></img>
         </Button>
       </div>
-      <div className={styleMarketChange.market_change_period}>
-        In the past 24 hours
-      </div>
+      <div className={styles.market_change_period}>In the past 24 hours</div>
     </div>
   );
 };

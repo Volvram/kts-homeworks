@@ -84,15 +84,18 @@ export default class CoinStore implements ILocalStore {
         url: `https://api.coingecko.com/api/v3/coins/${this._id}`,
       });
 
+      const currencyFormat = this._currency.key === "rub" ? "ru-RU" : "en-US";
+
       runInAction(() => {
         this._coinData.id = result.data.id;
         this._coinData.name = result.data.name;
         this._coinData.symbol = result.data.symbol;
         this._coinData.image = result.data.image.large;
-        this._coinData.currentPrice =
-          result.data.market_data.current_price[
-            this._currency.key.toLowerCase()
-          ].toFixed(2);
+        this._coinData.currentPrice = result.data.market_data.current_price[
+          this._currency.key.toLowerCase()
+        ]
+          .toFixed(2)
+          .toLocaleString(currencyFormat);
         this._coinData.currencySymbol = this._currency.symbol;
         this._coinData.priceChange24h =
           result.data.market_data.price_change_24h_in_currency[

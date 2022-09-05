@@ -6,14 +6,14 @@ import CurrencyFilterStore from "@store/CurrencyFilterStore/CurrencyFilterStore"
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
 
-import styleCurrencyFilter from "./CurrencyFilter.module.scss";
+import styles from "./styles.module.scss";
 
 const CurrencyFilter: React.FC = () => {
   const currencyFilterStore = useLocalStore(() => new CurrencyFilterStore());
 
   return (
-    <div className={styleCurrencyFilter.currencyFilter}>
-      <div className={styleCurrencyFilter.coinsHeader}>Coins</div>
+    <div className={styles.currencyFilter}>
+      <div className={styles.coinsHeader}>Coins</div>
       <Dropdown
         options={currencyFilterStore.currencies}
         defaultValue={currencyFilterStore.currency}

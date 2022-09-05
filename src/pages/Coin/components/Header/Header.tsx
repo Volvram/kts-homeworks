@@ -1,11 +1,11 @@
 import React from "react";
 
-import back from "@assets//img/back.svg";
+import back from "@assets/img/back.svg";
 import favourite from "@assets/img/favourite.svg";
 import { CoinData } from "@store/CoinStore/CoinStore";
 import { Link } from "react-router-dom";
 
-import headerStyle from "./Header.module.scss";
+import styles from "./styles.module.scss";
 
 type HeaderProps = {
   coinData: CoinData;
@@ -13,22 +13,18 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = ({ coinData }) => {
   return (
-    <div className={headerStyle.header}>
-      <Link className={headerStyle.header_back} to={`/`}>
-        <img src={back} alt=""></img>
+    <div className={styles.header}>
+      <Link className={styles.header_back} to={`/`}>
+        <img src={back} alt="" />
       </Link>
-      <img
-        className={headerStyle.header_image}
-        src={coinData.image}
-        alt=""
-      ></img>
-      <div className={headerStyle.header_name}>{coinData.name}</div>
-      <div className={headerStyle.header_symbol}>
+      <img className={styles.header_image} src={coinData.image} alt="" />
+      <div className={styles.header_name}>{coinData.name}</div>
+      <div className={styles.header_symbol}>
         ({coinData.symbol.toUpperCase()})
       </div>
-      <img src={favourite} alt=""></img>
+      <img src={favourite} alt="" />
     </div>
   );
 };
 
-export default Header;
+export default Header; // с React.memo не отображаются данные

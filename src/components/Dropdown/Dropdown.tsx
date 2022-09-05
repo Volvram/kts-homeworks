@@ -1,10 +1,10 @@
 import React from "react";
 
+import DropDownStore from "@store/DropdownStore/DropdownStore";
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
 
-import DropDownStore from "../../store/DropdownStore/DropdownStore";
-import dropdownStyle from "./Dropdown.module.scss";
+import styles from "./styles.module.scss";
 
 /** Вариант для выбора в фильтре */
 export type Option = {
@@ -16,7 +16,7 @@ export type Option = {
 /** Пропсы, которые принимает компонент Dropdown */
 export type DropdownProps = {
   options: Option[];
-  defaultValue: Option;
+  defaultValue?: Option;
   /** Callback, вызываемый при выборе варианта */
   onChange: (value: Option) => void;
   description?: string;
@@ -26,7 +26,7 @@ export type DropdownProps = {
 
 const Dropdown: React.FC<DropdownProps> = ({
   options,
-  defaultValue,
+  defaultValue = null,
   onChange,
   description = "",
   defaultOptionDescription = "",
@@ -38,12 +38,12 @@ const Dropdown: React.FC<DropdownProps> = ({
   dropdownStore.setChoice(defaultValue);
 
   return (
-    <div className={dropdownStyle.dropdown}>
+    <div className={styles.dropdown}>
       <div
         className={
           dropdownStore.listClosed
-            ? `${dropdownStyle.dropdown_choice} ${dropdownStyle.dropdown__closed}`
-            : `${dropdownStyle.dropdown_choice} ${dropdownStyle.dropdown__opened}`
+            ? `${styles.dropdown_choice} ${styles.dropdown__closed}`
+            : `${styles.dropdown_choice} ${styles.dropdown__opened}`
         }
         onClick={() => dropdownStore.setListClosed()}
       >
@@ -65,7 +65,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                   }}
                 >
                   <div
-                    className={dropdownStyle.dropdown_option}
+                    className={styles.dropdown_option}
                   >{`${description} ${option.value}`}</div>
                 </li>
               );

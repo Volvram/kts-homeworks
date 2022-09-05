@@ -40,12 +40,17 @@ export default class DropDownStore implements ILocalStore {
   setListClosed(): void {
     this._listClosed = !this._listClosed;
   }
+
   get listClosed() {
     return this._listClosed;
   }
-  setChoice(newChoice: Option): void {
-    this._choice = newChoice;
+
+  setChoice(newChoice: Option | null): void {
+    if (newChoice && this._choice?.key != newChoice?.key) {
+      this._choice = newChoice;
+    }
   }
+
   get choice() {
     return this._choice;
   }

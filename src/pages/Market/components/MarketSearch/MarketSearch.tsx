@@ -7,7 +7,7 @@ import { useOpenSearchContext } from "@pages/Market/Market";
 import { observer } from "mobx-react-lite";
 import { useSearchParams } from "react-router-dom";
 
-import searchMarketSearch from "./MarketSearch.module.scss";
+import styles from "./styles.module.scss";
 
 const MarketSearch: React.FC = () => {
   const OpenSearchContext = useOpenSearchContext();
@@ -15,17 +15,14 @@ const MarketSearch: React.FC = () => {
   let [searchParams, setSearchParams] = useSearchParams();
 
   return (
-    <div className={searchMarketSearch.search}>
-      <div className={searchMarketSearch.search_line}>
-        <Button
-          className={searchMarketSearch.search_line_submit}
-          onClick={() => {}}
-        >
+    <div className={styles.search}>
+      <div className={styles.search_line}>
+        <Button className={styles.search_line_submit} onClick={() => {}}>
           <img src={search}></img>
         </Button>
 
         <Input
-          className={searchMarketSearch.search_line_input}
+          className={styles.search_line_input}
           value={
             searchParams.get("search") != null
               ? `${searchParams.get("search")}`

@@ -2,6 +2,7 @@ declare module '*.ts';
 
 declare module '*.scss';
 declare module 'styled-components';
+declare module 'classnames';
 
 declare module 'paginate-array';
 

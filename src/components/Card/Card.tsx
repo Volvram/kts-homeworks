@@ -1,6 +1,11 @@
 import React from "react";
 
-import styleCard from "./Card.module.scss";
+import cn from "classnames";
+import cnBind from "classnames/bind";
+
+import styles from "./styles.module.scss";
+
+const cx = cnBind.bind(styles);
 
 export type CardProps = {
   /** URL изображения */
@@ -25,18 +30,14 @@ export const Card: React.FC<CardProps> = ({
   onClick,
   className,
 }) => {
-  let classes = `${styleCard.card}`;
-
-  if (className) {
-    classes += ` ${className}`;
-  }
+  const classNames = cx({ card: true });
 
   return (
-    <div className={classes} onClick={onClick}>
-      <img src={image} className={styleCard.card_image} alt=""></img>
-      <div className={styleCard.card_titleAndSubtitle}>
-        <div className={styleCard.card_title}>{title}</div>
-        <div className={styleCard.card_subtitle}>{subtitle}</div>
+    <div className={cn(classNames, className)} onClick={onClick}>
+      <img src={image} className={styles.card_image} alt="" />
+      <div className={styles.card_titleAndSubtitle}>
+        <div className={styles.card_title}>{title}</div>
+        <div className={styles.card_subtitle}>{subtitle}</div>
       </div>
       {content}
     </div>

@@ -1,16 +1,14 @@
 import React from "react";
 
 import { Card } from "@components/Card/Card";
-import { Option } from "@components/Dropdown/Dropdown";
 import CoinStore from "@store/CoinStore/CoinStore";
 import { useLocalStore } from "@utils/useLocalStore";
-import axios from "axios";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 
-import coinStyle from "./Coin.module.scss";
 import Chart from "./components/Chart/Chart";
 import Header from "./components/Header/Header";
+import styles from "./styles.module.scss";
 
 export type CoinData = {
   id: string;
@@ -34,18 +32,18 @@ const Coin: React.FC = () => {
   }, []);
 
   return (
-    <div className={coinStyle.coinPage}>
+    <div className={styles.coinPage}>
       <Header coinData={coinStore.coinData} />
-      <div className={coinStyle.price}>
-        <div className={coinStyle.price_current}>
-          <div className={coinStyle.price_current_currency}>
+      <div className={styles.price}>
+        <div className={styles.price_current}>
+          <div className={styles.price_current_currency}>
             {coinStore.coinData.currencySymbol}
           </div>
           <div>{coinStore.coinData.currentPrice}</div>
         </div>
-        <div className={coinStyle.price_change}>
+        <div className={styles.price_change}>
           <div
-            className={`${coinStyle.price_change_number} ${coinStore.priceChangeColor}`}
+            className={`${styles.price_change_number} ${coinStore.priceChangeColor}`}
           >
             {coinStore.coinData.priceChange24hToString}
           </div>
@@ -59,22 +57,22 @@ const Coin: React.FC = () => {
         image={coinStore.coinData.image}
         title={coinStore.coinData.name}
         subtitle={coinStore.coinData.symbol.toUpperCase()}
-        className={coinStyle.coinCard}
+        className={styles.coinCard}
         content={
-          <div className={coinStyle.coinCard_content}>
-            <div className={coinStyle.coinCard_content_price}>
+          <div className={styles.coinCard_content}>
+            <div className={styles.coinCard_content_price}>
               {coinStore.coinData.currencySymbol}
               {coinStore.coinData.currentPrice}
             </div>
             <div
-              className={`${coinStyle.coinCard_content_percentage} ${coinStore.priceChangeColor}`}
+              className={`${styles.coinCard_content_percentage} ${coinStore.priceChangeColor}`}
             >
               {coinStore.coinData.priceChangePercentage24hToString}
             </div>
           </div>
         }
       />
-      <div className={coinStyle.transactions}>Transactions</div>
+      <div className={styles.transactions}>Transactions</div>
     </div>
   );
 };
