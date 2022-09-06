@@ -223,7 +223,6 @@ export default class CoinListStore implements ILocalStore {
   readonly _currencyHandler: IReactionDisposer = reaction(
     () => this._currencyParams,
     () => {
-      log("in coinListStore: ", toJS(this._currencyParams));
       this.changePage();
     }
   );

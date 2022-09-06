@@ -6,7 +6,7 @@ import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 
-import ChartLine from "./components/Chart/ChartLine";
+import ChartLine from "./components/ChartLine/ChartLine";
 import Header from "./components/Header/Header";
 import styles from "./styles.module.scss";
 

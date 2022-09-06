@@ -2,30 +2,32 @@ import React from "react";
 
 import { Button } from "@components/Button/Button";
 import ChartStore from "@store/ChartLineStore/ChartLineStore";
+import { log } from "@utils/log";
 import { useLocalStore } from "@utils/useLocalStore";
 import { Chart as ChartJS, registerables } from "chart.js";
+import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import { Chart } from "react-chartjs-2";
 import { Line } from "react-chartjs-2";
+import { useParams } from "react-router-dom";
 
 import styles from "./styles.module.scss";
 ChartJS.register(...registerables);
 
 const ChartLine: React.FC = () => {
+  const { id } = useParams();
+
   const chartStore = useLocalStore(() => new ChartStore());
 
+  React.useEffect(() => {
+    chartStore.setId(id);
+    chartStore.pricesRequest();
+  }, []);
+
+  React.useEffect(() => {}, chartStore.dates);
+
   const CHARTDATA = {
-    labels: [
-      "7:00",
-      "8:00",
-      "9:00",
-      "10:00",
-      "11:00",
-      "12:00",
-      "13:00",
-      "14:00",
-      "15:00",
-    ],
+    labels: toJS(chartStore.dates),
     datasets: [
       {
         label: "Price",
@@ -33,7 +35,7 @@ const ChartLine: React.FC = () => {
         backgroundColor: "#0063F5",
         borderColor: "#0063F5",
         pointRadius: 1,
-        data: [0, 100, 10, 5, 2, 20, 30, 45, 7, 58],
+        data: toJS(chartStore.prices),
       },
     ],
   };
