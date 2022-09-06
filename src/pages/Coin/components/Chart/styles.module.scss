@@ -2,7 +2,9 @@
   margin-top: 18px;
 
   &_line {
-    // Временно
+    padding-left: 16px;
+    padding-right: 16px;
+
     height: 335px;
   }
 
@@ -17,6 +19,8 @@
 
     &_button {
       padding: 6px 10px;
+
+      color: #6C757D;
 
       background: #f8f9fa;
       border: 0.5px solid #dfe2e4;
