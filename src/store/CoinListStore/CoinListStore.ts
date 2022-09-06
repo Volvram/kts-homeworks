@@ -180,9 +180,6 @@ export default class CoinListStore implements ILocalStore {
   handlePageClick = (event: { selected: number }) => {
     const newOffset =
       (event.selected * this._itemsPerPage) % this._coins.length;
-    log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
     this.setItemOffset(newOffset);
     this.changePage();
   };
@@ -190,7 +187,6 @@ export default class CoinListStore implements ILocalStore {
   changePage() {
     this.coinRequest(rootStore.query.getParam("search")).then(() => {
       const endOffset = this._itemOffset + this._itemsPerPage;
-      log(`Loading items from ${this._itemOffset} to ${endOffset}`);
       this.setCurrentItems(this._coins.slice(this._itemOffset, endOffset));
       this.setPageCount(Math.ceil(this._coins.length / this._itemsPerPage));
     });
@@ -237,7 +233,6 @@ export default class CoinListStore implements ILocalStore {
   readonly _searchHandler: IReactionDisposer = reaction(
     () => rootStore.query.getParam("search"),
     (searchParams) => {
-      log("search: ", toJS(searchParams));
       this.changePage();
     }
   );
