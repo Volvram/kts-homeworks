@@ -145,8 +145,8 @@ export default class ChartStore implements ILocalStore {
           result.data.prices
             .filter((price: number[]) => {
               return (
-                new Date(price[0]).getMinutes() == 0 ||
-                new Date(price[0]).getMinutes() == 1
+                new Date(price[0]).getMinutes() >= 0 &&
+                new Date(price[0]).getMinutes() < 5
               );
             })
             .map((price: number[]) => {
