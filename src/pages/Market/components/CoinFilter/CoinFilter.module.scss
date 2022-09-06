@@ -1,0 +1,24 @@
+@import "@config/variables.scss";
+
+.coin__filter{
+    padding-top: 24px;
+    padding-left: 4px;
+    padding-right:4px;
+
+    display:flex;
+
+    &_choice{
+        margin-left: 16px;
+        margin-right: 16px;
+
+        color: $grey-color;
+
+        font-family: $main-font-family;
+
+        &__clicked{
+            border-bottom: 3px solid #0063F5;
+
+            color: #0063F5;
+        }
+    }
+}
