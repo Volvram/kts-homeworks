@@ -2,9 +2,13 @@ import React from "react";
 
 import DropDownStore from "@store/DropdownStore/DropdownStore";
 import { useLocalStore } from "@utils/useLocalStore";
+import cn from "classnames";
+import cnBind from "classnames/bind";
 import { observer } from "mobx-react-lite";
 
 import styles from "./styles.module.scss";
+
+const cx = cnBind.bind(styles);
 
 /** Вариант для выбора в фильтре */
 export type OptionType = {
@@ -32,20 +36,25 @@ const Dropdown: React.FC<DropdownProps> = ({
   defaultOptionDescription = "",
   disabled = false,
 }) => {
-  const dropdownStore = useLocalStore(() => new DropDownStore());
-  dropdownStore.setOnChange(onChange);
+  const dropdownStore = useLocalStore(
+    () => new DropDownStore(defaultValue, onChange)
+  );
 
-  dropdownStore.setChoice(defaultValue);
+  const handleList = React.useCallback(() => {
+    dropdownStore.toggleListClosed();
+  }, []);
 
   return (
     <div className={styles.dropdown}>
       <div
-        className={
-          dropdownStore.listClosed
-            ? `${styles.dropdown_choice} ${styles.dropdown__closed}`
-            : `${styles.dropdown_choice} ${styles.dropdown__opened}`
-        }
-        onClick={() => dropdownStore.setListClosed()}
+        className={cn(
+          cx({
+            dropdown_choice: true,
+            dropdown__closed: dropdownStore.listClosed,
+            dropdown__opened: !dropdownStore.listClosed,
+          })
+        )}
+        onClick={handleList}
       >
         {dropdownStore.choice !== null &&
           `${description} ${dropdownStore.choice.value}`}

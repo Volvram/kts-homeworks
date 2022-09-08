@@ -2,7 +2,7 @@ import React from "react";
 
 import { Button } from "@components/Button/Button";
 import ChartStore from "@store/ChartLineStore/ChartLineStore";
-import { log } from "@utils/log";
+import rootStore from "@store/RootStore/instance";
 import { useLocalStore } from "@utils/useLocalStore";
 import { Chart as ChartJS, registerables } from "chart.js";
 import { toJS } from "mobx";
@@ -24,13 +24,11 @@ const ChartLine: React.FC = () => {
     chartStore.pricesRequest();
   }, []);
 
-  React.useEffect(() => {}, chartStore.dates);
-
   const CHARTDATA = {
     labels: toJS(chartStore.dates),
     datasets: [
       {
-        label: "Price",
+        label: `${rootStore.currency.currency.symbol}`,
         spanGaps: false,
         backgroundColor: "#0063F5",
         borderColor: "#0063F5",

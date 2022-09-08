@@ -14,28 +14,34 @@ type PrivateFields = "_onChange" | "_listClosed" | "_choice";
 export default class DropDownStore implements ILocalStore {
   private _onChange = (value: OptionType) => {};
 
-  private _listClosed: boolean = true;
+  private _listClosed = true;
   private _choice: OptionType | null = null;
 
-  constructor() {
+  constructor(
+    defaultValue: OptionType | null,
+    onChange: (value: OptionType) => void
+  ) {
     makeObservable<DropDownStore, PrivateFields>(this, {
       _onChange: observable,
       setOnChange: action,
       _listClosed: observable,
       _choice: observable,
-      setListClosed: action,
+      toggleListClosed: action,
       listClosed: computed,
       setChoice: action,
       choice: computed,
       destroy: action,
     });
+
+    this._choice = defaultValue;
+    this._onChange = onChange;
   }
 
   setOnChange(onChange: (value: OptionType) => void) {
     this._onChange = onChange;
   }
 
-  setListClosed(): void {
+  toggleListClosed(): void {
     this._listClosed = !this._listClosed;
   }
 

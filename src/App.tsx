@@ -1,9 +1,8 @@
-import React from "react"; //CreateContext для работы с Context API
+import React from "react";
 
 import Coin from "@pages/Coin/Coin";
 import Market from "@pages/Market/Market";
-import { observer } from "mobx-react-lite";
-import { Routes, Route, Navigate } from "react-router-dom"; //yarn add react-router-dom@6
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import "./App.scss";
 
@@ -22,4 +21,4 @@ const App: React.FC = () => {
   );
 };
 
-export default observer(App);
+export default App;
