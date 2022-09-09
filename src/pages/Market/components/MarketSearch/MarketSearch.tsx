@@ -14,34 +14,34 @@ const MarketSearch: React.FC = () => {
 
   let [searchParams, setSearchParams] = useSearchParams();
 
+  const handleChange = React.useCallback((value: string) => {
+    searchParams.set("search", value);
+    setSearchParams(searchParams);
+  }, []);
+
+  const handleClick = React.useCallback(() => {
+    setOpenSearch(false);
+  }, []);
+
   return (
     <div className={styles.search}>
       <div className={styles.search_line}>
-        <Button className={styles.search_line_submit} onClick={() => {}}>
-          <img src={search} alt="" />
+        <Button className={styles.search_line_submit}>
+          <img src={search} alt="search" />
         </Button>
 
         <Input
           className={styles.search_line_input}
           value={
-            searchParams.get("search") != null
+            searchParams.get("search") !== null
               ? `${searchParams.get("search")}`
               : ""
           }
-          onChange={(value: string) => {
-            searchParams.set("search", value);
-            setSearchParams(searchParams);
-          }}
+          onChange={handleChange}
           placeholder={"Search Cryptocurrency"}
         />
       </div>
-      <Button
-        onClick={() => {
-          setOpenSearch(false);
-        }}
-      >
-        Cancel
-      </Button>
+      <Button onClick={handleClick}>Cancel</Button>
     </div>
   );
 };

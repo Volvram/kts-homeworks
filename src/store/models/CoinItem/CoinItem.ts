@@ -1,3 +1,4 @@
+import { CoinCategoriesEnum } from "@config/coinCategoriesEnum";
 import { CURRENCIES } from "@config/currencies";
 import rootStore from "@store/RootStore/instance";
 
@@ -19,12 +20,32 @@ export type coinItemModel = {
   priceChangePercentage24h: string;
 };
 
+export const filterCoinItemBySearch = (from: coinItemApi): boolean => {
+  const name = from.name.toLowerCase();
+  const symbol = from.symbol.toLowerCase();
+  const params =
+    rootStore.query.getParam("search") != "undefined"
+      ? `${rootStore.query.getParam("search")}`.toLowerCase()
+      : `${rootStore.query.getParam("search")}`;
+  return name.includes(params) || symbol.includes(params);
+};
+
+export const filterCoinItemByTrend = (from: coinItemApi): boolean => {
+  if (rootStore.coinFeature.coinTrend === CoinCategoriesEnum.Gainer) {
+    return from.price_change_percentage_24h > 0;
+  } else if (rootStore.coinFeature.coinTrend === CoinCategoriesEnum.Loser) {
+    return from.price_change_percentage_24h < 0;
+  } else {
+    return true;
+  }
+};
+
 export const normalizeCoinItem = (from: coinItemApi): coinItemModel => {
   let currencySymbol: string | undefined = CURRENCIES.find(
-    (currency) => currency.key === rootStore.currency.currency.key
+    (currency) => currency.key === rootStore.coinFeature.currency.key
   )?.symbol;
 
-  let priceChange: string = "";
+  let priceChange = "";
 
   if (from.price_change_percentage_24h > 0) {
     priceChange = `+${from.price_change_percentage_24h.toFixed(2)}%`;

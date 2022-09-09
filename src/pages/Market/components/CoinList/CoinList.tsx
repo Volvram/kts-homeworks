@@ -30,19 +30,21 @@ const CoinList: React.FC = () => {
     coinListStore.changePage();
   }, []);
 
+  const handlePage = React.useCallback((event: { selected: number }) => {
+    coinListStore.handlePageClick(event);
+    searchParams.set("page", `${event.selected + 1}`);
+    setSearchParams(searchParams);
+  }, []);
+
   return (
     <>
       <Coins currentCoins={coinListStore.currentItems} />
       <ReactPaginate
         breakLabel="..."
         nextLabel=">"
-        onPageChange={(event: { selected: number }) => {
-          coinListStore.handlePageClick(event);
-          searchParams.set("page", `${event.selected + 1}`);
-          setSearchParams(searchParams);
-        }}
+        onPageChange={handlePage}
         forcePage={
-          rootStore.query.getParam("page") != undefined
+          rootStore.query.getParam("page") !== undefined
             ? Number(rootStore.query.getParam("page")) - 1
             : undefined
         }

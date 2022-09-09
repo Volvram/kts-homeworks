@@ -23,7 +23,7 @@ export const Input: React.FC<InputProps> = ({
   value,
   onChange,
   className,
-  disabled,
+  disabled = false,
   ...attributes
 }) => {
   const [currentValue, setValue] = React.useState<string>(value);

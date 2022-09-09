@@ -2,13 +2,14 @@ import React from "react";
 
 import back from "@assets/img/back.svg";
 import favourite from "@assets/img/favourite.svg";
-import { CoinData } from "@store/CoinStore/CoinStore";
+import { CoinDataModel } from "@store/models/CoinData/CoinData";
+import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 
 import styles from "./styles.module.scss";
 
 type HeaderProps = {
-  coinData: CoinData;
+  coinData: CoinDataModel;
 };
 
 const Header: React.FC<HeaderProps> = ({ coinData }) => {
@@ -27,4 +28,4 @@ const Header: React.FC<HeaderProps> = ({ coinData }) => {
   );
 };
 
-export default Header;
+export default observer(Header);

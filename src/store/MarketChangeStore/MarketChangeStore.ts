@@ -1,5 +1,6 @@
 import { COLORS } from "@config/colors";
 import rootStore from "@store/RootStore/instance";
+import { log } from "@utils/log";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
 import {
@@ -13,24 +14,21 @@ import {
 } from "mobx";
 
 type PrivateFields =
-  | "_currency"
-  | "_marketChangeSum"
+  | "_marketChangeAverage"
   | "_marketTrend"
   | "_marketColor"
   | "_marketPercentage";
 
 export default class MarketChangeStore implements ILocalStore {
-  private _currency = rootStore.currency.currency;
-  private _marketChangeSum = 0;
-  private _marketPercentage = `${this._marketChangeSum.toFixed(2)}%`;
-  private _marketColor: string = COLORS.neutral;
+  private _marketChangeAverage = 0;
+  private _marketPercentage = `${this._marketChangeAverage.toFixed(2)}%`;
+  private _marketColor: COLORS = COLORS.neutral;
   private _marketTrend = "";
 
   constructor() {
     makeObservable<MarketChangeStore, PrivateFields>(this, {
-      _currency: observable,
       currency: computed,
-      _marketChangeSum: observable,
+      _marketChangeAverage: observable,
       marketChangeSum: computed,
       coinRequest: action,
       _marketPercentage: observable,
@@ -44,11 +42,11 @@ export default class MarketChangeStore implements ILocalStore {
   }
 
   get currency() {
-    return this._currency;
+    return rootStore.coinFeature.currency;
   }
 
   get marketChangeSum() {
-    return this._marketChangeSum;
+    return this._marketChangeAverage;
   }
 
   get marketPercentage() {
@@ -64,55 +62,57 @@ export default class MarketChangeStore implements ILocalStore {
   }
 
   coinRequest = async () => {
-    this._marketChangeSum = 0;
+    this._marketChangeAverage = 0;
 
-    const result = await axios({
-      method: "get",
-      url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${this._currency?.key}`,
-    });
-
-    runInAction(() => {
-      result.data.forEach((coin: any) => {
-        this._marketChangeSum += coin.price_change_percentage_24h;
+    try {
+      const result = await axios({
+        method: "get",
+        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${rootStore.coinFeature.currency?.key}`,
       });
 
-      this._marketChangeSum = this._marketChangeSum / result.data.length;
-    });
+      runInAction(() => {
+        if (result.data) {
+          let priceChangePercentage24h = 0;
+
+          result.data.forEach((coin: any) => {
+            priceChangePercentage24h += coin.price_change_percentage_24h;
+          });
+
+          this._marketChangeAverage =
+            priceChangePercentage24h / result.data.length;
+        } else {
+          throw new Error("Empty result");
+        }
+      });
+    } catch (error) {
+      log(error);
+    }
   };
 
   destroy(): void {
-    this._marketChangeSum = 0;
-    this._currencyHandler();
+    this._marketChangeAverage = 0;
     this._marketChangeSumHandler();
     this._marketPercentageHandler();
   }
 
-  readonly _currencyHandler: IReactionDisposer = reaction(
-    () => rootStore.currency.currency,
-    () => {
-      if (this._currency !== rootStore.currency.currency)
-        this._currency = rootStore.currency.currency;
-    }
-  );
-
   readonly _marketChangeSumHandler: IReactionDisposer = reaction(
-    () => this._currency,
+    () => rootStore.coinFeature.currency,
     () => this.coinRequest()
   );
 
   readonly _marketPercentageHandler: IReactionDisposer = reaction(
-    () => this._marketChangeSum,
+    () => this._marketChangeAverage,
     () => {
-      if (this._marketChangeSum > 0) {
-        this._marketPercentage = `+${this._marketChangeSum.toFixed(2)}%`;
+      if (this._marketChangeAverage > 0) {
+        this._marketPercentage = `+${this._marketChangeAverage.toFixed(2)}%`;
         this._marketColor = COLORS.positive;
         this._marketTrend = "up";
-      } else if (this._marketChangeSum < 0) {
-        this._marketPercentage = `${this._marketChangeSum.toFixed(2)}%`;
+      } else if (this._marketChangeAverage < 0) {
+        this._marketPercentage = `${this._marketChangeAverage.toFixed(2)}%`;
         this._marketColor = COLORS.negative;
         this._marketTrend = "down";
       } else {
-        this._marketPercentage = `${this._marketChangeSum.toFixed(2)}%`;
+        this._marketPercentage = `${this._marketChangeAverage.toFixed(2)}%`;
       }
     }
   );

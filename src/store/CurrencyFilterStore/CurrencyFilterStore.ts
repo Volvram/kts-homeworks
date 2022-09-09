@@ -4,35 +4,35 @@ import rootStore from "@store/RootStore/instance";
 import { ILocalStore } from "@utils/useLocalStore";
 import { makeObservable, observable, computed, action } from "mobx";
 
-type PrivateFields = "_currency";
+type PrivateFields =
+  | "_description"
+  | "_defaultOptionDescription"
+  | "_currencies";
 
 export default class CurrencyFilterStore implements ILocalStore {
-  private _currency: OptionType = rootStore.currency.currency;
   private _description = "Market-";
   private _defaultOptionDescription = "INR";
   private _currencies: OptionType[] = CURRENCIES;
 
   constructor() {
     makeObservable<CurrencyFilterStore, PrivateFields>(this, {
-      _currency: observable.ref,
       setCurrency: action,
       currency: computed,
+      _description: observable,
       description: computed,
+      _defaultOptionDescription: observable,
       defaultOptionDescription: computed,
+      _currencies: observable,
       currencies: computed,
     });
   }
 
   setCurrency(currency: OptionType) {
-    rootStore.currency.setCurrency(currency);
-
-    if (currency != this._currency) {
-      this._currency = currency;
-    }
+    rootStore.coinFeature.setCurrency(currency);
   }
 
   get currency() {
-    return this._currency;
+    return rootStore.coinFeature.currency;
   }
 
   get description() {

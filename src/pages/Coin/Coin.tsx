@@ -10,24 +10,12 @@ import ChartLine from "./components/ChartLine/ChartLine";
 import Header from "./components/Header/Header";
 import styles from "./styles.module.scss";
 
-export type CoinData = {
-  id: string;
-  name: string;
-  symbol: string;
-  image: string;
-  currentPrice: number;
-  currencySymbol: string;
-  priceChange24h: number;
-  priceChangePercentage24h: number;
-};
-
 const Coin: React.FC = () => {
   const { id } = useParams();
 
-  const coinStore = useLocalStore(() => new CoinStore());
+  const coinStore = useLocalStore(() => new CoinStore(id));
 
   React.useEffect(() => {
-    coinStore.setId(id);
     coinStore.coinDataRequest();
   }, []);
 
@@ -43,11 +31,11 @@ const Coin: React.FC = () => {
         </div>
         <div className={styles.price_change}>
           <div
-            className={`${styles.price_change_number} ${coinStore.priceChangeColor}`}
+            className={`${styles.price_change_number} ${coinStore.coinData.priceChangeColor}`}
           >
             {coinStore.coinData.priceChange24hToString}
           </div>
-          <div className={`${coinStore.priceChangeColor}`}>
+          <div className={`${coinStore.coinData.priceChangeColor}`}>
             ({coinStore.coinData.priceChangePercentage24hToString})
           </div>
         </div>
@@ -65,7 +53,7 @@ const Coin: React.FC = () => {
               {coinStore.coinData.currentPrice}
             </div>
             <div
-              className={`${styles.coinCard_content_percentage} ${coinStore.priceChangeColor}`}
+              className={`${styles.coinCard_content_percentage} ${coinStore.coinData.priceChangeColor}`}
             >
               {coinStore.coinData.priceChangePercentage24hToString}
             </div>

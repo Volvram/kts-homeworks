@@ -1,50 +1,7 @@
 @import "@styles/variables.scss";
 
-.link {
-  text-decoration: none;
-  margin-top: 8px;
-  margin-left: 16px;
-  margin-right: 16px;
-}
-
 .coins {
   display: flex;
   justify-content: space-around;
   flex-direction: column;
-}
-
-.coin {
-  padding: 16px;
-
-  &_chartAndPriceAndChangePercentage24h {
-    margin-left: auto;
-
-    display: flex;
-  }
-
-  &_chart {
-    width: 50px;
-    height: 25px;
-  }
-
-  &_priceAndChangePercentage24h {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-
-  &_price {
-    margin-bottom: 5px;
-
-    color: $black-color;
-
-    font-family: $main-font-family;
-    font-weight: 450;
-  }
-
-  &_changePercentage24h {
-    font-family: $main-font-family;
-    font-weight: 500;
-    font-size: 10px;
-  }
 }

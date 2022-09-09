@@ -1,7 +1,5 @@
 import React, { createContext, useContext } from "react";
 
-import { observer } from "mobx-react-lite";
-
 import CoinFilter from "./components/CoinFilter/CoinFilter";
 import CoinList from "./components/CoinList/CoinList";
 import CurrencyFilter from "./components/CurrencyFilter/CurrencyFilter";
@@ -37,4 +35,4 @@ const Market: React.FC = () => {
   );
 };
 
-export default observer(Market);
+export default Market;

@@ -18,10 +18,10 @@ const CoinFilter: React.FC = () => {
             key={category}
             className={
               category === coinFilterStore.clickedCategory
-                ? coinFilterStore.clickedStyle
-                : coinFilterStore.unclickedStyle
+                ? `${styles.coin__filter_choice}  ${styles.coin__filter_choice__clicked}`
+                : `${styles.coin__filter_choice}`
             }
-            onClick={coinFilterStore.handleClick}
+            onClick={coinFilterStore.handleClick(category)}
           >
             {category}
           </Button>

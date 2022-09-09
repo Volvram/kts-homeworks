@@ -11,15 +11,17 @@ import styles from "./styles.module.scss";
 const CurrencyFilter: React.FC = () => {
   const currencyFilterStore = useLocalStore(() => new CurrencyFilterStore());
 
+  const handleChange = React.useCallback((currency: OptionType) => {
+    currencyFilterStore.setCurrency(currency);
+  }, []);
+
   return (
     <div className={styles.currencyFilter}>
       <div className={styles.currencyFilter_coinsHeader}>Coins</div>
       <Dropdown
         options={currencyFilterStore.currencies}
         defaultValue={currencyFilterStore.currency}
-        onChange={(currency: OptionType) => {
-          currencyFilterStore.setCurrency(currency);
-        }}
+        onChange={handleChange}
         description={currencyFilterStore.description}
         defaultOptionDescription={currencyFilterStore.defaultOptionDescription}
       ></Dropdown>

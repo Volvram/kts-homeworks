@@ -1,8 +1,11 @@
 import React from "react";
 
 import { Button } from "@components/Button/Button";
+import { CHARTOPTIONS } from "@config/chart";
+import { periodsValues } from "@config/periodsEnum";
 import ChartStore from "@store/ChartLineStore/ChartLineStore";
 import rootStore from "@store/RootStore/instance";
+import { log } from "@utils/log";
 import { useLocalStore } from "@utils/useLocalStore";
 import { Chart as ChartJS, registerables } from "chart.js";
 import { toJS } from "mobx";
@@ -17,73 +20,46 @@ ChartJS.register(...registerables);
 const ChartLine: React.FC = () => {
   const { id } = useParams();
 
-  const chartStore = useLocalStore(() => new ChartStore());
+  const chartStore = useLocalStore(() => new ChartStore(id));
 
   React.useEffect(() => {
-    chartStore.setId(id);
     chartStore.pricesRequest();
   }, []);
 
   const CHARTDATA = {
-    labels: toJS(chartStore.dates),
+    labels: [""],
     datasets: [
       {
-        label: `${rootStore.currency.currency.symbol}`,
+        label: `${rootStore.coinFeature.currency.symbol}`,
         spanGaps: false,
         backgroundColor: "#0063F5",
         borderColor: "#0063F5",
         pointRadius: 1,
-        data: toJS(chartStore.prices),
+        data: [0],
       },
     ],
   };
 
-  const CHARTOPTIONS = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          display: true,
-        },
-        grid: {
-          drawBorder: false,
-          display: false,
-        },
-      },
-      y: {
-        ticks: {
-          display: false,
-          beginAtZero: true,
-        },
-        grid: {
-          drawBorder: false,
-          display: false,
-        },
-      },
-    },
-  };
+  const chartdata = Object.assign({}, CHARTDATA);
+  chartdata.labels = toJS(chartStore.dates);
+  chartdata.datasets[0].data = toJS(chartStore.prices);
 
   return (
     <div className={styles.chart}>
       <div className={styles.chart_line}>
-        <Line data={CHARTDATA} options={CHARTOPTIONS} height="300px" />
+        <Line data={chartdata} options={CHARTOPTIONS} height="300px" />
       </div>
       <div className={styles.chart_buttons}>
-        {chartStore.periods.map((period) => {
+        {periodsValues.map((period) => {
           return (
             <Button
               key={period}
               className={
                 period === chartStore.clickedPeriod
-                  ? chartStore.clickedStyle
-                  : chartStore.unclickedStyle
+                  ? `${styles.chart_buttons_button} ${styles.chart_buttons_button__clicked}`
+                  : `${styles.chart_buttons_button}`
               }
-              onClick={chartStore.handleClick}
+              onClick={chartStore.handleClick(period)}
             >
               {period}
             </Button>

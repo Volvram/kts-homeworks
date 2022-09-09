@@ -23,7 +23,6 @@ export default class DropDownStore implements ILocalStore {
   ) {
     makeObservable<DropDownStore, PrivateFields>(this, {
       _onChange: observable,
-      setOnChange: action,
       _listClosed: observable,
       _choice: observable,
       toggleListClosed: action,
@@ -34,10 +33,6 @@ export default class DropDownStore implements ILocalStore {
     });
 
     this._choice = defaultValue;
-    this._onChange = onChange;
-  }
-
-  setOnChange(onChange: (value: OptionType) => void) {
     this._onChange = onChange;
   }
 

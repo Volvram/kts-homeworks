@@ -44,6 +44,12 @@ const Dropdown: React.FC<DropdownProps> = ({
     dropdownStore.toggleListClosed();
   }, []);
 
+  const handleChoice = React.useCallback((option: OptionType) => {
+    return (event: React.MouseEvent) => {
+      dropdownStore.setChoice(option);
+    };
+  }, []);
+
   return (
     <div className={styles.dropdown}>
       <div
@@ -56,23 +62,16 @@ const Dropdown: React.FC<DropdownProps> = ({
         )}
         onClick={handleList}
       >
-        {dropdownStore.choice !== null &&
-          `${description} ${dropdownStore.choice.value}`}
-        {dropdownStore.choice === null &&
-          `${description} ${defaultOptionDescription}`}
+        {dropdownStore.choice
+          ? `${description} ${dropdownStore.choice.value}`
+          : `${description} ${defaultOptionDescription}`}
       </div>
-      {dropdownStore.listClosed && <></>}
       {!dropdownStore.listClosed && (
         <div className={styles.dropdown_options_container}>
           {!disabled &&
             options.map((option) => {
               return (
-                <li
-                  key={option.key}
-                  onClick={() => {
-                    dropdownStore.setChoice(option);
-                  }}
-                >
+                <li key={option.key} onClick={handleChoice(option)}>
                   <div
                     className={styles.dropdown_option}
                   >{`${description} ${option.value}`}</div>
