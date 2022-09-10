@@ -1,5 +1,5 @@
-import { COLORS } from "@config/colors";
-import rootStore from "@store/RootStore/instance";
+import { COLORS } from "config/colors";
+import rootStore from "store/RootStore/instance";
 
 export type CoinDataApi = {
   id: string;

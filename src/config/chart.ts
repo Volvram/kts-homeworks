@@ -1,4 +1,4 @@
-import rootStore from "@store/RootStore/instance";
+import rootStore from "store/RootStore/instance";
 
 // export const CHARTDATA = {
 //   labels: [""],

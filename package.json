@@ -3,11 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^13.0.0",
-    "@testing-library/user-event": "^13.2.1",
+    "@types/body-parser": "^1.19.2",
     "@types/node": "^18.7.11",
-    "@types/react": "^18.0.17",
+    "@types/react": "^18.0.19",
     "@types/react-dom": "^18.0.6",
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
@@ -19,18 +17,16 @@
     "react-chartjs-2": "^4.3.1",
     "react-dom": "^18.2.0",
     "react-paginate": "^8.1.3",
-    "react-router-dom": "6",
-    "react-scripts": "5.0.1",
-    "sass": "^1.54.8",
+    "react-router-dom": "^6.3.0",
+    "sass": "^1.54.9",
     "styled-components": "^5.3.5",
-    "typescript": "^4.7.4",
+    "typescript": "^4.8.3",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject",
+    "dev": "npx webpack serve && SET NODE_ENV=development",
+    "build": "npx webpack NODE_ENV=production --node-production",
+    "ts-check": "tsc --skipLibCheck --noEmit --project tsconfig.json",
     "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix",
     "prettier": "prettier"
@@ -54,11 +50,42 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.19.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.18.9",
+    "@babel/preset-env": "^7.19.0",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.18.6",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
     "@types/chart.js": "^2.9.37",
+    "@types/webpack-env": "^1.18.0",
+    "autoprefixer": "^10.4.8",
+    "babel-loader": "^8.2.5",
+    "babel-preset-mobx": "^2.0.0",
+    "css-loader": "^6.7.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "fork-ts-checker-webpack-plugin": "^7.2.13",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.1",
+    "postcss-loader": "^7.0.1",
     "prettier": "^2.7.1",
-    "react-app-rewire-alias": "^1.1.7",
-    "react-app-rewired": "^2.2.1"
-  }
+    "react-refresh": "^0.14.0",
+    "sass-loader": "^13.0.2",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.0"
+  },
+  "main": "./src/index.tsx",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Volvram/kts-homeworks.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Volvram/kts-homeworks/issues"
+  },
+  "homepage": "https://github.com/Volvram/kts-homeworks#readme"
 }

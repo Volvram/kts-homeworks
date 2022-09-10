@@ -1,6 +1,6 @@
-import { OptionType } from "@components/Dropdown/Dropdown";
-import { CoinCategoriesEnum } from "@config/coinCategoriesEnum";
-import { CURRENCIES } from "@config/currencies";
+import { OptionType } from "components/Dropdown/Dropdown";
+import { CoinCategoriesEnum } from "config/coinCategoriesEnum";
+import { CURRENCIES } from "config/currencies";
 import { makeObservable, observable, action, computed } from "mobx";
 
 type PrivateFields = "_currency" | "_coinTrend";

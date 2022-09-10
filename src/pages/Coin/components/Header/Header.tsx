@@ -1,8 +1,8 @@
 import React from "react";
 
-import back from "@assets/img/back.svg";
-import favourite from "@assets/img/favourite.svg";
-import { CoinDataModel } from "@store/models/CoinData/CoinData";
+import back from "assets/img/back.svg";
+import favourite from "assets/img/favourite.svg";
+import { CoinDataModel } from "store/models/CoinData/CoinData";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 

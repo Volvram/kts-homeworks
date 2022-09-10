@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Card } from "@components/Card";
-import { COLORS } from "@config/colors";
-import { Coin } from "@store/CoinListStore/CoinListStore";
+import { Card } from "components/Card";
+import { COLORS } from "config/colors";
+import { Coin } from "store/CoinListStore/CoinListStore";
 import cn from "classnames";
 import cnBind from "classnames/bind";
 import { Link } from "react-router-dom";

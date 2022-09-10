@@ -1,4 +1,4 @@
-import { PeriodsEnum } from "@config/periodsEnum";
+import { PeriodsEnum } from "config/periodsEnum";
 import {
   ChartPricesModel,
   filterChartPricesByDays,
@@ -9,10 +9,10 @@ import {
   normalizeChartPricesByM6,
   normalizeChartPricesByW1,
   normalizeChartPricesByY1,
-} from "@store/models/ChartPrices/ChartPrices";
-import rootStore from "@store/RootStore/instance";
-import { log } from "@utils/log";
-import { ILocalStore } from "@utils/useLocalStore";
+} from "store/models/ChartPrices/ChartPrices";
+import rootStore from "store/RootStore/instance";
+import { log } from "utils/log";
+import { ILocalStore } from "utils/useLocalStore";
 import axios from "axios";
 import {
   makeObservable,

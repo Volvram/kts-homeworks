@@ -1,6 +1,6 @@
-import { CoinCategoriesEnum } from "@config/coinCategoriesEnum";
-import { CURRENCIES } from "@config/currencies";
-import rootStore from "@store/RootStore/instance";
+import { CoinCategoriesEnum } from "config/coinCategoriesEnum";
+import { CURRENCIES } from "config/currencies";
+import rootStore from "store/RootStore/instance";
 
 export type coinItemApi = {
   id: string;

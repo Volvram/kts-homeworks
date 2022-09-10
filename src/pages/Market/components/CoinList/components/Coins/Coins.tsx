@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Coin } from "@store/CoinListStore/CoinListStore";
+import { Coin } from "store/CoinListStore/CoinListStore";
 import { observer } from "mobx-react-lite";
 
 import CoinCard from "./components/CoinCard";

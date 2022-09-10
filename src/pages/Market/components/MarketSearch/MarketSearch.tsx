@@ -1,10 +1,10 @@
 import React from "react";
 
-import search from "@assets/img/search.svg";
-import { Button } from "@components/Button/Button";
-import { Input } from "@components/Input/Input";
-import { queryParamsEnum } from "@config/queryParamsEnum";
-import { useOpenSearchContext } from "@pages/Market/Market";
+import search from "assets/img/search.svg";
+import { Button } from "components/Button/Button";
+import { Input } from "components/Input/Input";
+import { queryParamsEnum } from "config/queryParamsEnum";
+import { useOpenSearchContext } from "pages/Market/Market";
 import { observer } from "mobx-react-lite";
 import { useSearchParams } from "react-router-dom";
 

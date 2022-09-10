@@ -1,11 +1,11 @@
 import React from "react";
 
-import { Button } from "@components/Button/Button";
-import { CHARTOPTIONS } from "@config/chart";
-import { periodsValue } from "@config/periodsEnum";
-import ChartStore from "@store/ChartLineStore/ChartLineStore";
-import rootStore from "@store/RootStore/instance";
-import { useLocalStore } from "@utils/useLocalStore";
+import { Button } from "components/Button/Button";
+import { CHARTOPTIONS } from "config/chart";
+import { periodsValue } from "config/periodsEnum";
+import ChartStore from "store/ChartLineStore/ChartLineStore";
+import rootStore from "store/RootStore/instance";
+import { useLocalStore } from "utils/useLocalStore";
 import { Chart as ChartJS, registerables } from "chart.js";
 import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";

@@ -1,7 +1,7 @@
 import React from "react";
 
-import Coin from "@pages/Coin/Coin";
-import Market from "@pages/Market/Market";
+import Coin from "pages/Coin/Coin";
+import Market from "pages/Market/Market";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import "./App.scss";

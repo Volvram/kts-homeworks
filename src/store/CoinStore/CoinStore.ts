@@ -1,11 +1,11 @@
-import { COLORS } from "@config/colors";
+import { COLORS } from "config/colors";
 import {
   CoinDataModel,
   normalizeCoinData,
-} from "@store/models/CoinData/CoinData";
-import rootStore from "@store/RootStore/instance";
-import { log } from "@utils/log";
-import { ILocalStore } from "@utils/useLocalStore";
+} from "store/models/CoinData/CoinData";
+import rootStore from "store/RootStore/instance";
+import { log } from "utils/log";
+import { ILocalStore } from "utils/useLocalStore";
 import axios from "axios";
 import {
   makeObservable,

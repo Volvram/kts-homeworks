@@ -1,0 +1,101 @@
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+ const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+ const isProd = process.env.NODE_ENV === "production";
+ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+ const ForkTsCheckerPlugin = require("fork-ts-checker-webpack-plugin");
+
+ const path = require("path");
+ const { dirname } = require("path");
+ const buildPath = path.resolve(__dirname, "dist");
+ const publicPath = path.resolve(__dirname, "public");
+ const srcPath = path.resolve(__dirname, "src")
+ module.exports = {
+  entry: path.resolve(srcPath, "index.tsx"),
+  output: {
+   path: buildPath,
+   filename: "bundle.js",
+  },
+
+  target: process.env.NODE_ENV === "development" ?
+  "web" : "browserslist",
+
+  mode: isProd ? "production" : "development",
+
+  devtool: isProd ? "hidden-source-map" : "eval-source-map",
+
+  plugins: [
+    new HtmlWebpackPlugin({
+     template: path.join(publicPath, "index.html")
+    }),
+    !isProd && new ReactRefreshWebpackPlugin(),
+    new MiniCssExtractPlugin({
+     filename: "[name]-[hash].css"
+    }),
+    new ForkTsCheckerPlugin()
+   ].filter(Boolean),
+  
+  module: {
+   rules: [
+    {
+     test: /\.([jt])sx?$/,
+     use: "babel-loader"
+    },
+    {
+     test: /\.css$/,
+     use: ["style-loader", "css-loader"],
+    },
+    {
+     test: /\.s?css$/,
+     exclude: /\.module\.s?css$/,
+     use: ["style-loader", "css-loader", "sass-loader"]
+    },
+    {
+     test: /\.module\.s?css$/,
+     use: [
+      MiniCssExtractPlugin.loader,
+      {
+       loader: "css-loader",
+       options: {
+        modules: {
+         localIdentName:!isProd ? "[path][name]__[local]" : "[hash:base64]"
+        }
+       }
+      },
+      {
+       loader: "postcss-loader",
+       options: {
+        postcssOptions: {
+         plugins: ["autoprefixer"]
+        }
+       }
+      },
+      "sass-loader"]
+    },
+    {
+     test: /\.(png|svg|jpg)$/,
+     type: "asset/resource",	// Наиболее подходящий из ассетов
+    }
+   ]
+  },
+  
+  devServer: {
+   host: "127.0.0.1",
+   port: 9002,
+   hot: true,
+  },
+  
+  resolve: {
+   extensions: [".jsx", ".js", ".tsx", "ts"],
+  //  root: [path.resolve('./src')],
+
+   alias: {
+    components: path.join(__dirname, 'src/components/'),
+    pages: path.join(__dirname, 'src/pages/'),
+    config: path.join(__dirname, 'src/config/'),
+    styles: path.join(__dirname, 'src/styles/'),
+    store: path.join(__dirname, 'src/store/'),
+    utils: path.join(__dirname, 'src/utils/'),
+    assets: path.join(__dirname, 'src/assets/'),
+   }
+  },
+ }

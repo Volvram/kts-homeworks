@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Card } from "@components/Card/Card";
-import CoinStore from "@store/CoinStore/CoinStore";
-import { useLocalStore } from "@utils/useLocalStore";
+import { Card } from "components/Card/Card";
+import CoinStore from "store/CoinStore/CoinStore";
+import { useLocalStore } from "utils/useLocalStore";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 

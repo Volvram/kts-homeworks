@@ -1,5 +1,5 @@
-import { OptionType } from "@components/Dropdown/Dropdown";
-import { ILocalStore } from "@utils/useLocalStore";
+import { OptionType } from "components/Dropdown/Dropdown";
+import { ILocalStore } from "utils/useLocalStore";
 import {
   makeObservable,
   observable,

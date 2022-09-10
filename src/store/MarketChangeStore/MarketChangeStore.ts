@@ -1,7 +1,7 @@
-import { COLORS } from "@config/colors";
-import rootStore from "@store/RootStore/instance";
-import { log } from "@utils/log";
-import { ILocalStore } from "@utils/useLocalStore";
+import { COLORS } from "config/colors";
+import rootStore from "store/RootStore/instance";
+import { log } from "utils/log";
+import { ILocalStore } from "utils/useLocalStore";
 import axios from "axios";
 import {
   makeObservable,

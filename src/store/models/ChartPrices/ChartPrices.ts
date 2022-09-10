@@ -1,5 +1,5 @@
-import { MONTHS } from "@config/months";
-import { WEEKDAYS } from "@config/weekdays";
+import { MONTHS } from "config/months";
+import { WEEKDAYS } from "config/weekdays";
 
 export type ChartPricesApi = number[];
 
