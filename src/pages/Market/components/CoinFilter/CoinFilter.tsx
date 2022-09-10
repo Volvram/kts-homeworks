@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Button } from "@components/Button/Button";
+import { coinCategoriesValue } from "@config/coinCategoriesEnum";
 import CoinFilterStore from "@store/CoinFilterStore/CoinFilterStore";
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
@@ -12,7 +13,7 @@ const CoinFilter: React.FC = () => {
 
   return (
     <div className={styles.coin__filter}>
-      {coinFilterStore.categories.map((category) => {
+      {coinCategoriesValue.map((category) => {
         return (
           <Button
             key={category}

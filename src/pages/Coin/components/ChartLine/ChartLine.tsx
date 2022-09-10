@@ -2,10 +2,9 @@ import React from "react";
 
 import { Button } from "@components/Button/Button";
 import { CHARTOPTIONS } from "@config/chart";
-import { periodsValues } from "@config/periodsEnum";
+import { periodsValue } from "@config/periodsEnum";
 import ChartStore from "@store/ChartLineStore/ChartLineStore";
 import rootStore from "@store/RootStore/instance";
-import { log } from "@utils/log";
 import { useLocalStore } from "@utils/useLocalStore";
 import { Chart as ChartJS, registerables } from "chart.js";
 import { toJS } from "mobx";
@@ -50,7 +49,7 @@ const ChartLine: React.FC = () => {
         <Line data={chartdata} options={CHARTOPTIONS} height="300px" />
       </div>
       <div className={styles.chart_buttons}>
-        {periodsValues.map((period) => {
+        {periodsValue.map((period) => {
           return (
             <Button
               key={period}

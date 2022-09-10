@@ -3,3 +3,7 @@ export enum CoinCategoriesEnum {
   Gainer = "Gainer",
   Loser = "Loser",
 }
+
+export const coinCategoriesValue = Object.values(CoinCategoriesEnum).filter(
+  (value) => isNaN(Number(value))
+);

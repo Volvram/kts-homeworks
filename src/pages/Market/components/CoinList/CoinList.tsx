@@ -1,5 +1,6 @@
 import React from "react";
 
+import { queryParamsEnum } from "@config/queryParamsEnum";
 import CoinListStore from "@store/CoinListStore/CoinListStore";
 import { useQueryParamsStoreInit } from "@store/RootStore/hooks/useQueryParamsStoreInit";
 import rootStore from "@store/RootStore/instance";
@@ -18,7 +19,7 @@ const CoinList: React.FC = () => {
   useQueryParamsStoreInit();
 
   React.useEffect(() => {
-    const initialPage = rootStore.query.getParam("page");
+    const initialPage = rootStore.query.getParam(queryParamsEnum.page);
     if (initialPage) {
       coinListStore.setItemOffset(
         coinListStore.itemsPerPage * (Number(initialPage) - 1)
@@ -32,7 +33,7 @@ const CoinList: React.FC = () => {
 
   const handlePage = React.useCallback((event: { selected: number }) => {
     coinListStore.handlePageClick(event);
-    searchParams.set("page", `${event.selected + 1}`);
+    searchParams.set(queryParamsEnum.page, `${event.selected + 1}`);
     setSearchParams(searchParams);
   }, []);
 
@@ -44,8 +45,8 @@ const CoinList: React.FC = () => {
         nextLabel=">"
         onPageChange={handlePage}
         forcePage={
-          rootStore.query.getParam("page") !== undefined
-            ? Number(rootStore.query.getParam("page")) - 1
+          rootStore.query.getParam(queryParamsEnum.page) !== undefined
+            ? Number(rootStore.query.getParam(queryParamsEnum.page)) - 1
             : undefined
         }
         pageRangeDisplayed={3}

@@ -3,6 +3,7 @@ import React from "react";
 import search from "@assets/img/search.svg";
 import { Button } from "@components/Button/Button";
 import { Input } from "@components/Input/Input";
+import { queryParamsEnum } from "@config/queryParamsEnum";
 import { useOpenSearchContext } from "@pages/Market/Market";
 import { observer } from "mobx-react-lite";
 import { useSearchParams } from "react-router-dom";
@@ -15,7 +16,7 @@ const MarketSearch: React.FC = () => {
   let [searchParams, setSearchParams] = useSearchParams();
 
   const handleChange = React.useCallback((value: string) => {
-    searchParams.set("search", value);
+    searchParams.set(queryParamsEnum.search, value);
     setSearchParams(searchParams);
   }, []);
 
@@ -33,8 +34,8 @@ const MarketSearch: React.FC = () => {
         <Input
           className={styles.search_line_input}
           value={
-            searchParams.get("search") !== null
-              ? `${searchParams.get("search")}`
+            searchParams.get(queryParamsEnum.search) !== null
+              ? `${searchParams.get(queryParamsEnum.search)}`
               : ""
           }
           onChange={handleChange}

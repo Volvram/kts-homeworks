@@ -45,7 +45,7 @@ export default class DropDownStore implements ILocalStore {
   }
 
   setChoice(newChoice: OptionType | null): void {
-    if (newChoice && this._choice?.key != newChoice?.key) {
+    if (newChoice && this._choice?.key !== newChoice?.key) {
       this._choice = newChoice;
     }
   }

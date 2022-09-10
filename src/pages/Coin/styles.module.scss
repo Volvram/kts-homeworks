@@ -15,7 +15,7 @@
   &_current {
     margin-right: 12px;
 
-    font-family: "Circular Std";
+    font-family: $main-font-family;
     font-style: normal;
     font-weight: 500;
     font-size: 24px;
@@ -32,7 +32,7 @@
     display: flex;
     align-items: center;
 
-    font-family: "Circular Std";
+    font-family: $main-font-family;
     font-style: normal;
     font-weight: 450;
     font-size: 16px;

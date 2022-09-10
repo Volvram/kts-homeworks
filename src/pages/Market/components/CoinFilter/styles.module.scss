@@ -1,5 +1,7 @@
 @import "@styles/variables.scss";
 
+$clicked-color: #0063f5;
+
 .coin__filter {
   padding-top: 24px;
   padding-left: 4px;
@@ -16,9 +18,9 @@
     font-family: $main-font-family;
 
     &__clicked {
-      border-bottom: 3px solid #0063f5;
+      border-bottom: 3px solid $clicked-color;
 
-      color: #0063f5;
+      color: $clicked-color;
     }
   }
 }

@@ -95,23 +95,23 @@ export default class ChartStore implements ILocalStore {
       runInAction(() => {
         let points: ChartPricesModel[] = [];
 
-        if (this._clickedPeriod == PeriodsEnum.H24) {
+        if (this._clickedPeriod === PeriodsEnum.H24) {
           points = result.data.prices
             .filter(filterChartPricesByMinutes)
             .map(normalizeChartPricesByH24);
-        } else if (this._clickedPeriod == PeriodsEnum.W1) {
+        } else if (this._clickedPeriod === PeriodsEnum.W1) {
           points = result.data.prices
             .filter(filterChartPricesByHours)
             .map(normalizeChartPricesByW1);
-        } else if (this._clickedPeriod == PeriodsEnum.M1) {
+        } else if (this._clickedPeriod === PeriodsEnum.M1) {
           points = result.data.prices
             .filter(filterChartPricesByHours)
             .map(normalizeChartPricesByM1);
-        } else if (this._clickedPeriod == PeriodsEnum.M6) {
+        } else if (this._clickedPeriod === PeriodsEnum.M6) {
           points = result.data.prices
             .filter(filterChartPricesByDays)
             .map(normalizeChartPricesByM6);
-        } else if (this._clickedPeriod == PeriodsEnum.Y1) {
+        } else if (this._clickedPeriod === PeriodsEnum.Y1) {
           points = result.data.prices
             .filter(filterChartPricesByDays)
             .map(normalizeChartPricesByY1);

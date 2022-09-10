@@ -1,8 +1,4 @@
-import { OptionType } from "@components/Dropdown/Dropdown";
-import { CoinCategoriesEnum } from "@config/coinCategoriesEnum";
-import { CURRENCIES } from "@config/currencies";
 import {
-  coinItemApi,
   filterCoinItemBySearch,
   filterCoinItemByTrend,
   normalizeCoinItem,
@@ -19,7 +15,6 @@ import {
   reaction,
   IReactionDisposer,
   runInAction,
-  toJS,
 } from "mobx";
 import { ParsedQs } from "qs";
 
@@ -40,7 +35,6 @@ type PrivateFields =
   | "_itemOffset";
 
 export default class CoinListStore implements ILocalStore {
-  private _currencies: OptionType[] = CURRENCIES;
   private _coins: Coin[] = [];
 
   // fields for pagination
@@ -51,7 +45,6 @@ export default class CoinListStore implements ILocalStore {
 
   constructor() {
     makeObservable<CoinListStore, PrivateFields>(this, {
-      currencies: computed,
       _coins: observable,
       setCoins: action,
       coins: computed,
@@ -68,10 +61,6 @@ export default class CoinListStore implements ILocalStore {
       _itemsPerPage: observable,
       setItemsPerPage: action,
     });
-  }
-
-  get currencies() {
-    return this._currencies;
   }
 
   get currencyParams() {
@@ -134,7 +123,7 @@ export default class CoinListStore implements ILocalStore {
 
       runInAction(() => {
         if (result.data) {
-          if (searchParams != null && searchParams != undefined) {
+          if (searchParams !== null && searchParams !== undefined) {
             this.setCoins(
               result.data
                 .filter(filterCoinItemBySearch)

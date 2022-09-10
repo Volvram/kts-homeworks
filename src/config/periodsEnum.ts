@@ -6,6 +6,6 @@ export enum PeriodsEnum {
   Y1 = "1 Y",
 }
 
-export const periodsValues = Object.values(PeriodsEnum).filter((value) =>
+export const periodsValue = Object.values(PeriodsEnum).filter((value) =>
   isNaN(Number(value))
 );

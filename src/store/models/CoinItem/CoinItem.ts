@@ -24,7 +24,7 @@ export const filterCoinItemBySearch = (from: coinItemApi): boolean => {
   const name = from.name.toLowerCase();
   const symbol = from.symbol.toLowerCase();
   const params =
-    rootStore.query.getParam("search") != "undefined"
+    rootStore.query.getParam("search") !== "undefined"
       ? `${rootStore.query.getParam("search")}`.toLowerCase()
       : `${rootStore.query.getParam("search")}`;
   return name.includes(params) || symbol.includes(params);
