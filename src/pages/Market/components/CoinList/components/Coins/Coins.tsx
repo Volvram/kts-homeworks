@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Coin } from "store/CoinListStore/CoinListStore";
 import { observer } from "mobx-react-lite";
+import { Coin } from "store/CoinListStore/CoinListStore";
 
 import CoinCard from "./components/CoinCard";
 import styles from "./styles.module.scss";

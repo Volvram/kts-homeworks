@@ -1,8 +1,5 @@
-import { COLORS } from "config/colors";
-import rootStore from "store/RootStore/instance";
-import { log } from "utils/log";
-import { ILocalStore } from "utils/useLocalStore";
 import axios from "axios";
+import { COLORS } from "config/colors";
 import {
   makeObservable,
   observable,
@@ -12,6 +9,9 @@ import {
   IReactionDisposer,
   runInAction,
 } from "mobx";
+import rootStore from "store/RootStore/instance";
+import { log } from "utils/log";
+import { ILocalStore } from "utils/useLocalStore";
 
 type PrivateFields =
   | "_marketChangeAverage"

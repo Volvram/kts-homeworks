@@ -1,6 +1,7 @@
 {
+  "extends": ["plugin:import/warnings"],
   "parser": "@babel/eslint-parser",
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "import"],
   "rules": {
     "no-console": "error",
     "prettier/prettier": "error",

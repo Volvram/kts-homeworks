@@ -1,4 +1,12 @@
+import axios from "axios";
 import { PeriodsEnum } from "config/periodsEnum";
+import {
+  makeObservable,
+  observable,
+  action,
+  computed,
+  runInAction,
+} from "mobx";
 import {
   ChartPricesModel,
   filterChartPricesByDays,
@@ -13,14 +21,6 @@ import {
 import rootStore from "store/RootStore/instance";
 import { log } from "utils/log";
 import { ILocalStore } from "utils/useLocalStore";
-import axios from "axios";
-import {
-  makeObservable,
-  observable,
-  action,
-  computed,
-  runInAction,
-} from "mobx";
 
 type PrivateFields = "_clickedPeriod" | "_id" | "_dates" | "_prices";
 

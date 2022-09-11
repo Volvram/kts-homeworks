@@ -4,8 +4,8 @@ import search from "assets/img/search.svg";
 import { Button } from "components/Button/Button";
 import { Input } from "components/Input/Input";
 import { queryParamsEnum } from "config/queryParamsEnum";
-import { useOpenSearchContext } from "pages/Market/Market";
 import { observer } from "mobx-react-lite";
+import { useOpenSearchContext } from "pages/Market/Market";
 import { useSearchParams } from "react-router-dom";
 
 import styles from "./styles.module.scss";

@@ -2,10 +2,10 @@ import React from "react";
 
 import enableSearch from "assets/img/enableSearch.svg";
 import { Button } from "components/Button/Button";
+import { observer } from "mobx-react-lite";
 import { useOpenSearchContext } from "pages/Market/Market";
 import MarketChangeStore from "store/MarketChangeStore/MarketChangeStore";
 import { useLocalStore } from "utils/useLocalStore";
-import { observer } from "mobx-react-lite";
 
 import styles from "./styles.module.scss";
 

@@ -1,5 +1,4 @@
 import { OptionType } from "components/Dropdown/Dropdown";
-import { ILocalStore } from "utils/useLocalStore";
 import {
   makeObservable,
   observable,
@@ -8,6 +7,7 @@ import {
   reaction,
   IReactionDisposer,
 } from "mobx";
+import { ILocalStore } from "utils/useLocalStore";
 
 type PrivateFields = "_onChange" | "_listClosed" | "_choice";
 

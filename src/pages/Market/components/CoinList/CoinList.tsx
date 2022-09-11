@@ -1,17 +1,17 @@
 import React from "react";
 
 import { queryParamsEnum } from "config/queryParamsEnum";
-import CoinListStore from "store/CoinListStore/CoinListStore";
-import { useQueryParamsStoreInit } from "store/RootStore/hooks/useQueryParamsStoreInit";
-import rootStore from "store/RootStore/instance";
-import { useLocalStore } from "utils/useLocalStore";
 import { observer } from "mobx-react-lite";
 import ReactPaginate from "react-paginate";
 import { useSearchParams } from "react-router-dom";
+import CoinListStore from "store/CoinListStore/CoinListStore";
+import { useQueryParamsStoreInit } from "store/RootStore/hooks/useQueryParamsStoreInit";
+import rootStore from "store/RootStore/instance";
+import { log } from "utils/log";
+import { useLocalStore } from "utils/useLocalStore";
 
 import Coins from "./components/Coins/Coins";
 import styles from "./styles.module.scss";
-import { log } from "utils/log";
 
 const CoinList: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -32,11 +32,14 @@ const CoinList: React.FC = () => {
     coinListStore.changePage();
   }, []);
 
-  const handlePage = React.useCallback((event: { selected: number }) => {
-    coinListStore.handlePageClick(event);
-    searchParams.set(queryParamsEnum.page, `${event.selected + 1}`);
-    setSearchParams(searchParams);
-  }, [event]);
+  const handlePage = React.useCallback(
+    (event: { selected: number }) => {
+      coinListStore.handlePageClick(event);
+      searchParams.set(queryParamsEnum.page, `${event.selected + 1}`);
+      setSearchParams(searchParams);
+    },
+    [event]
+  );
 
   return (
     <>
