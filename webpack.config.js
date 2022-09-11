@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
  const isProd = process.env.NODE_ENV === "production";
  const MiniCssExtractPlugin = require("mini-css-extract-plugin");
  const ForkTsCheckerPlugin = require("fork-ts-checker-webpack-plugin");
+ const ESLintPlugin = require('eslint-webpack-plugin');
 
  const path = require("path");
  const { dirname } = require("path");
@@ -31,7 +32,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
     new MiniCssExtractPlugin({
      filename: "[name]-[hash].css"
     }),
-    new ForkTsCheckerPlugin()
+    new ForkTsCheckerPlugin(),
+    new ESLintPlugin(),
    ].filter(Boolean),
   
   module: {
