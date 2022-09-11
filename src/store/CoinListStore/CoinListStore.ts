@@ -152,6 +152,7 @@ export default class CoinListStore implements ILocalStore {
   };
 
   changePage = async () => {
+    log("search on changepage: ", rootStore.query.getParam("search"));
     await this.coinRequest(rootStore.query.getParam("search"));
     const endOffset = this._itemOffset + this._itemsPerPage;
     this.setCurrentItems(this._coins.slice(this._itemOffset, endOffset));
@@ -181,6 +182,7 @@ export default class CoinListStore implements ILocalStore {
   readonly _searchHandler: IReactionDisposer = reaction(
     () => rootStore.query.getParam("search"),
     (searchParams) => {
+      log("это тоже выполняется ", rootStore.query.getParam("search"))
       this.changePage();
     }
   );

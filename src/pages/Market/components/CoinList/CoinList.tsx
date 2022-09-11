@@ -11,6 +11,7 @@ import { useSearchParams } from "react-router-dom";
 
 import Coins from "./components/Coins/Coins";
 import styles from "./styles.module.scss";
+import { log } from "utils/log";
 
 const CoinList: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -32,10 +33,11 @@ const CoinList: React.FC = () => {
   }, []);
 
   const handlePage = React.useCallback((event: { selected: number }) => {
+    log("search on handlepage: ", rootStore.query.getParam("search"));
     coinListStore.handlePageClick(event);
     searchParams.set(queryParamsEnum.page, `${event.selected + 1}`);
     setSearchParams(searchParams);
-  }, []);
+  }, [event]);
 
   return (
     <>

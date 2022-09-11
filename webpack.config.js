@@ -85,17 +85,16 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
   },
   
   resolve: {
-   extensions: [".jsx", ".js", ".tsx", "ts"],
-  //  root: [path.resolve('./src')],
+   extensions: [".jsx", ".js", ".tsx", ".ts"],
 
    alias: {
-    components: path.join(__dirname, 'src/components/'),
-    pages: path.join(__dirname, 'src/pages/'),
-    config: path.join(__dirname, 'src/config/'),
-    styles: path.join(__dirname, 'src/styles/'),
-    store: path.join(__dirname, 'src/store/'),
-    utils: path.join(__dirname, 'src/utils/'),
-    assets: path.join(__dirname, 'src/assets/'),
+    components: path.resolve(__dirname, 'src/components/'),
+    pages: path.resolve(__dirname, 'src/pages/'),
+    config: path.resolve(__dirname, 'src/config/'),
+    styles: path.resolve(__dirname, 'src/styles/'),
+    store: path.resolve(__dirname, 'src/store/'),
+    utils: path.resolve(__dirname, 'src/utils/'),
+    assets: path.resolve(__dirname, 'src/assets/'),
    }
   },
  }

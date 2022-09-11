@@ -28,7 +28,7 @@ export default class ChartStore implements ILocalStore {
   private _clickedPeriod: PeriodsEnum = PeriodsEnum.H24;
 
   // chart fields
-  private _id: string | undefined;
+  private _id: string | undefined = undefined;
   private _dates: string[] = [];
   private _prices: number[] = [];
 

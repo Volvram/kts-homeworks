@@ -20,7 +20,7 @@ import {
 type PrivateFields = "_id" | "_coinData";
 
 export default class CoinStore implements ILocalStore {
-  private _id: string | undefined;
+  private _id: string | undefined = undefined;
   private _coinData: CoinDataModel = {
     id: "",
     name: "",
