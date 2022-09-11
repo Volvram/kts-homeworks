@@ -33,7 +33,6 @@ const CoinList: React.FC = () => {
   }, []);
 
   const handlePage = React.useCallback((event: { selected: number }) => {
-    log("search on handlepage: ", rootStore.query.getParam("search"));
     coinListStore.handlePageClick(event);
     searchParams.set(queryParamsEnum.page, `${event.selected + 1}`);
     setSearchParams(searchParams);
