@@ -1,6 +1,11 @@
 import React from "react";
 
-import styleInput from "./Input.module.scss";
+import cn from "classnames";
+import cnBind from "classnames/bind";
+
+import styles from "./styles.module.scss";
+
+const cx = cnBind.bind(styles);
 
 export type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -18,40 +23,27 @@ export const Input: React.FC<InputProps> = ({
   value,
   onChange,
   className,
-  disabled,
+  disabled = false,
   ...attributes
 }) => {
   const [currentValue, setValue] = React.useState<string>(value);
 
-  let classes = `${styleInput.input}`;
+  const classNames = cx({ input: true, input_disabled: disabled });
 
-  if (className) {
-    classes += ` ${className}`;
-  }
-
-  if (disabled) {
-    classes += ` ${styleInput.input_disabled}`;
-  }
-
-  const handleInput = (event: React.FormEvent) => {
-    let target: any = event.target;
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let target = event.target;
     setValue(target.value);
     onChange(target.value);
   };
 
-  React.useEffect(() => {
-    setValue(value);
-  }, [value]);
-
-  // (event) => {onChange(event.target.value)}
   return (
     <input
       type="text"
-      className={classes}
+      className={cn(classNames, className)}
       value={currentValue}
       onInput={handleInput}
-      {...attributes}
       disabled={disabled}
-    ></input>
+      {...attributes}
+    />
   );
 };

@@ -1,34 +1,33 @@
 import React from "react";
 
-import { Dropdown } from "@components/Dropdown/Dropdown";
-import { Option } from "@components/Dropdown/Dropdown";
+import Dropdown from "@components/Dropdown";
+import { OptionType } from "@components/Dropdown/Dropdown";
 import { CURRENCIES } from "@config/currencies";
+import CurrencyFilterStore from "@store/CurrencyFilterStore/CurrencyFilterStore";
+import { useLocalStore } from "@utils/useLocalStore";
+import { observer } from "mobx-react-lite";
 
-import styleCurrencyFilter from "./CurrencyFilter.module.scss";
+import styles from "./styles.module.scss";
 
-type CurrencyFilterProps = {
-  onChange: (value: Option) => void;
-  defaultCurrency: Option | null;
-};
+const CurrencyFilter: React.FC = () => {
+  const currencyFilterStore = useLocalStore(() => new CurrencyFilterStore());
 
-const CurrencyFilter: React.FC<CurrencyFilterProps> = ({
-  onChange,
-  defaultCurrency,
-}) => {
-  const description: string = "Market-";
+  const handleChange = React.useCallback((currency: OptionType) => {
+    currencyFilterStore.setCurrency(currency);
+  }, []);
 
   return (
-    <div className={styleCurrencyFilter.currencyFilter}>
-      <div className={styleCurrencyFilter.coinsHeader}>Coins</div>
+    <div className={styles.currencyFilter}>
+      <div className={styles.currencyFilter_coinsHeader}>Coins</div>
       <Dropdown
         options={CURRENCIES}
-        defaultValue={defaultCurrency}
-        onChange={onChange}
-        description={description}
-        defaultOptionDescription="INR"
-      ></Dropdown>
+        defaultValue={currencyFilterStore.currency}
+        onChange={handleChange}
+        description={currencyFilterStore.description}
+        defaultOptionDescription={currencyFilterStore.defaultOptionDescription}
+      />
     </div>
   );
 };
 
-export default CurrencyFilter;
+export default observer(CurrencyFilter);

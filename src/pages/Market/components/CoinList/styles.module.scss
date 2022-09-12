@@ -1,0 +1,28 @@
+@import "@styles/variables.scss";
+
+$active-color: #0063f5;
+
+.paginator {
+  margin-left: 16px;
+  margin-right: 16px;
+  padding-left: 0px;
+
+  display: flex;
+  justify-content: space-between;
+
+  font-family: $main-font-family;
+
+  &_li {
+    cursor: pointer;
+    list-style: none;
+
+    padding: 0px 2px;
+
+    &_active {
+      box-sizing: border-box;
+      color: $active-color;
+      border-bottom: 2px solid $active-color;
+      border-radius: 2px;
+    }
+  }
+}

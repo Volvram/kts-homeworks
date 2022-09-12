@@ -1,60 +1,35 @@
 import React from "react";
 
 import { Button } from "@components/Button/Button";
+import { coinCategoriesValue } from "@config/coinCategoriesEnum";
+import CoinFilterStore from "@store/CoinFilterStore/CoinFilterStore";
+import { useLocalStore } from "@utils/useLocalStore";
+import { observer } from "mobx-react-lite";
 
-import coinFilterStyle from "./CoinFilter.module.scss";
+import styles from "./styles.module.scss";
 
-export enum CoinCategories {
-  All = "All",
-  Gainer = "Gainer",
-  Loser = "Loser",
-  Favourite = "Favourite",
-}
-
-type CoinFilterProps = {
-  onChange: (trend: string) => void;
-};
-
-const CoinFilter: React.FC<CoinFilterProps> = ({ onChange }) => {
-  const handleClick = React.useCallback((e: React.MouseEvent) => {
-    const target: any = e.target;
-
-    for (let i = 0; i < target.parentNode.children.length; i++) {
-      if (target.parentNode.children[i] !== target) {
-        target.parentNode.children[i].classList.remove(
-          coinFilterStyle.coin__filter_choice__clicked
-        );
-      }
-    }
-
-    target.classList.add(coinFilterStyle.coin__filter_choice__clicked);
-    onChange(target.firstChild.data);
-  }, []);
+const CoinFilter: React.FC = () => {
+  const coinFilterStore = useLocalStore(() => new CoinFilterStore());
 
   return (
-    <div className={coinFilterStyle.coin__filter}>
-      {Object.values(CoinCategories)
-        .filter((value) => isNaN(Number(value)))
-        .map((category, index) => {
-          let defaultClass: string = `${coinFilterStyle.coin__filter_choice}`;
-          defaultClass =
-            index === 0
-              ? defaultClass +
-                ` ${coinFilterStyle.coin__filter_choice__clicked}`
-              : defaultClass;
-
-          return (
-            <Button
-              key={category}
-              className={defaultClass}
-              onClick={handleClick}
-            >
-              {category}
-            </Button>
-          );
-        })}
+    <div className={styles.coin__filter}>
+      {coinCategoriesValue.map((category) => {
+        return (
+          <Button
+            key={category}
+            className={
+              category === coinFilterStore.clickedCategory
+                ? `${styles.coin__filter_choice}  ${styles.coin__filter_choice__clicked}`
+                : `${styles.coin__filter_choice}`
+            }
+            onClick={coinFilterStore.handleClick(category)}
+          >
+            {category}
+          </Button>
+        );
+      })}
     </div>
   );
 };
 
-export default CoinFilter;
+export default observer(CoinFilter);

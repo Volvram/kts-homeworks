@@ -1,0 +1,32 @@
+@import "@styles/variables.scss";
+
+.market_change {
+  margin-left: 16px;
+
+  display: flex;
+  align-items: center;
+
+  font-family: $main-font-family;
+  font-size: 20px;
+  font-weight: 500;
+
+  &_trend {
+    margin-right: 3px;
+  }
+
+  &_period {
+    margin-top: 4px;
+    margin-left: 16px;
+
+    color: $grey-color;
+
+    font-family: $main-font-family;
+    font-size: 12px;
+    font-weight: 450;
+  }
+}
+
+.enableSearch {
+  margin-left: auto;
+  margin-right: 23px;
+}

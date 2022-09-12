@@ -1,0 +1,47 @@
+$button-color: #6c757d;
+$button-background: #f8f9fa;
+$button-border-color: #dfe2e4;
+$button-clicked-color: #0063f5;
+$button-clicked-background: #ecf4ff;
+$button-clicked-border-color: #0063f5;
+
+.chart {
+  margin-top: 18px;
+
+  &_line {
+    padding-left: 16px;
+    padding-right: 16px;
+
+    height: 335px;
+  }
+
+  &_buttons {
+    margin-top: 26px;
+
+    padding-left: 16px;
+    padding-right: 16px;
+
+    display: flex;
+    justify-content: space-around;
+
+    &_button {
+      padding: 6px 10px;
+
+      color: $button-color;
+
+      background: $button-background;
+      border: 0.5px solid $button-border-color;
+      border-radius: 20px;
+
+      &__clicked {
+        padding: 6px 10px;
+
+        color: $button-clicked-color;
+
+        background: $button-clicked-background;
+        border: 0.5px solid $button-clicked-border-color;
+        border-radius: 20px;
+      }
+    }
+  }
+}

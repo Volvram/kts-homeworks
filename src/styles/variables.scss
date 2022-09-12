@@ -1,0 +1,16 @@
+$white-color: #ffffff;
+$black-color: #212529;
+$grey-color: #6c757d;
+$main-font-family: "Circular Std", "sans-serif";
+
+$screen-size__phone: 375px;
+$content-align-center: 0 auto;
+
+@mixin square($size, $border-radius: none) {
+  width: $size;
+  height: $size;
+
+  @if ($border-radius != none) {
+    border-radius: $border-radius;
+  }
+}

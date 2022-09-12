@@ -1,44 +1,50 @@
 import React from "react";
 
+import search from "@assets/img/search.svg";
 import { Button } from "@components/Button/Button";
 import { Input } from "@components/Input/Input";
+import { queryParamsEnum } from "@config/queryParamsEnum";
 import { useOpenSearchContext } from "@pages/Market/Market";
+import { observer } from "mobx-react-lite";
+import { useSearchParams } from "react-router-dom";
 
-import search from "../../../../assets/img/search.svg";
-import searchMarketSearch from "./MarketSearch.module.scss";
+import styles from "./styles.module.scss";
 
 const MarketSearch: React.FC = () => {
-  const OpenSearchContext = useOpenSearchContext();
+  const { setOpenSearch } = useOpenSearchContext();
+
+  let [searchParams, setSearchParams] = useSearchParams();
+
+  const handleChange = React.useCallback((value: string) => {
+    searchParams.set(queryParamsEnum.search, value);
+    setSearchParams(searchParams);
+  }, []);
+
+  const handleClick = React.useCallback(() => {
+    setOpenSearch(false);
+  }, []);
 
   return (
-    <div className={searchMarketSearch.search}>
-      <div className={searchMarketSearch.search_line}>
-        <Button
-          className={searchMarketSearch.search_line_submit}
-          onClick={() => {}}
-        >
-          <img src={search}></img>
+    <div className={styles.search}>
+      <div className={styles.search_line}>
+        <Button className={styles.search_line_submit}>
+          <img src={search} alt="search" />
         </Button>
 
         <Input
-          className={searchMarketSearch.search_line_input}
-          value={""}
-          onChange={(value: string) => {
-            //   eslint-disable-next-line no-console
-            console.log(value);
-          }}
+          className={styles.search_line_input}
+          value={
+            searchParams.get(queryParamsEnum.search) !== null
+              ? `${searchParams.get(queryParamsEnum.search)}`
+              : ""
+          }
+          onChange={handleChange}
           placeholder={"Search Cryptocurrency"}
         />
       </div>
-      <Button
-        onClick={() => {
-          OpenSearchContext.setSearch(false);
-        }}
-      >
-        Cancel
-      </Button>
+      <Button onClick={handleClick}>Cancel</Button>
     </div>
   );
 };
 
-export default MarketSearch;
+export default observer(MarketSearch);

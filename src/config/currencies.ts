@@ -1,16 +1,19 @@
-import { Option } from "@components/Dropdown/Dropdown";
+import { OptionType } from "@components/Dropdown/Dropdown";
 
-export const CURRENCIES: Option[] = [
+export const CURRENCIES: OptionType[] = [
   {
-    key: "USD",
-    value: "$",
+    key: "usd",
+    value: "USD",
+    symbol: "\u{0024}", // $
   },
   {
-    key: "EUR",
-    value: "€",
+    key: "eur",
+    value: "EUR",
+    symbol: "\u{20AC}", // €
   },
   {
-    key: "RUB",
-    value: "₽",
+    key: "rub",
+    value: "RUB",
+    symbol: "\u{20BD}", // ₽
   },
 ];
