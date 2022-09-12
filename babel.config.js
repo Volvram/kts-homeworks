@@ -5,9 +5,7 @@ module.exports = api => {
      "@babel/preset-env",
      "@babel/preset-react",
      "@babel/preset-typescript",
-    //  "module:@babel/eslint-parser",
     //  "@babel/plugin-proposal-optional-chaining",
-    // "module:@babel/plugin-proposal-optional-chaining",
     ]
   
     const plugins = [
