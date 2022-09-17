@@ -43,18 +43,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
      use: "babel-loader"
     },
     {
-     test: /\.css$/,
-     use: ["style-loader", "css-loader"],
-    },
-    {
      test: /\.s?css$/,
      exclude: /\.module\.s?css$/,
-     use: ["style-loader", "css-loader", "sass-loader"]
+     use: [isProd ? MiniCssExtractPlugin.loader : "style-loader", "css-loader", "postcss-loader", "sass-loader"]
     },
     {
      test: /\.module\.s?css$/,
      use: [
-      MiniCssExtractPlugin.loader,
+      isProd ? MiniCssExtractPlugin.loader : "style-loader",
       {
        loader: "css-loader",
        options: {

@@ -54,11 +54,9 @@ const Dropdown: React.FC<DropdownProps> = ({
     <div className={styles.dropdown}>
       <div
         className={cn(
-          cx({
-            dropdown_choice: true,
-            dropdown__closed: dropdownStore.listClosed,
-            dropdown__opened: !dropdownStore.listClosed,
-          })
+          styles.dropdown_choice,
+          dropdownStore.listClosed && styles.dropdown__closed,
+          !dropdownStore.listClosed && styles.dropdown__opened
         )}
         onClick={handleList}
       >

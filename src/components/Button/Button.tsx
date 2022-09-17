@@ -1,11 +1,8 @@
 import React from "react";
 
 import cn from "classnames";
-import cnBind from "classnames/bind";
 
 import styles from "./styles.module.scss";
-
-const cx = cnBind.bind(styles);
 
 export type ButtonProps = React.PropsWithChildren<{
   onClick?: (e: React.MouseEvent) => void;
@@ -21,12 +18,16 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   ...rest
 }) => {
-  const classNames = cx({ button: true, button_disabled: disabled });
+  const classNames = cn(
+    styles.button,
+    disabled && styles.button_disabled,
+    className
+  );
 
   return (
     <button
       type="button"
-      className={cn(classNames, className)}
+      className={classNames}
       onClick={onClick}
       disabled={disabled}
       {...rest}

@@ -18,9 +18,9 @@ $clicked-color: #0063f5;
     font-family: $main-font-family;
 
     &__clicked {
-      border-bottom: 3px solid $clicked-color;
+      border-bottom: 3px solid $button-clicked-color;
 
-      color: $clicked-color;
+      color: $button-clicked-color;
     }
   }
 }
