@@ -80,6 +80,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
    host: "127.0.0.1",
    port: 9002,
    hot: true,
+   historyApiFallback: true,
+   publicPath: "/",
   },
   
   resolve: {

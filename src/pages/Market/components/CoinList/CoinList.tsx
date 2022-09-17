@@ -12,6 +12,8 @@ import { useLocalStore } from "utils/useLocalStore";
 
 import Coins from "./components/Coins/Coins";
 import styles from "./styles.module.scss";
+import WithLoader from "components/WithLoader";
+import { LoaderSize } from "components/Loader/Loader";
 
 const CoinList: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -43,7 +45,7 @@ const CoinList: React.FC = () => {
 
   return (
     <>
-      <Coins currentCoins={coinListStore.currentItems} />
+      <WithLoader loading={coinListStore.loadingItems} size={LoaderSize.l}><Coins currentCoins={coinListStore.currentItems} /></WithLoader>
       <ReactPaginate
         breakLabel="..."
         nextLabel=">"

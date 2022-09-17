@@ -36,6 +36,10 @@
         background: $button-clicked-background;
         border: $button-clicked-border;
         border-radius: 20px;
+
+        transition-property: color, background, border;
+        transition-duration: 0.5s;
+        transition-timing-function: linear;
       }
     }
   }

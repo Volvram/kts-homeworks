@@ -29,6 +29,7 @@ export type Coin = {
 
 type PrivateFields =
   | "_coins"
+  | "_loadingItems"
   | "_currentItems"
   | "_pageCount"
   | "_itemsPerPage"
@@ -36,6 +37,7 @@ type PrivateFields =
 
 export default class CoinListStore implements ILocalStore {
   private _coins: Coin[] = [];
+  private _loadingItems = true;
 
   // fields for pagination
   private _currentItems: Coin[] | null = null;
@@ -48,6 +50,9 @@ export default class CoinListStore implements ILocalStore {
       _coins: observable,
       setCoins: action,
       coins: computed,
+      _loadingItems: observable,
+      setLoadingItems: action,
+      loadingItems: computed,
       _currentItems: observable,
       currentItems: computed,
       setCurrentItems: action,
@@ -79,12 +84,20 @@ export default class CoinListStore implements ILocalStore {
     return this._coins;
   }
 
+  setLoadingItems(loading: boolean){
+    this._loadingItems = loading;
+  }
+
+  get loadingItems(){
+    return this._loadingItems;
+  }
+
   // fields for pagination
   get currentItems() {
     return this._currentItems;
   }
 
-  setCurrentItems(currentItems: Coin[]) {
+  setCurrentItems(currentItems: Coin[] | null) {
     this._currentItems = currentItems;
   }
 
@@ -116,6 +129,14 @@ export default class CoinListStore implements ILocalStore {
     searchParams: string | null | string[] | ParsedQs | ParsedQs[] | undefined
   ) => {
     try {
+      this.setCurrentItems(null);
+      this.setLoadingItems(true);
+
+      // Задержка для избавления от эффекта мелькания загрузчика
+      await new Promise(resolve => {
+        setTimeout(resolve, 300);
+      })
+
       const result = await axios({
         method: "get",
         url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${rootStore.coinFeature.currency.key}`,
@@ -138,6 +159,7 @@ export default class CoinListStore implements ILocalStore {
         } else {
           throw new Error("Empty result");
         }
+        this.setLoadingItems(false);
       });
     } catch (error) {
       log(error);

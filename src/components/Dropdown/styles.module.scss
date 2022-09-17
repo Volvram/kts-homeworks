@@ -20,11 +20,15 @@ $option-padding: 5px 8px;
   &__closed {
     border: $default-button-border;
     border-radius: 12px;
+    height: fit-content;
+    transition: height 1s linear;
   }
 
   &__opened {
     border: $default-button-border;
     border-radius: 12px 12px 0 0;
+    height: fit-content;
+    transition: height 1s linear;
   }
 
   &_choice {
@@ -46,5 +50,16 @@ $option-padding: 5px 8px;
 
   &_options_container {
     position: absolute;
+
+    animation: appear 0.5s linear;
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
