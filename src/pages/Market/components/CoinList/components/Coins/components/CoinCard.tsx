@@ -6,6 +6,7 @@ import { Card } from "components/Card";
 import { CHARTOPTIONS, createChart, MINICHARTOPTIONS } from "config/chart";
 import { COLORS } from "config/colors";
 import { toJS } from "mobx";
+import { observer } from "mobx-react-lite";
 import { Chart, Line } from "react-chartjs-2";
 import { Link, useSearchParams } from "react-router-dom";
 import CoinCardStore from "store/CoinCardStore/CoinCardStore";
@@ -14,7 +15,6 @@ import rootStore from "store/RootStore/instance";
 import { useLocalStore } from "utils/useLocalStore";
 
 import styles from "./styles.module.scss";
-import { observer } from "mobx-react-lite";
 
 type CoinCardProps = {
   coin: Coin;
@@ -40,7 +40,11 @@ const CoinCard: React.FC<CoinCardProps> = ({ coin }) => {
   }, []);
 
   const chartdata = React.useMemo(() => {
-    const color = coin.priceChangePercentage24h.startsWith("+") ? "#21bf73" :  coin.priceChangePercentage24h.startsWith("-") ? "#d90429" : "#6c757d"
+    const color = coin.priceChangePercentage24h.startsWith("+")
+      ? "#21bf73"
+      : coin.priceChangePercentage24h.startsWith("-")
+      ? "#d90429"
+      : "#6c757d";
     return createChart(
       toJS(coinCardStore.dates),
       `${rootStore.coinFeature.currency.symbol}`,
@@ -75,7 +79,7 @@ const CoinCard: React.FC<CoinCardProps> = ({ coin }) => {
         content={
           <div className={styles.coin_chartAndPriceAndChangePercentage24h}>
             <div className={styles.coin_chart}>
-              <Line data={chartdata} options={MINICHARTOPTIONS} height="auto"/>
+              <Line data={chartdata} options={MINICHARTOPTIONS} height="auto" />
             </div>
             <div className={styles.coin_priceAndChangePercentage24h}>
               <div className={styles.coin_price}>{coin.currentPrice}</div>

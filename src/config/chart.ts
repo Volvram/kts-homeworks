@@ -7,8 +7,8 @@ export type ChartDataType = {
       backgroundColor: string;
       borderColor: string;
       pointRadius: number;
-      borderWidth?: number,
-      pointBorderWidth?: number,
+      borderWidth?: number;
+      pointBorderWidth?: number;
       data: number[];
     }
   ];
@@ -37,7 +37,7 @@ export const createChart = (
   backgroundColor: string = "#0063F5",
   borderColor: string = "#0063F5",
   borderWidth: number = 3,
-  pointBorderWidth: number = 1,
+  pointBorderWidth: number = 1
 ): ChartDataType => {
   return {
     labels,
@@ -114,5 +114,5 @@ export const MINICHARTOPTIONS = {
         display: false,
       },
     },
-  }
+  },
 };

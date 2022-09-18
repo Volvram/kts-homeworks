@@ -43,7 +43,7 @@ export default class CoinCardStore implements ILocalStore {
     return this._prices;
   }
 
-  miniChartRequest = async () => { 
+  miniChartRequest = async () => {
     try {
       if (this._id === undefined) return "";
 
