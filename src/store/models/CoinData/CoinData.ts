@@ -38,8 +38,8 @@ export const normalizeCoinData = (from: CoinDataApi): CoinDataModel => {
       rootStore.coinFeature.currency.key.toLowerCase()
     ].toFixed(3);
 
-  let tempPriceChange24hToString = "";
-  let tempPriceChangePercentage24hToString = "";
+  let tempPriceChange24hToString = "0.000";
+  let tempPriceChangePercentage24hToString = "0.00%";
   let tempPriceChangeColor: COLORS = COLORS.neutral;
 
   if (price_change_percentage_24h > 0) {

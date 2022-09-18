@@ -84,11 +84,11 @@ export default class CoinListStore implements ILocalStore {
     return this._coins;
   }
 
-  setLoadingItems(loading: boolean){
+  setLoadingItems(loading: boolean) {
     this._loadingItems = loading;
   }
 
-  get loadingItems(){
+  get loadingItems() {
     return this._loadingItems;
   }
 
@@ -131,11 +131,6 @@ export default class CoinListStore implements ILocalStore {
     try {
       this.setCurrentItems(null);
       this.setLoadingItems(true);
-
-      // Задержка для избавления от эффекта мелькания загрузчика
-      await new Promise(resolve => {
-        setTimeout(resolve, 300);
-      })
 
       const result = await axios({
         method: "get",

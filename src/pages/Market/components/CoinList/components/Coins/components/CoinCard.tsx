@@ -3,7 +3,7 @@ import React from "react";
 import cn from "classnames";
 import { Card } from "components/Card";
 import { COLORS } from "config/colors";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Coin } from "store/CoinListStore/CoinListStore";
 
 import styles from "./styles.module.scss";
@@ -13,6 +13,18 @@ type CoinCardProps = {
 };
 
 const CoinCard: React.FC<CoinCardProps> = ({ coin }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const params = React.useMemo(() => {
+    return searchParams.get("page") && searchParams.get("search")
+      ? `?page=${searchParams.get("page")}&search=${searchParams.get("search")}`
+      : searchParams.get("page")
+      ? `?page=${searchParams.get("page")}`
+      : searchParams.get("search")
+      ? `?search=${searchParams.get("search")}`
+      : "";
+  }, [searchParams]);
+
   const classnames = cn(
     styles.coin_changePercentage24h,
     coin.priceChangePercentage24h.startsWith("+") && COLORS.positive,
@@ -23,7 +35,7 @@ const CoinCard: React.FC<CoinCardProps> = ({ coin }) => {
   );
 
   return (
-    <Link to={`/coin/${coin.id}`} className={styles.link}>
+    <Link to={`/coin/${coin.id}/${params}`} className={styles.link}>
       <Card
         image={coin.image}
         title={coin.name}

@@ -1,5 +1,7 @@
 import React from "react";
 
+import { LoaderSize } from "components/Loader/Loader";
+import WithLoader from "components/WithLoader";
 import { queryParamsEnum } from "config/queryParamsEnum";
 import { observer } from "mobx-react-lite";
 import ReactPaginate from "react-paginate";
@@ -7,13 +9,10 @@ import { useSearchParams } from "react-router-dom";
 import CoinListStore from "store/CoinListStore/CoinListStore";
 import { useQueryParamsStoreInit } from "store/RootStore/hooks/useQueryParamsStoreInit";
 import rootStore from "store/RootStore/instance";
-import { log } from "utils/log";
 import { useLocalStore } from "utils/useLocalStore";
 
 import Coins from "./components/Coins/Coins";
 import styles from "./styles.module.scss";
-import WithLoader from "components/WithLoader";
-import { LoaderSize } from "components/Loader/Loader";
 
 const CoinList: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -40,12 +39,14 @@ const CoinList: React.FC = () => {
       searchParams.set(queryParamsEnum.page, `${event.selected + 1}`);
       setSearchParams(searchParams);
     },
-    [event]
+    [searchParams]
   );
 
   return (
     <>
-      <WithLoader loading={coinListStore.loadingItems} size={LoaderSize.l}><Coins currentCoins={coinListStore.currentItems} /></WithLoader>
+      <WithLoader loading={coinListStore.loadingItems} size={LoaderSize.l}>
+        <Coins currentCoins={coinListStore.currentItems} />
+      </WithLoader>
       <ReactPaginate
         breakLabel="..."
         nextLabel=">"

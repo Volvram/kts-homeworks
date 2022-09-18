@@ -12,7 +12,6 @@ export type ChartDataType = {
   ];
 };
 
-// Не работает при выносе
 export const CHARTDATA: ChartDataType = {
   labels: [""],
   datasets: [
@@ -27,18 +26,21 @@ export const CHARTDATA: ChartDataType = {
   ],
 };
 
-// Тоже не работает
 export const createChart = (
   labels: string[],
   label: string,
   data: number[]
 ): ChartDataType => {
-  const chartData = CHARTDATA;
-  chartData.labels = labels;
-  chartData.datasets[0].label = label;
-  chartData.datasets[0].data = data;
-
-  return chartData;
+  return {
+    labels,
+    datasets: [
+      {
+        ...CHARTDATA.datasets[0], // Спереди, чтобы свойства label и data не перезаписывались дефолтными значениями
+        label,
+        data,
+      },
+    ],
+  };
 };
 
 export const CHARTOPTIONS = {

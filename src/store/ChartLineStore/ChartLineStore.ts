@@ -22,21 +22,32 @@ import rootStore from "store/RootStore/instance";
 import { log } from "utils/log";
 import { ILocalStore } from "utils/useLocalStore";
 
-type PrivateFields = "_clickedPeriod" | "_id" | "_dates" | "_prices";
+type PrivateFields =
+  | "_clickedPeriod"
+  | "_id"
+  | "_dates"
+  | "_prices"
+  | "_loading";
 
 export default class ChartStore implements ILocalStore {
   private _clickedPeriod: PeriodsEnum = PeriodsEnum.H24;
+  private _loading = true;
 
   // chart fields
-  private _id: string | undefined = undefined;
+  private _id: string | undefined;
   private _dates: string[] = [];
   private _prices: number[] = [];
 
   constructor(id: string | undefined) {
+    this._id = id;
+
     makeObservable<ChartStore, PrivateFields>(this, {
       _clickedPeriod: observable,
       setClickedPeriod: action,
       clickedPeriod: computed,
+      _loading: observable,
+      setLoading: action,
+      loading: computed,
       _id: observable,
       _dates: observable,
       dates: computed,
@@ -44,8 +55,6 @@ export default class ChartStore implements ILocalStore {
       prices: computed,
       pricesRequest: action,
     });
-
-    this._id = id;
   }
 
   setClickedPeriod(period: PeriodsEnum) {
@@ -57,6 +66,14 @@ export default class ChartStore implements ILocalStore {
 
   get clickedPeriod() {
     return this._clickedPeriod;
+  }
+
+  setLoading(loading: boolean) {
+    this._loading = loading;
+  }
+
+  get loading() {
+    return this._loading;
   }
 
   handleClick = (period: PeriodsEnum) => {
@@ -87,6 +104,7 @@ export default class ChartStore implements ILocalStore {
     const days = mapPeriodToDays[this._clickedPeriod];
 
     try {
+      this.setLoading(true);
       const result = await axios({
         method: "get",
         url: `https://api.coingecko.com/api/v3/coins/${this._id}/market_chart?vs_currency=${rootStore.coinFeature.currency.key}&days=${days}`,
@@ -120,6 +138,7 @@ export default class ChartStore implements ILocalStore {
           this._dates.push(point.date);
           this._prices.push(point.price);
         });
+        this.setLoading(false);
       });
     } catch (error) {
       log(error);

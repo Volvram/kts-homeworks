@@ -14,6 +14,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
   entry: path.resolve(srcPath, "index.tsx"),
   output: {
    path: buildPath,
+   publicPath: "/",
    filename: "bundle.js",
   },
 
@@ -45,7 +46,19 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
     {
      test: /\.s?css$/,
      exclude: /\.module\.s?css$/,
-     use: [isProd ? MiniCssExtractPlugin.loader : "style-loader", "css-loader", "postcss-loader", "sass-loader"]
+     use: [
+       isProd ? MiniCssExtractPlugin.loader : "style-loader",
+       "css-loader", 
+        {
+          loader: "postcss-loader",
+          options: {
+            postcssOptions: {
+              plugins: ["autoprefixer"]
+            }
+          }
+        }, 
+        "sass-loader"
+      ]
     },
     {
      test: /\.module\.s?css$/,
@@ -81,7 +94,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
    port: 9002,
    hot: true,
    historyApiFallback: true,
-   publicPath: "/",
   },
   
   resolve: {

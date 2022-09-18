@@ -2,6 +2,8 @@ import React from "react";
 
 import { Chart as ChartJS, registerables } from "chart.js";
 import { Button } from "components/Button/Button";
+import Loader from "components/Loader";
+import { LoaderSize } from "components/Loader/Loader";
 import {
   CHARTDATA,
   ChartDataType,
@@ -31,47 +33,49 @@ const ChartLine: React.FC = () => {
     chartStore.pricesRequest();
   }, []);
 
-  const CHARTDATA: ChartDataType = {
-    labels: [""],
-    datasets: [
-      {
-        label: `${rootStore.coinFeature.currency.symbol}`,
-        spanGaps: false,
-        backgroundColor: "#0063F5",
-        borderColor: "#0063F5",
-        pointRadius: 1,
-        data: [0],
-      },
-    ],
-  };
-
-  const chartdata = Object.assign({}, CHARTDATA);
-  chartdata.labels = toJS(chartStore.dates);
-  chartdata.datasets[0].data = toJS(chartStore.prices);
+  const chartdata = React.useMemo(() => {
+    return createChart(
+      toJS(chartStore.dates),
+      `${rootStore.coinFeature.currency.symbol}`,
+      toJS(chartStore.prices)
+    );
+  }, [
+    toJS(chartStore.dates),
+    `${rootStore.coinFeature.currency.symbol}`,
+    toJS(chartStore.prices),
+  ]);
 
   return (
-    <div className={styles.chart}>
-      <div className={styles.chart_line}>
-        <Line data={chartdata} options={CHARTOPTIONS} height="300px" />
-      </div>
-      <div className={styles.chart_buttons}>
-        {periodsValue.map((period) => {
-          return (
-            <Button
-              key={period}
-              className={
-                period === chartStore.clickedPeriod
-                  ? `${styles.chart_buttons_button} ${styles.chart_buttons_button__clicked}`
-                  : `${styles.chart_buttons_button}`
-              }
-              onClick={chartStore.handleClick(period)}
-            >
-              {period}
-            </Button>
-          );
-        })}
-      </div>
-    </div>
+    <>
+      {chartStore.loading ? (
+        <Loader loading={chartStore.loading} size={LoaderSize.l}></Loader>
+      ) : (
+        <>
+          <div className={styles.chart}>
+            <div className={styles.chart_line}>
+              <Line data={chartdata} options={CHARTOPTIONS} height="300px" />
+            </div>
+            <div className={styles.chart_buttons}>
+              {periodsValue.map((period) => {
+                return (
+                  <Button
+                    key={period}
+                    className={
+                      period === chartStore.clickedPeriod
+                        ? `${styles.chart_buttons_button} ${styles.chart_buttons_button__clicked}`
+                        : `${styles.chart_buttons_button}`
+                    }
+                    onClick={chartStore.handleClick(period)}
+                  >
+                    {period}
+                  </Button>
+                );
+              })}
+            </div>
+          </div>
+        </>
+      )}
+    </>
   );
 };
 
