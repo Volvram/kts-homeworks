@@ -1,4 +1,5 @@
 import axios from "axios";
+import { CoinCategoriesEnum } from "config/coinCategoriesEnum";
 import { queryParamsEnum } from "config/queryParamsEnum";
 import {
   makeObservable,
@@ -14,6 +15,7 @@ import {
   filterCoinItemBySearch,
   filterCoinItemByTrend,
   normalizeCoinItem,
+  normalizeFavourites,
 } from "store/models/CoinItem/CoinItem";
 import rootStore from "store/RootStore/instance";
 import { log } from "utils/log";
@@ -129,33 +131,52 @@ export default class CoinListStore implements ILocalStore {
   coinRequest = async (
     searchParams: string | null | string[] | ParsedQs | ParsedQs[] | undefined
   ) => {
-    try {
-      this.setCurrentItems(null);
-      this.setLoadingItems(true);
+    this.setCurrentItems(null);
+    this.setLoadingItems(true);
 
-      const result = await axios({
-        method: "get",
-        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${rootStore.coinFeature.currency.key}`,
-      });
+    if (rootStore.coinFeature.coinTrend === CoinCategoriesEnum.Favourite) {
 
-      runInAction(() => {
-        if (!result.data) throw new Error("Empty data");
-        if (searchParams) {
-          this.setCoins(
-            result.data
-              .filter(filterCoinItemBySearch)
-              .filter(filterCoinItemByTrend)
-              .map(normalizeCoinItem)
-          );
-        } else {
-          this.setCoins(
-            result.data.filter(filterCoinItemByTrend).map(normalizeCoinItem)
-          );
-        }
-        this.setLoadingItems(false);
-      });
-    } catch (error) {
-      log(error);
+      await new Promise(resolve => {  // Для имитации запроса и адекватной работы отмены показа графиков
+        setTimeout(resolve, 0);
+      })
+      const favouritesJSON = localStorage.getItem("favourites");
+      const favourites = favouritesJSON? JSON.parse(favouritesJSON): null;  // Преобразуем данные из localStorage в приемлемый вид
+
+      if (searchParams){
+        this.setCoins(
+          favourites.filter(filterCoinItemBySearch)
+          .map(normalizeFavourites)
+        );
+      } else {
+        this.setCoins(favourites.map(normalizeFavourites));
+      }
+      this.setLoadingItems(false);
+    } else {
+      try {
+        const result = await axios({
+          method: "get",
+          url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${rootStore.coinFeature.currency.key}`,
+        });
+  
+        runInAction(() => {
+          if (!result.data) throw new Error("Empty data");
+          if (searchParams) {
+            this.setCoins(
+              result.data
+                .filter(filterCoinItemBySearch)
+                .filter(filterCoinItemByTrend)
+                .map(normalizeCoinItem)
+            );
+          } else {
+            this.setCoins(
+              result.data.filter(filterCoinItemByTrend).map(normalizeCoinItem)
+            );
+          }
+          this.setLoadingItems(false);
+        });
+      } catch (error) {
+        log(error);
+      }
     }
   };
 
