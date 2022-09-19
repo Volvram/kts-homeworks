@@ -4,6 +4,7 @@ import { LoaderSize } from "components/Loader";
 import WithLoader from "components/WithLoader";
 import { queryParamsEnum } from "config/queryParamsEnum";
 import { observer } from "mobx-react-lite";
+import { useShowChartsContext } from "pages/Market/Market";
 import ReactPaginate from "react-paginate";
 import { useSearchParams } from "react-router-dom";
 import CoinListStore from "store/CoinListStore/CoinListStore";
@@ -16,6 +17,8 @@ import styles from "./styles.module.scss";
 
 const CoinList: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const { setShowCharts } = useShowChartsContext();
 
   const coinListStore = useLocalStore(() => new CoinListStore());
   useQueryParamsStoreInit();
@@ -32,6 +35,15 @@ const CoinList: React.FC = () => {
 
     coinListStore.changePage();
   }, []);
+
+  React.useEffect(() => {
+    setShowCharts(false);
+  }, [
+    rootStore.query.getParam(queryParamsEnum.page),
+    rootStore.query.getParam(queryParamsEnum.search),
+    rootStore.coinFeature.currency,
+    rootStore.coinFeature.coinTrend,
+  ]);
 
   const handlePage = React.useCallback(
     (event: { selected: number }) => {

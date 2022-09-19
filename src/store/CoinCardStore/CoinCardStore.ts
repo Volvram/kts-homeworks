@@ -47,10 +47,6 @@ export default class CoinCardStore implements ILocalStore {
     try {
       if (this._id === undefined) return "";
 
-      await new Promise((resolve) => {
-        setTimeout(resolve, 1500);
-      });
-
       const result = await axios({
         method: "get",
         url: `https://api.coingecko.com/api/v3/coins/${this._id}/market_chart?vs_currency=${rootStore.coinFeature.currency.key}&days=1`,
@@ -59,7 +55,7 @@ export default class CoinCardStore implements ILocalStore {
       runInAction(() => {
         if (!result.data) throw new Error("Empty data");
 
-        const points: ChartPricesModel[] = result.data.prices // Здесь получаем массив объектов с датой и ценой (массив точек)
+        result.data.prices // Здесь получаем массив объектов с датой и ценой (массив точек)
           .filter(filterChartPricesByMinutes) // Фильтрация для уменьшения кол-ва точек (иначе там точки на каждые 1-7 минут, из-за чего графики могут быть не столь лаконичны)
           .map(normalizeChartPricesByH24)
           .forEach((point: ChartPricesModel) => {

@@ -7,6 +7,7 @@ import { createChart, MINICHARTOPTIONS } from "config/chart";
 import { COLORS, colorsmap } from "config/colors";
 import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
+import { useShowChartsContext } from "pages/Market/Market";
 import { Chart, Line } from "react-chartjs-2";
 import { Link } from "react-router-dom";
 import CoinCardStore from "store/CoinCardStore/CoinCardStore";
@@ -24,13 +25,19 @@ type CoinCardProps = {
 };
 
 const CoinCard: React.FC<CoinCardProps> = ({ coin }) => {
+  const { showCharts, setShowCharts } = useShowChartsContext();
+
   const coinCardStore = useLocalStore(() => new CoinCardStore(coin.id));
 
   const params = useSaveParams();
 
   React.useEffect(() => {
-    coinCardStore.miniChartRequest();
+    setShowCharts(false);
   }, []);
+
+  React.useEffect(() => {
+    if (showCharts) coinCardStore.miniChartRequest();
+  }, [showCharts]);
 
   const color = React.useMemo(() => {
     return coin.priceChangePercentage24h.startsWith("+")

@@ -14,15 +14,24 @@ const OpenSearch = createContext({
 const OpenSearchProvider = OpenSearch.Provider;
 export const useOpenSearchContext = () => useContext(OpenSearch);
 
+const ShowCharts = createContext({
+  showCharts: false,
+  setShowCharts: (value: boolean) => {},
+});
+const ShowChartsProvider = ShowCharts.Provider;
+export const useShowChartsContext = () => useContext(ShowCharts);
+
 const Market: React.FC = () => {
   const [openSearch, setOpenSearch] = React.useState(false);
+
+  const [showCharts, setShowCharts] = React.useState(false);
 
   return (
     <div className={styles.market}>
       <OpenSearchProvider value={{ openSearch, setOpenSearch }}>
         {!openSearch && (
           <>
-            <MarketChange />
+            <MarketChange onShowCharts={setShowCharts} />
             <CurrencyFilter />
             <CoinFilter />
             <hr className={styles.listLine}></hr>
@@ -30,7 +39,9 @@ const Market: React.FC = () => {
         )}
         {openSearch && <MarketSearch />}
       </OpenSearchProvider>
-      <CoinList />
+      <ShowChartsProvider value={{ showCharts, setShowCharts }}>
+        <CoinList />
+      </ShowChartsProvider>
     </div>
   );
 };
