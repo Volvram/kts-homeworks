@@ -12,7 +12,7 @@
     width: 269px;
     height: 40px;
 
-    background: #ffffff;
+    background: $white-color;
     border: 1px solid #dfe2e4;
     border-radius: 4px;
 
@@ -34,6 +34,21 @@
       width: 229px;
 
       font-family: $main-font-family;
+    }
+  }
+
+  &_cancel{
+    color: #343A40;
+  }
+}
+
+@media screen and (max-width: 365px) {
+  .search {
+    &_line {
+      width: 210px;
+      &_input {
+        width: 170px;
+      }
     }
   }
 }

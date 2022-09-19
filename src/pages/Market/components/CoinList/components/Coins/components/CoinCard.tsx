@@ -17,6 +17,7 @@ import rootStore from "store/RootStore/instance";
 import { useLocalStore } from "utils/useLocalStore";
 
 import styles from "./styles.module.scss";
+import { log } from "utils/log";
 
 ChartJS.register(...registerables);
 
@@ -49,7 +50,7 @@ const CoinCard: React.FC<CoinCardProps> = ({ coin }) => {
 
   const chartdata = createChart(
     toJS(coinCardStore.dates),
-    `${rootStore.coinFeature.currency.symbol}`,
+    rootStore.coinFeature.currency.symbol,
     toJS(coinCardStore.prices),
     color,
     color,

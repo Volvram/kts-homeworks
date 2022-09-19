@@ -1,6 +1,6 @@
 import React from "react";
 
-import { LoaderSize } from "components/Loader/Loader";
+import { LoaderSize } from "config/loader";
 
 import Loader from "../Loader";
 

@@ -11,7 +11,7 @@ export type ChartPricesModel = {
 export const filterChartPricesByMinutes = (from: ChartPricesApi): boolean => {
   // Точки ~каждый час
   return (
-    new Date(from[0]).getMinutes() >= 0 && new Date(from[0]).getMinutes() < 5
+    new Date(from[0]).getMinutes() >= 0 && new Date(from[0]).getMinutes() < 6
   );
 };
 

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { queryParamsEnum } from "config/queryParamsEnum";
 import {
   makeObservable,
   observable,
@@ -92,7 +93,7 @@ export default class CoinListStore implements ILocalStore {
     return this._loadingItems;
   }
 
-  // fields for pagination
+  // Поля для пагинации
   get currentItems() {
     return this._currentItems;
   }
@@ -139,8 +140,7 @@ export default class CoinListStore implements ILocalStore {
 
       runInAction(() => {
         if (!result.data) throw new Error("Empty data");
-
-        if (searchParams !== null && searchParams !== undefined) {
+        if (searchParams) {
           this.setCoins(
             result.data
               .filter(filterCoinItemBySearch)
@@ -167,7 +167,7 @@ export default class CoinListStore implements ILocalStore {
   };
 
   changePage = async () => {
-    await this.coinRequest(rootStore.query.getParam("search"));
+    await this.coinRequest(rootStore.query.getParam(queryParamsEnum.search));
     const endOffset = this._itemOffset + this._itemsPerPage;
     this.setCurrentItems(this._coins.slice(this._itemOffset, endOffset));
     this.setPageCount(Math.ceil(this._coins.length / this._itemsPerPage));
@@ -194,8 +194,8 @@ export default class CoinListStore implements ILocalStore {
   );
 
   readonly _searchHandler: IReactionDisposer = reaction(
-    () => rootStore.query.getParam("search"),
-    (searchParams) => {
+    () => rootStore.query.getParam(queryParamsEnum.search),
+    () => {
       this.changePage();
     }
   );

@@ -1,10 +1,15 @@
 import loader_l from "assets/img/loader_l.svg";
 import loader_m from "assets/img/loader_m.svg";
 import loader_s from "assets/img/loader_s.svg";
-import { LoaderSize } from "components/Loader";
+
+export enum LoaderSize {
+  s = "s",
+  m = "m",
+  l = "l",
+}
 
 export const loaderSVGmap: Record<LoaderSize, string> = {
-  s: loader_s,
-  m: loader_m,
-  l: loader_l,
+  [LoaderSize.s]: loader_s,
+  [LoaderSize.m]: loader_m,
+  [LoaderSize.l]: loader_l,
 };

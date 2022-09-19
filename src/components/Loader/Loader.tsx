@@ -1,15 +1,11 @@
 import React from "react";
 
 import cn from "classnames";
-import { loaderSVGmap } from "config/loaderSVGmap";
+import { LoaderSize, loaderSVGmap } from "config/loader";
 
 import styles from "./styles.module.scss";
 
-export enum LoaderSize {
-  s = "s",
-  m = "m",
-  l = "l",
-}
+
 
 type LoaderProps = {
   loading?: boolean;

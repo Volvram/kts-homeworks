@@ -2,7 +2,7 @@ import React from "react";
 
 import { Chart as ChartJS, registerables } from "chart.js";
 import { Button } from "components/Button/Button";
-import Loader, { LoaderSize } from "components/Loader";
+import Loader from "components/Loader";
 import { CHARTOPTIONS, createChart } from "config/chart";
 import { periodsValue } from "config/periodsEnum";
 import { toJS } from "mobx";
@@ -14,6 +14,8 @@ import rootStore from "store/RootStore/instance";
 import { useLocalStore } from "utils/useLocalStore";
 
 import styles from "./styles.module.scss";
+import { log } from "utils/log";
+import { LoaderSize } from "config/loader";
 
 ChartJS.register(...registerables);
 
@@ -28,7 +30,7 @@ const ChartLine: React.FC = () => {
 
   const chartdata = createChart(
     toJS(chartStore.dates),
-    `${rootStore.coinFeature.currency.symbol}`,
+    rootStore.coinFeature.currency.symbol,
     toJS(chartStore.prices)
   );
 

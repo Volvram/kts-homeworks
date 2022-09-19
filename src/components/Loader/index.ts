@@ -1,1 +1,1 @@
-export { default, LoaderSize } from "./Loader";
+export { default } from "./Loader";

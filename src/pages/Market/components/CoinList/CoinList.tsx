@@ -1,6 +1,6 @@
 import React from "react";
 
-import { LoaderSize } from "components/Loader";
+import { LoaderSize } from "config/loader";
 import WithLoader from "components/WithLoader";
 import { queryParamsEnum } from "config/queryParamsEnum";
 import { observer } from "mobx-react-lite";
@@ -66,7 +66,7 @@ const CoinList: React.FC = () => {
         forcePage={
           rootStore.query.getParam(queryParamsEnum.page) !== undefined
             ? Number(rootStore.query.getParam(queryParamsEnum.page)) - 1
-            : undefined
+            : 0
         }
         pageRangeDisplayed={3}
         pageCount={coinListStore.pageCount}
