@@ -79,11 +79,9 @@ export default class CoinStore implements ILocalStore {
       });
 
       runInAction(() => {
-        if (result.data) {
-          this._coinData = normalizeCoinData(result.data);
-        } else {
-          throw new Error("Empty result");
-        }
+        if (!result.data) throw new Error("Empty data");
+
+        this._coinData = normalizeCoinData(result.data);
         this.setLoading(false);
       });
     } catch (error) {

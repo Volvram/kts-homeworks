@@ -71,18 +71,16 @@ export default class MarketChangeStore implements ILocalStore {
       });
 
       runInAction(() => {
-        if (result.data) {
-          let priceChangePercentage24h = 0;
+        if (!result.data) throw new Error("Empty data");
 
-          result.data.forEach((coin: any) => {
-            priceChangePercentage24h += coin.price_change_percentage_24h;
-          });
+        let priceChangePercentage24h = 0;
 
-          this._marketChangeAverage =
-            priceChangePercentage24h / result.data.length;
-        } else {
-          throw new Error("Empty result");
-        }
+        result.data.forEach((coin: any) => {
+          priceChangePercentage24h += coin.price_change_percentage_24h;
+        });
+
+        this._marketChangeAverage =
+          priceChangePercentage24h / result.data.length;
       });
     } catch (error) {
       log(error);

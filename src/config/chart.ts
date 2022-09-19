@@ -14,21 +14,14 @@ export type ChartDataType = {
   ];
 };
 
-export const CHARTDATA: ChartDataType = {
-  labels: [""],
-  datasets: [
-    {
-      label: "",
-      spanGaps: false,
-      backgroundColor: "#0063F5",
-      borderColor: "#0063F5",
-      pointRadius: 1,
-      borderWidth: 3,
-      pointBorderWidth: 1,
-      data: [0],
-    },
-  ],
-};
+const dataset = {
+    label: "",
+    spanGaps: false,
+    backgroundColor: "#0063F5",
+    borderColor: "#0063F5",
+    pointRadius: 1,
+    data: [0],
+}
 
 export const createChart = (
   labels: string[],
@@ -43,12 +36,12 @@ export const createChart = (
     labels,
     datasets: [
       {
-        ...CHARTDATA.datasets[0], // Спереди, чтобы свойства label и data не перезаписывались дефолтными значениями
+        ...dataset, // Спереди, чтобы свойства label и data не перезаписывались дефолтными значениями
+        label,
         backgroundColor,
         borderColor,
         borderWidth,
         pointBorderWidth,
-        label,
         data,
       },
     ],

@@ -4,7 +4,7 @@ import { Chart as ChartJS, registerables } from "chart.js";
 import cn from "classnames";
 import { Card } from "components/Card";
 import { CHARTOPTIONS, createChart, MINICHARTOPTIONS } from "config/chart";
-import { COLORS } from "config/colors";
+import { COLORS, colorsmap } from "config/colors";
 import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import { Chart, Line } from "react-chartjs-2";
@@ -15,6 +15,8 @@ import rootStore from "store/RootStore/instance";
 import { useLocalStore } from "utils/useLocalStore";
 
 import styles from "./styles.module.scss";
+import { queryParamsEnum } from "config/queryParamsEnum";
+import { useSaveParams } from "store/RootStore/hooks/useSaveParams";
 
 type CoinCardProps = {
   coin: Coin;
@@ -25,27 +27,22 @@ const CoinCard: React.FC<CoinCardProps> = ({ coin }) => {
 
   const coinCardStore = useLocalStore(() => new CoinCardStore(coin.id));
 
-  const params = React.useMemo(() => {
-    return searchParams.get("page") && searchParams.get("search")
-      ? `?page=${searchParams.get("page")}&search=${searchParams.get("search")}`
-      : searchParams.get("page")
-      ? `?page=${searchParams.get("page")}`
-      : searchParams.get("search")
-      ? `?search=${searchParams.get("search")}`
-      : "";
-  }, [searchParams]);
+  const params = useSaveParams();
 
   React.useEffect(() => {
     coinCardStore.miniChartRequest();
   }, []);
 
-  const chartdata = React.useMemo(() => {
-    const color = coin.priceChangePercentage24h.startsWith("+")
-      ? "#21bf73"
+  const color = React.useMemo(() => {
+    return coin.priceChangePercentage24h.startsWith("+")
+      ? colorsmap[COLORS.positive]
       : coin.priceChangePercentage24h.startsWith("-")
-      ? "#d90429"
-      : "#6c757d";
-    return createChart(
+      ? colorsmap[COLORS.negative]
+      : colorsmap[COLORS.neutral];
+  }, [coin.priceChangePercentage24h]);
+  
+
+  const chartdata = createChart(
       toJS(coinCardStore.dates),
       `${rootStore.coinFeature.currency.symbol}`,
       toJS(coinCardStore.prices),
@@ -53,12 +50,7 @@ const CoinCard: React.FC<CoinCardProps> = ({ coin }) => {
       color,
       1.5,
       0
-    );
-  }, [
-    toJS(coinCardStore.dates),
-    `${rootStore.coinFeature.currency.symbol}`,
-    toJS(coinCardStore.prices),
-  ]);
+  );
 
   const classnames = cn(
     styles.coin_changePercentage24h,

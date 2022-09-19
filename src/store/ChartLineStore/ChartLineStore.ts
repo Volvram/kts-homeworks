@@ -111,6 +111,8 @@ export default class ChartStore implements ILocalStore {
       });
 
       runInAction(() => {
+        if (!result.data) throw new Error("Empty data");
+
         let points: ChartPricesModel[] = [];
 
         if (this._clickedPeriod === PeriodsEnum.H24) {

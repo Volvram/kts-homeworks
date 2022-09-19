@@ -1,11 +1,10 @@
 import React from "react";
 
 import { Card } from "components/Card/Card";
-import Loader, { LoaderSize } from "components/Loader/Loader";
+import Loader, { LoaderSize } from "components/Loader";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import CoinStore from "store/CoinStore/CoinStore";
-import { log } from "utils/log";
 import { useLocalStore } from "utils/useLocalStore";
 
 import ChartLine from "./components/ChartLine/ChartLine";

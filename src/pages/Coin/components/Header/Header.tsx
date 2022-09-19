@@ -8,6 +8,7 @@ import { CoinDataModel } from "store/models/CoinData/CoinData";
 import { log } from "utils/log";
 
 import styles from "./styles.module.scss";
+import { useSaveParams } from "store/RootStore/hooks/useSaveParams";
 
 type HeaderProps = {
   coinData: CoinDataModel | null;
@@ -17,29 +18,21 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = ({ coinData, loading = false }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const params = React.useMemo(() => {
-    return searchParams.get("page") && searchParams.get("search")
-      ? `?page=${searchParams.get("page")}&search=${searchParams.get("search")}`
-      : searchParams.get("page")
-      ? `?page=${searchParams.get("page")}`
-      : searchParams.get("search")
-      ? `?search=${searchParams.get("search")}`
-      : "";
-  }, [searchParams]);
+  const params = useSaveParams();
 
   return (
     <div className={styles.header}>
       <Link className={styles.header_back} to={`/${params}`}>
-        <img src={back} alt="" />
+        <img src={back} alt="back" />
       </Link>
       {!loading && (
         <>
-          <img className={styles.header_image} src={coinData?.image} alt="" />
+          <img className={styles.header_image} src={coinData?.image} alt="coin avatar" />
           <div className={styles.header_name}>{coinData?.name}</div>
           <div className={styles.header_symbol}>
             ({coinData?.symbol.toUpperCase()})
           </div>
-          <img src={favourite} alt="" />
+          <img src={favourite} alt="favourite" />
         </>
       )}
     </div>

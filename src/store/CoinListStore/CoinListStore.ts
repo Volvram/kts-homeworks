@@ -138,21 +138,19 @@ export default class CoinListStore implements ILocalStore {
       });
 
       runInAction(() => {
-        if (result.data) {
-          if (searchParams !== null && searchParams !== undefined) {
-            this.setCoins(
-              result.data
-                .filter(filterCoinItemBySearch)
-                .filter(filterCoinItemByTrend)
-                .map(normalizeCoinItem)
-            );
-          } else {
-            this.setCoins(
-              result.data.filter(filterCoinItemByTrend).map(normalizeCoinItem)
-            );
-          }
+        if (!result.data) throw new Error("Empty data");
+
+        if (searchParams !== null && searchParams !== undefined) {
+          this.setCoins(
+            result.data
+              .filter(filterCoinItemBySearch)
+              .filter(filterCoinItemByTrend)
+              .map(normalizeCoinItem)
+          );
         } else {
-          throw new Error("Empty result");
+          this.setCoins(
+            result.data.filter(filterCoinItemByTrend).map(normalizeCoinItem)
+          );
         }
         this.setLoadingItems(false);
       });

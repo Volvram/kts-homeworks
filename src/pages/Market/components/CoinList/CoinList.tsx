@@ -1,6 +1,6 @@
 import React from "react";
 
-import { LoaderSize } from "components/Loader/Loader";
+import { LoaderSize } from "components/Loader";
 import WithLoader from "components/WithLoader";
 import { queryParamsEnum } from "config/queryParamsEnum";
 import { observer } from "mobx-react-lite";

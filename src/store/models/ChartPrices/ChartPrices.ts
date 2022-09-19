@@ -1,7 +1,7 @@
 import { MONTHS } from "config/months";
 import { WEEKDAYS } from "config/weekdays";
 
-export type ChartPricesApi = number[];
+export type ChartPricesApi = [timestamp: number, price: number];
 
 export type ChartPricesModel = {
   date: string;

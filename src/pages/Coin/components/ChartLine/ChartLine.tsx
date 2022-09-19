@@ -2,9 +2,11 @@ import React from "react";
 
 import { Chart as ChartJS, registerables } from "chart.js";
 import { Button } from "components/Button/Button";
-import Loader from "components/Loader";
-import { LoaderSize } from "components/Loader/Loader";
-import { CHARTOPTIONS, createChart } from "config/chart";
+import Loader, { LoaderSize } from "components/Loader";
+import {
+  CHARTOPTIONS,
+  createChart,
+} from "config/chart";
 import { periodsValue } from "config/periodsEnum";
 import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
@@ -27,17 +29,11 @@ const ChartLine: React.FC = () => {
     chartStore.pricesRequest();
   }, []);
 
-  const chartdata = React.useMemo(() => {
-    return createChart(
+  const chartdata = createChart(
       toJS(chartStore.dates),
       `${rootStore.coinFeature.currency.symbol}`,
       toJS(chartStore.prices)
-    );
-  }, [
-    toJS(chartStore.dates),
-    `${rootStore.coinFeature.currency.symbol}`,
-    toJS(chartStore.prices),
-  ]);
+  );
 
   return (
     <>
