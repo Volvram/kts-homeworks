@@ -47,7 +47,7 @@ export default class CoinCardStore implements ILocalStore {
     try {
       if (this._id === undefined) return "";
 
-      await new Promise( resolve => {
+      await new Promise((resolve) => {
         setTimeout(resolve, 1500);
       });
 
@@ -58,11 +58,11 @@ export default class CoinCardStore implements ILocalStore {
 
       runInAction(() => {
         if (!result.data) throw new Error("Empty data");
-        
-        const points: ChartPricesModel[] = result.data.prices   // Здесь получаем массив объектов с датой и ценой (массив точек)
-          .filter(filterChartPricesByMinutes)   // Подобная фильтрация нужна для того, чтобы уменьшить количество точек (иначе там точки на каждые 1-7 минут, из-за чего графики могут быть не столь лаконичны)
-          .map(normalizeChartPricesByH24)       
-          .forEach((point: ChartPricesModel) => {   // Перебираем каждую точку и распределяем отдельно в массивы, для создания chartdata, передаваемого в компонент графика
+
+        const points: ChartPricesModel[] = result.data.prices // Здесь получаем массив объектов с датой и ценой (массив точек)
+          .filter(filterChartPricesByMinutes) // Фильтрация для уменьшения кол-ва точек (иначе там точки на каждые 1-7 минут, из-за чего графики могут быть не столь лаконичны)
+          .map(normalizeChartPricesByH24)
+          .forEach((point: ChartPricesModel) => { // Перебор точек и распределение дат и цен отдельно в массивы, для создания chartdata, передаваемого в компонент графика
             this._dates.push(point.date);
             this._prices.push(point.price);
           });

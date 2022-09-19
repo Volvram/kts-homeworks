@@ -3,27 +3,27 @@ import React from "react";
 import { Chart as ChartJS, registerables } from "chart.js";
 import cn from "classnames";
 import { Card } from "components/Card";
-import { CHARTOPTIONS, createChart, MINICHARTOPTIONS } from "config/chart";
+import { createChart, MINICHARTOPTIONS } from "config/chart";
 import { COLORS, colorsmap } from "config/colors";
 import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import { Chart, Line } from "react-chartjs-2";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import CoinCardStore from "store/CoinCardStore/CoinCardStore";
 import { Coin } from "store/CoinListStore/CoinListStore";
+import { useSaveParams } from "store/RootStore/hooks/useSaveParams";
 import rootStore from "store/RootStore/instance";
 import { useLocalStore } from "utils/useLocalStore";
 
 import styles from "./styles.module.scss";
-import { queryParamsEnum } from "config/queryParamsEnum";
-import { useSaveParams } from "store/RootStore/hooks/useSaveParams";
+
+ChartJS.register(...registerables);
 
 type CoinCardProps = {
   coin: Coin;
 };
 
 const CoinCard: React.FC<CoinCardProps> = ({ coin }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const coinCardStore = useLocalStore(() => new CoinCardStore(coin.id));
 
@@ -40,16 +40,15 @@ const CoinCard: React.FC<CoinCardProps> = ({ coin }) => {
       ? colorsmap[COLORS.negative]
       : colorsmap[COLORS.neutral];
   }, [coin.priceChangePercentage24h]);
-  
 
   const chartdata = createChart(
-      toJS(coinCardStore.dates),
-      `${rootStore.coinFeature.currency.symbol}`,
-      toJS(coinCardStore.prices),
-      color,
-      color,
-      1.5,
-      0
+    toJS(coinCardStore.dates),
+    `${rootStore.coinFeature.currency.symbol}`,
+    toJS(coinCardStore.prices),
+    color,
+    color,
+    1.5,
+    0
   );
 
   const classnames = cn(

@@ -15,13 +15,13 @@ export type ChartDataType = {
 };
 
 const dataset = {
-    label: "",
-    spanGaps: false,
-    backgroundColor: "#0063F5",
-    borderColor: "#0063F5",
-    pointRadius: 1,
-    data: [0],
-}
+  label: "",
+  spanGaps: false,
+  backgroundColor: "#0063F5",
+  borderColor: "#0063F5",
+  pointRadius: 1,
+  data: [0],
+};
 
 export const createChart = (
   labels: string[],

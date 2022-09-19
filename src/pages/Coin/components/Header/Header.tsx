@@ -5,10 +5,10 @@ import favourite from "assets/img/favourite.svg";
 import { observer } from "mobx-react-lite";
 import { Link, useSearchParams } from "react-router-dom";
 import { CoinDataModel } from "store/models/CoinData/CoinData";
+import { useSaveParams } from "store/RootStore/hooks/useSaveParams";
 import { log } from "utils/log";
 
 import styles from "./styles.module.scss";
-import { useSaveParams } from "store/RootStore/hooks/useSaveParams";
 
 type HeaderProps = {
   coinData: CoinDataModel | null;
@@ -27,7 +27,11 @@ const Header: React.FC<HeaderProps> = ({ coinData, loading = false }) => {
       </Link>
       {!loading && (
         <>
-          <img className={styles.header_image} src={coinData?.image} alt="coin avatar" />
+          <img
+            className={styles.header_image}
+            src={coinData?.image}
+            alt="coin avatar"
+          />
           <div className={styles.header_name}>{coinData?.name}</div>
           <div className={styles.header_symbol}>
             ({coinData?.symbol.toUpperCase()})
