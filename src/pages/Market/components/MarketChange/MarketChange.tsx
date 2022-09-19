@@ -3,19 +3,16 @@ import React from "react";
 import enableSearch from "assets/img/enableSearch.svg";
 import { Button } from "components/Button/Button";
 import { observer } from "mobx-react-lite";
-import { useOpenSearchContext } from "pages/Market/Market";
+import { useOpenSearchContext, useShowChartsContext } from "pages/Market/Market";
 import MarketChangeStore from "store/MarketChangeStore/MarketChangeStore";
-import { log } from "utils/log";
 import { useLocalStore } from "utils/useLocalStore";
 
 import styles from "./styles.module.scss";
 
-type MarketChangeProps = {
-  onShowCharts: (value: boolean) => void;
-};
-
-const MarketChange: React.FC<MarketChangeProps> = ({ onShowCharts }) => {
+const MarketChange: React.FC = () => {
   const { setOpenSearch } = useOpenSearchContext();
+
+  const { setShowCharts } = useShowChartsContext();
 
   const marketChangeStore = useLocalStore(() => new MarketChangeStore());
 
@@ -24,8 +21,8 @@ const MarketChange: React.FC<MarketChangeProps> = ({ onShowCharts }) => {
   }, []);
 
   const handleShowCharts = React.useCallback(() => {
-    onShowCharts(true);
-  }, [onShowCharts]);
+    setShowCharts(true);
+  }, [setShowCharts]);
 
   return (
     <div>

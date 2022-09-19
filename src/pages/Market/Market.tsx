@@ -31,7 +31,9 @@ const Market: React.FC = () => {
       <OpenSearchProvider value={{ openSearch, setOpenSearch }}>
         {!openSearch && (
           <>
-            <MarketChange onShowCharts={setShowCharts} />
+            <ShowChartsProvider value={{ showCharts, setShowCharts }}>
+              <MarketChange />
+            </ShowChartsProvider>
             <CurrencyFilter />
             <CoinFilter />
             <hr className={styles.listLine}></hr>
