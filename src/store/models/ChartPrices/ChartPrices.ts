@@ -8,7 +8,8 @@ export type ChartPricesModel = {
   price: number;
 };
 
-export const filterChartPricesByMinutes = (from: ChartPricesApi): boolean => {  // Точки ~каждый час
+export const filterChartPricesByMinutes = (from: ChartPricesApi): boolean => {
+  // Точки ~каждый час
   return (
     new Date(from[0]).getMinutes() >= 0 && new Date(from[0]).getMinutes() < 5
   );
@@ -17,14 +18,16 @@ export const filterChartPricesByMinutes = (from: ChartPricesApi): boolean => {  
 export const filterChartPricesByHours = (
   from: ChartPricesApi,
   days: number
-): boolean => {   // Точки ~каждый день
+): boolean => {
+  // Точки ~каждый день
   return new Date(from[0]).getHours() === 0;
 };
 
 export const filterChartPricesByDays = (
   from: ChartPricesApi,
   days: number
-): boolean => {   // Точки ~каждый месяц
+): boolean => {
+  // Точки ~каждый месяц
   return new Date(from[0]).getDate() === 1;
 };
 

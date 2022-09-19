@@ -113,7 +113,7 @@ export default class ChartStore implements ILocalStore {
       runInAction(() => {
         if (!result.data) throw new Error("Empty data");
 
-        let points: ChartPricesModel[] = [];  // Массив объектов с датой и ценой (массив точек)
+        let points: ChartPricesModel[] = []; // Массив объектов с датой и ценой (массив точек)
 
         if (this._clickedPeriod === PeriodsEnum.H24) {
           points = result.data.prices
@@ -136,7 +136,8 @@ export default class ChartStore implements ILocalStore {
             .filter(filterChartPricesByDays)
             .map(normalizeChartPricesByY1);
         }
-        points.forEach((point: ChartPricesModel) => { // Перебор точек и распределение дат и цен отдельно в массивы, для создания chartdata, передаваемого в компонент графика
+        points.forEach((point: ChartPricesModel) => {
+          // Перебор точек и распределение дат и цен отдельно в массивы, для создания chartdata, передаваемого в компонент графика
           this._dates.push(point.date);
           this._prices.push(point.price);
         });

@@ -24,7 +24,6 @@ type CoinCardProps = {
 };
 
 const CoinCard: React.FC<CoinCardProps> = ({ coin }) => {
-
   const coinCardStore = useLocalStore(() => new CoinCardStore(coin.id));
 
   const params = useSaveParams();
