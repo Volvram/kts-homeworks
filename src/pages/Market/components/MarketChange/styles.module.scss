@@ -1,4 +1,4 @@
-@import "@styles/variables.scss";
+@import "styles/variables.scss";
 
 .market_change {
   margin-left: 16px;
@@ -14,15 +14,39 @@
     margin-right: 3px;
   }
 
-  &_period {
+  &_periodAndShowCharts {
     margin-top: 4px;
     margin-left: 16px;
+    margin-right: 16px;
 
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &_period {
     color: $grey-color;
 
     font-family: $main-font-family;
     font-size: 12px;
     font-weight: 450;
+  }
+
+  &_showCharts {
+    cursor: pointer;
+
+    padding: 5px 8px;
+
+    background: $default-button-background;
+    border: $default-button-border;
+    border-radius: 12px;
+
+    color: $grey-color;
+
+    font-family: $main-font-family;
+    font-style: normal;
+    font-weight: 450;
+    font-size: 12px;
+    line-height: 15px;
   }
 }
 

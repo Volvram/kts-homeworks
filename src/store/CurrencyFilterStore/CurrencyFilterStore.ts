@@ -1,7 +1,7 @@
-import { OptionType } from "@components/Dropdown/Dropdown";
-import rootStore from "@store/RootStore/instance";
-import { ILocalStore } from "@utils/useLocalStore";
+import { OptionType } from "components/Dropdown/Dropdown";
 import { makeObservable, observable, computed, action } from "mobx";
+import rootStore from "store/RootStore/instance";
+import { ILocalStore } from "utils/useLocalStore";
 
 type PrivateFields = "_description" | "_defaultOptionDescription";
 

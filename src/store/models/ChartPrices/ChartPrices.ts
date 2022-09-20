@@ -1,7 +1,7 @@
-import { MONTHS } from "@config/months";
-import { WEEKDAYS } from "@config/weekdays";
+import { MONTHS } from "config/months";
+import { WEEKDAYS } from "config/weekdays";
 
-export type ChartPricesApi = number[];
+export type ChartPricesApi = [timestamp: number, price: number];
 
 export type ChartPricesModel = {
   date: string;
@@ -9,8 +9,9 @@ export type ChartPricesModel = {
 };
 
 export const filterChartPricesByMinutes = (from: ChartPricesApi): boolean => {
+  // Точки ~каждый час
   return (
-    new Date(from[0]).getMinutes() >= 0 && new Date(from[0]).getMinutes() < 5
+    new Date(from[0]).getMinutes() >= 0 && new Date(from[0]).getMinutes() < 6
   );
 };
 
@@ -18,6 +19,7 @@ export const filterChartPricesByHours = (
   from: ChartPricesApi,
   days: number
 ): boolean => {
+  // Точки ~каждый день
   return new Date(from[0]).getHours() === 0;
 };
 
@@ -25,6 +27,7 @@ export const filterChartPricesByDays = (
   from: ChartPricesApi,
   days: number
 ): boolean => {
+  // Точки ~каждый месяц
   return new Date(from[0]).getDate() === 1;
 };
 

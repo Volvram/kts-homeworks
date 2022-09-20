@@ -1,6 +1,10 @@
-import { CoinCategoriesEnum } from "@config/coinCategoriesEnum";
-import { CURRENCIES } from "@config/currencies";
-import rootStore from "@store/RootStore/instance";
+import { CoinCategoriesEnum } from "config/coinCategoriesEnum";
+import { CURRENCIES } from "config/currencies";
+import { getFavourites } from "config/getFavourites";
+import { queryParamsEnum } from "config/queryParamsEnum";
+import rootStore from "store/RootStore/instance";
+
+import { CoinDataModel } from "../CoinData/CoinData";
 
 export type coinItemApi = {
   id: string;
@@ -24,17 +28,25 @@ export const filterCoinItemBySearch = (from: coinItemApi): boolean => {
   const name = from.name.toLowerCase();
   const symbol = from.symbol.toLowerCase();
   const params =
-    rootStore.query.getParam("search") !== "undefined"
-      ? `${rootStore.query.getParam("search")}`.toLowerCase()
-      : `${rootStore.query.getParam("search")}`;
+    rootStore.query.getParam(queryParamsEnum.search) !== "undefined"
+      ? `${rootStore.query.getParam(queryParamsEnum.search)}`.toLowerCase()
+      : `${rootStore.query.getParam(queryParamsEnum.search)}`;
   return name.includes(params) || symbol.includes(params);
 };
 
 export const filterCoinItemByTrend = (from: coinItemApi): boolean => {
+  const favourites = getFavourites(); // Получаем данные из localStorage в нужном виде
+
   if (rootStore.coinFeature.coinTrend === CoinCategoriesEnum.Gainer) {
     return from.price_change_percentage_24h > 0;
   } else if (rootStore.coinFeature.coinTrend === CoinCategoriesEnum.Loser) {
     return from.price_change_percentage_24h < 0;
+  } else if (rootStore.coinFeature.coinTrend === CoinCategoriesEnum.Favourite) {
+    return favourites
+      ? Boolean(
+          favourites.find((favouriteId: string) => favouriteId === from.id)
+        )
+      : false;
   } else {
     return true;
   }
@@ -60,6 +72,25 @@ export const normalizeCoinItem = (from: coinItemApi): coinItemModel => {
     symbol: from.symbol.toUpperCase(),
     image: from.image,
     currentPrice: `${currencySymbol} ${from.current_price.toFixed(2)}`,
+    priceChangePercentage24h: priceChange,
+  };
+};
+
+export const normalizeFavourites = (from: CoinDataModel): coinItemModel => {
+  let priceChange = "";
+
+  if (from.priceChangePercentage24h > 0) {
+    priceChange = `+${from.priceChangePercentage24h}%`;
+  } else if (from.priceChangePercentage24h <= 0) {
+    priceChange = `${from.priceChangePercentage24h}%`;
+  }
+
+  return {
+    id: from.id,
+    name: from.name,
+    symbol: from.symbol.toUpperCase(),
+    image: from.image,
+    currentPrice: `${rootStore.coinFeature.currency.symbol} ${from.currentPrice}`,
     priceChangePercentage24h: priceChange,
   };
 };

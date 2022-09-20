@@ -1,31 +1,74 @@
 import React from "react";
 
-import { Card } from "@components/Card";
-import { COLORS } from "@config/colors";
-import { Coin } from "@store/CoinListStore/CoinListStore";
+import { Chart as ChartJS, registerables } from "chart.js";
 import cn from "classnames";
-import cnBind from "classnames/bind";
+import { Card } from "components/Card";
+import { createChart, MINICHARTOPTIONS } from "config/chart";
+import { COLORS, colorsmap } from "config/colors";
+import { toJS } from "mobx";
+import { observer } from "mobx-react-lite";
+import { useShowChartsContext } from "pages/Market/Market";
+import { Chart, Line } from "react-chartjs-2";
 import { Link } from "react-router-dom";
+import CoinCardStore from "store/CoinCardStore/CoinCardStore";
+import { Coin } from "store/CoinListStore/CoinListStore";
+import { useSaveParams } from "store/RootStore/hooks/useSaveParams";
+import rootStore from "store/RootStore/instance";
+import { log } from "utils/log";
+import { useLocalStore } from "utils/useLocalStore";
 
 import styles from "./styles.module.scss";
 
-const cx = cnBind.bind(COLORS);
+ChartJS.register(...registerables);
 
 type CoinCardProps = {
   coin: Coin;
 };
 
 const CoinCard: React.FC<CoinCardProps> = ({ coin }) => {
-  const classnames = cx({
-    positive: coin.priceChangePercentage24h.startsWith("+"),
-    negative: coin.priceChangePercentage24h.startsWith("-"),
-    neutral:
-      !coin.priceChangePercentage24h.startsWith("+") &&
-      !coin.priceChangePercentage24h.startsWith("-"),
-  });
+  const { showCharts, setShowCharts } = useShowChartsContext();
+
+  const coinCardStore = useLocalStore(() => new CoinCardStore(coin.id));
+
+  const params = useSaveParams();
+
+  React.useEffect(() => {
+    setShowCharts(false);
+  }, []);
+
+  React.useEffect(() => {
+    if (showCharts) coinCardStore.miniChartRequest();
+  }, [showCharts]);
+
+  const color = React.useMemo(() => {
+    return coin.priceChangePercentage24h.startsWith("+")
+      ? colorsmap[COLORS.positive]
+      : coin.priceChangePercentage24h.startsWith("-")
+      ? colorsmap[COLORS.negative]
+      : colorsmap[COLORS.neutral];
+  }, [coin.priceChangePercentage24h]);
+
+  const chartdata = createChart(
+    toJS(coinCardStore.dates),
+    rootStore.coinFeature.currency.symbol,
+    toJS(coinCardStore.prices),
+    color,
+    color,
+    1.5,
+    0
+  );
+
+  const classnames = cn(
+    styles.coin_changePercentage24h,
+    coin.priceChangePercentage24h.startsWith("+") && COLORS.positive,
+    coin.priceChangePercentage24h.startsWith("-") && COLORS.negative,
+    !coin.priceChangePercentage24h.startsWith("+") &&
+      !coin.priceChangePercentage24h.startsWith("-") &&
+      COLORS.neutral
+  );
 
   return (
-    <Link to={`/coin/${coin.id}`} className={styles.link}>
+    <Link to={`/coin/${coin.id}/${params}`} className={styles.link}>
       <Card
         image={coin.image}
         title={coin.name}
@@ -33,12 +76,12 @@ const CoinCard: React.FC<CoinCardProps> = ({ coin }) => {
         className={styles.coin}
         content={
           <div className={styles.coin_chartAndPriceAndChangePercentage24h}>
-            <div className={styles.coin_chart}></div>
+            <div className={styles.coin_chart}>
+              <Line data={chartdata} options={MINICHARTOPTIONS} height="auto" />
+            </div>
             <div className={styles.coin_priceAndChangePercentage24h}>
               <div className={styles.coin_price}>{coin.currentPrice}</div>
-              <div className={cn(styles.coin_changePercentage24h, classnames)}>
-                {coin.priceChangePercentage24h}
-              </div>
+              <div className={classnames}>{coin.priceChangePercentage24h}</div>
             </div>
           </div>
         }
@@ -47,4 +90,4 @@ const CoinCard: React.FC<CoinCardProps> = ({ coin }) => {
   );
 };
 
-export default CoinCard;
+export default observer(CoinCard);

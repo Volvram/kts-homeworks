@@ -1,8 +1,6 @@
-@import "@styles/variables.scss";
+@import "styles/variables.scss";
 
 $option-padding: 5px 8px;
-$option-background: #f8f9fa;
-$choice-border: 0.5px solid #dfe2e4;
 
 .dropdown {
   cursor: pointer;
@@ -20,13 +18,17 @@ $choice-border: 0.5px solid #dfe2e4;
   line-height: 15px;
 
   &__closed {
-    border: $choice-border;
+    border: $default-button-border;
     border-radius: 12px;
+    height: fit-content;
+    transition: height 1s linear;
   }
 
   &__opened {
-    border: $choice-border;
+    border: $default-button-border;
     border-radius: 12px 12px 0 0;
+    height: fit-content;
+    transition: height 1s linear;
   }
 
   &_choice {
@@ -34,19 +36,30 @@ $choice-border: 0.5px solid #dfe2e4;
 
     min-width: 71px;
 
-    background: $option-background;
-    border: $choice-border;
+    background: $default-button-background;
+    border: $default-button-border;
   }
 
   &_option {
     padding: $option-padding;
 
-    background: $option-background;
+    background: $default-button-background;
     border: solid #dfe2e4;
     border-width: 0px 0.5px 0.5px 0.5px;
   }
 
   &_options_container {
     position: absolute;
+
+    animation: appear 0.5s linear;
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

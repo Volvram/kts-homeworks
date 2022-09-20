@@ -1,10 +1,12 @@
 import React from "react";
 
-import { Card } from "@components/Card/Card";
-import CoinStore from "@store/CoinStore/CoinStore";
-import { useLocalStore } from "@utils/useLocalStore";
+import { Card } from "components/Card/Card";
+import Loader from "components/Loader";
+import { LoaderSize } from "config/loader";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
+import CoinStore from "store/CoinStore/CoinStore";
+import { useLocalStore } from "utils/useLocalStore";
 
 import ChartLine from "./components/ChartLine/ChartLine";
 import Header from "./components/Header/Header";
@@ -21,46 +23,52 @@ const Coin: React.FC = () => {
 
   return (
     <div className={styles.coinPage}>
-      <Header coinData={coinStore.coinData} />
-      <div className={styles.price}>
-        <div className={styles.price_current}>
-          <div className={styles.price_current_currency}>
-            {coinStore.coinData.currencySymbol}
-          </div>
-          <div>{coinStore.coinData.currentPrice}</div>
-        </div>
-        <div className={styles.price_change}>
-          <div
-            className={`${styles.price_change_number} ${coinStore.coinData.priceChangeColor}`}
-          >
-            {coinStore.coinData.priceChange24hToString}
-          </div>
-          <div className={`${coinStore.coinData.priceChangeColor}`}>
-            ({coinStore.coinData.priceChangePercentage24hToString})
-          </div>
-        </div>
-      </div>
-      <ChartLine />
-      <Card
-        image={coinStore.coinData.image}
-        title={coinStore.coinData.name}
-        subtitle={coinStore.coinData.symbol.toUpperCase()}
-        className={styles.coinCard}
-        content={
-          <div className={styles.coinCard_content}>
-            <div className={styles.coinCard_content_price}>
-              {coinStore.coinData.currencySymbol}
-              {coinStore.coinData.currentPrice}
+      <Header coinData={coinStore.coinData} loading={coinStore.loading} />
+      {coinStore.loading ? (
+        <Loader loading={coinStore.loading} size={LoaderSize.l} />
+      ) : (
+        <>
+          <div className={styles.price}>
+            <div className={styles.price_current}>
+              <div className={styles.price_current_currency}>
+                {coinStore.coinData.currencySymbol}
+              </div>
+              <div>{coinStore.coinData.currentPrice}</div>
             </div>
-            <div
-              className={`${styles.coinCard_content_percentage} ${coinStore.coinData.priceChangeColor}`}
-            >
-              {coinStore.coinData.priceChangePercentage24hToString}
+            <div className={styles.price_change}>
+              <div
+                className={`${styles.price_change_number} ${coinStore.coinData.priceChangeColor}`}
+              >
+                {coinStore.coinData.priceChange24hToString}
+              </div>
+              <div className={`${coinStore.coinData.priceChangeColor}`}>
+                ({coinStore.coinData.priceChangePercentage24hToString})
+              </div>
             </div>
           </div>
-        }
-      />
-      <div className={styles.transactions}>Transactions</div>
+          <ChartLine />
+          <Card
+            image={coinStore.coinData.image}
+            title={coinStore.coinData.name}
+            subtitle={coinStore.coinData.symbol.toUpperCase()}
+            className={styles.coinCard}
+            content={
+              <div className={styles.coinCard_content}>
+                <div className={styles.coinCard_content_price}>
+                  {coinStore.coinData.currencySymbol}
+                  {coinStore.coinData.currentPrice}
+                </div>
+                <div
+                  className={`${styles.coinCard_content_percentage} ${coinStore.coinData.priceChangeColor}`}
+                >
+                  {coinStore.coinData.priceChangePercentage24hToString}
+                </div>
+              </div>
+            }
+          />
+          <div className={styles.transactions}>Transactions</div>
+        </>
+      )}
     </div>
   );
 };

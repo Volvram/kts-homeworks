@@ -1,10 +1,10 @@
 import React from "react";
 
-import DropDownStore from "@store/DropdownStore/DropdownStore";
-import { useLocalStore } from "@utils/useLocalStore";
 import cn from "classnames";
 import cnBind from "classnames/bind";
 import { observer } from "mobx-react-lite";
+import DropDownStore from "store/DropdownStore/DropdownStore";
+import { useLocalStore } from "utils/useLocalStore";
 
 import styles from "./styles.module.scss";
 
@@ -54,11 +54,9 @@ const Dropdown: React.FC<DropdownProps> = ({
     <div className={styles.dropdown}>
       <div
         className={cn(
-          cx({
-            dropdown_choice: true,
-            dropdown__closed: dropdownStore.listClosed,
-            dropdown__opened: !dropdownStore.listClosed,
-          })
+          styles.dropdown_choice,
+          dropdownStore.listClosed && styles.dropdown__closed,
+          !dropdownStore.listClosed && styles.dropdown__opened
         )}
         onClick={handleList}
       >

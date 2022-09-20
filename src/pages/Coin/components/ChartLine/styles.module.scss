@@ -1,9 +1,4 @@
-$button-color: #6c757d;
-$button-background: #f8f9fa;
-$button-border-color: #dfe2e4;
-$button-clicked-color: #0063f5;
-$button-clicked-background: #ecf4ff;
-$button-clicked-border-color: #0063f5;
+@import "styles/variables.scss";
 
 .chart {
   margin-top: 18px;
@@ -27,10 +22,10 @@ $button-clicked-border-color: #0063f5;
     &_button {
       padding: 6px 10px;
 
-      color: $button-color;
+      color: $default-button-color;
 
-      background: $button-background;
-      border: 0.5px solid $button-border-color;
+      background: $default-button-background;
+      border: $default-button-border;
       border-radius: 20px;
 
       &__clicked {
@@ -39,8 +34,12 @@ $button-clicked-border-color: #0063f5;
         color: $button-clicked-color;
 
         background: $button-clicked-background;
-        border: 0.5px solid $button-clicked-border-color;
+        border: $button-clicked-border;
         border-radius: 20px;
+
+        transition-property: color, background, border;
+        transition-duration: 0.5s;
+        transition-timing-function: linear;
       }
     }
   }

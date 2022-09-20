@@ -1,7 +1,7 @@
-import { CoinCategoriesEnum } from "@config/coinCategoriesEnum";
-import rootStore from "@store/RootStore/instance";
-import { ILocalStore } from "@utils/useLocalStore";
+import { CoinCategoriesEnum } from "config/coinCategoriesEnum";
 import { makeObservable, observable, action, computed } from "mobx";
+import rootStore from "store/RootStore/instance";
+import { ILocalStore } from "utils/useLocalStore";
 
 type PrivateFields = "_clickedCategory";
 

@@ -1,27 +1,28 @@
 {
-  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "baseUrl": "src",
+    "paths": {
+     "components": ["components"],
+     "pages": ["pages"],
+     "config": ["config"],
+     "styles": ["styles"],
+     "store": ["store"],
+     "utils": ["utils"],
+     "assets": ["assets"],
+    },
+    "noEmit": true,
     "allowJs": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
     "skipLibCheck": true,
+    "module": "es6",
+    "target": "es6",
+    "moduleResolution": "node",
+    "jsx": "react",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
   },
-  "include": [
-    "src"
-, "declaration.d.ts"  ]
-}
+  "include": ["src/**/*", "declaration.d.ts"],
+  "exclude": ["node_modules"],
+ }

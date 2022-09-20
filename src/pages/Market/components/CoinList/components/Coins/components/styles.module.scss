@@ -1,4 +1,4 @@
-@import "@styles/variables.scss";
+@import "styles/variables.scss";
 
 .link {
   text-decoration: none;
@@ -17,14 +17,17 @@
   }
 
   &_chart {
-    width: 50px;
-    height: 25px;
+    width: 90px;
+    height: 50px;
   }
 
   &_priceAndChangePercentage24h {
+    width: auto;
+
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    flex-wrap: nowrap;
   }
 
   &_price {
@@ -40,5 +43,14 @@
     font-family: $main-font-family;
     font-weight: 500;
     font-size: 10px;
+  }
+}
+
+@media screen and (max-width: 365px) {
+  .coin {
+    padding: 8px;
+    &_price {
+      font-size: 12px;
+    }
   }
 }

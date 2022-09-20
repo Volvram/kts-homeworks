@@ -1,4 +1,12 @@
-import { PeriodsEnum } from "@config/periodsEnum";
+import axios from "axios";
+import { PeriodsEnum } from "config/periodsEnum";
+import {
+  makeObservable,
+  observable,
+  action,
+  computed,
+  runInAction,
+} from "mobx";
 import {
   ChartPricesModel,
   filterChartPricesByDays,
@@ -9,23 +17,21 @@ import {
   normalizeChartPricesByM6,
   normalizeChartPricesByW1,
   normalizeChartPricesByY1,
-} from "@store/models/ChartPrices/ChartPrices";
-import rootStore from "@store/RootStore/instance";
-import { log } from "@utils/log";
-import { ILocalStore } from "@utils/useLocalStore";
-import axios from "axios";
-import {
-  makeObservable,
-  observable,
-  action,
-  computed,
-  runInAction,
-} from "mobx";
+} from "store/models/ChartPrices/ChartPrices";
+import rootStore from "store/RootStore/instance";
+import { log } from "utils/log";
+import { ILocalStore } from "utils/useLocalStore";
 
-type PrivateFields = "_clickedPeriod" | "_id" | "_dates" | "_prices";
+type PrivateFields =
+  | "_clickedPeriod"
+  | "_id"
+  | "_dates"
+  | "_prices"
+  | "_loading";
 
 export default class ChartStore implements ILocalStore {
   private _clickedPeriod: PeriodsEnum = PeriodsEnum.H24;
+  private _loading = true;
 
   // chart fields
   private _id: string | undefined;
@@ -33,10 +39,15 @@ export default class ChartStore implements ILocalStore {
   private _prices: number[] = [];
 
   constructor(id: string | undefined) {
+    this._id = id;
+
     makeObservable<ChartStore, PrivateFields>(this, {
       _clickedPeriod: observable,
       setClickedPeriod: action,
       clickedPeriod: computed,
+      _loading: observable,
+      setLoading: action,
+      loading: computed,
       _id: observable,
       _dates: observable,
       dates: computed,
@@ -44,8 +55,6 @@ export default class ChartStore implements ILocalStore {
       prices: computed,
       pricesRequest: action,
     });
-
-    this._id = id;
   }
 
   setClickedPeriod(period: PeriodsEnum) {
@@ -57,6 +66,14 @@ export default class ChartStore implements ILocalStore {
 
   get clickedPeriod() {
     return this._clickedPeriod;
+  }
+
+  setLoading(loading: boolean) {
+    this._loading = loading;
+  }
+
+  get loading() {
+    return this._loading;
   }
 
   handleClick = (period: PeriodsEnum) => {
@@ -87,17 +104,20 @@ export default class ChartStore implements ILocalStore {
     const days = mapPeriodToDays[this._clickedPeriod];
 
     try {
+      this.setLoading(true);
       const result = await axios({
         method: "get",
         url: `https://api.coingecko.com/api/v3/coins/${this._id}/market_chart?vs_currency=${rootStore.coinFeature.currency.key}&days=${days}`,
       });
 
       runInAction(() => {
-        let points: ChartPricesModel[] = [];
+        if (!result.data) throw new Error("Empty data");
+
+        let points: ChartPricesModel[] = []; // Массив объектов с датой и ценой (массив точек)
 
         if (this._clickedPeriod === PeriodsEnum.H24) {
           points = result.data.prices
-            .filter(filterChartPricesByMinutes)
+            .filter(filterChartPricesByMinutes) // Фильтрация для уменьшения кол-ва точек
             .map(normalizeChartPricesByH24);
         } else if (this._clickedPeriod === PeriodsEnum.W1) {
           points = result.data.prices
@@ -117,9 +137,11 @@ export default class ChartStore implements ILocalStore {
             .map(normalizeChartPricesByY1);
         }
         points.forEach((point: ChartPricesModel) => {
+          // Перебор точек и распределение дат и цен отдельно в массивы, для создания chartdata, передаваемого в компонент графика
           this._dates.push(point.date);
           this._prices.push(point.price);
         });
+        this.setLoading(false);
       });
     } catch (error) {
       log(error);

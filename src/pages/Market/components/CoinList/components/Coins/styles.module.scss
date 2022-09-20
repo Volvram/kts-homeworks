@@ -1,7 +1,13 @@
-@import "@styles/variables.scss";
+@import "styles/variables.scss";
 
 .coins {
   display: flex;
   justify-content: space-around;
   flex-direction: column;
+
+  &_not_found{
+    margin: 50% auto;
+    color: $grey-color;
+    font-family: $main-font-family;
+  }
 }

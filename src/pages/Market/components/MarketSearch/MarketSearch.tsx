@@ -1,11 +1,11 @@
 import React from "react";
 
-import search from "@assets/img/search.svg";
-import { Button } from "@components/Button/Button";
-import { Input } from "@components/Input/Input";
-import { queryParamsEnum } from "@config/queryParamsEnum";
-import { useOpenSearchContext } from "@pages/Market/Market";
+import search from "assets/img/search.svg";
+import { Button } from "components/Button/Button";
+import { Input } from "components/Input/Input";
+import { queryParamsEnum } from "config/queryParamsEnum";
 import { observer } from "mobx-react-lite";
+import { useOpenSearchContext } from "pages/Market/Market";
 import { useSearchParams } from "react-router-dom";
 
 import styles from "./styles.module.scss";
@@ -42,7 +42,9 @@ const MarketSearch: React.FC = () => {
           placeholder={"Search Cryptocurrency"}
         />
       </div>
-      <Button onClick={handleClick}>Cancel</Button>
+      <Button onClick={handleClick} className={styles.search_cancel}>
+        Cancel
+      </Button>
     </div>
   );
 };

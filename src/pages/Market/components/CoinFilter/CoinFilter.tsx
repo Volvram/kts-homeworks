@@ -1,10 +1,10 @@
 import React from "react";
 
-import { Button } from "@components/Button/Button";
-import { coinCategoriesValue } from "@config/coinCategoriesEnum";
-import CoinFilterStore from "@store/CoinFilterStore/CoinFilterStore";
-import { useLocalStore } from "@utils/useLocalStore";
+import { Button } from "components/Button/Button";
+import { coinCategoriesValue } from "config/coinCategoriesEnum";
 import { observer } from "mobx-react-lite";
+import CoinFilterStore from "store/CoinFilterStore/CoinFilterStore";
+import { useLocalStore } from "utils/useLocalStore";
 
 import styles from "./styles.module.scss";
 

@@ -1,12 +1,6 @@
-import {
-  filterCoinItemBySearch,
-  filterCoinItemByTrend,
-  normalizeCoinItem,
-} from "@store/models/CoinItem/CoinItem";
-import rootStore from "@store/RootStore/instance";
-import { log } from "@utils/log";
-import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
+import { CoinCategoriesEnum } from "config/coinCategoriesEnum";
+import { queryParamsEnum } from "config/queryParamsEnum";
 import {
   makeObservable,
   observable,
@@ -15,8 +9,18 @@ import {
   reaction,
   IReactionDisposer,
   runInAction,
+  toJS,
 } from "mobx";
 import { ParsedQs } from "qs";
+import {
+  filterCoinItemBySearch,
+  filterCoinItemByTrend,
+  normalizeCoinItem,
+  normalizeFavourites,
+} from "store/models/CoinItem/CoinItem";
+import rootStore from "store/RootStore/instance";
+import { log } from "utils/log";
+import { ILocalStore } from "utils/useLocalStore";
 
 export type Coin = {
   id: string;
@@ -29,6 +33,7 @@ export type Coin = {
 
 type PrivateFields =
   | "_coins"
+  | "_loadingItems"
   | "_currentItems"
   | "_pageCount"
   | "_itemsPerPage"
@@ -36,6 +41,7 @@ type PrivateFields =
 
 export default class CoinListStore implements ILocalStore {
   private _coins: Coin[] = [];
+  private _loadingItems = true;
 
   // fields for pagination
   private _currentItems: Coin[] | null = null;
@@ -48,6 +54,9 @@ export default class CoinListStore implements ILocalStore {
       _coins: observable,
       setCoins: action,
       coins: computed,
+      _loadingItems: observable,
+      setLoadingItems: action,
+      loadingItems: computed,
       _currentItems: observable,
       currentItems: computed,
       setCurrentItems: action,
@@ -79,12 +88,20 @@ export default class CoinListStore implements ILocalStore {
     return this._coins;
   }
 
-  // fields for pagination
+  setLoadingItems(loading: boolean) {
+    this._loadingItems = loading;
+  }
+
+  get loadingItems() {
+    return this._loadingItems;
+  }
+
+  // Поля для пагинации
   get currentItems() {
     return this._currentItems;
   }
 
-  setCurrentItems(currentItems: Coin[]) {
+  setCurrentItems(currentItems: Coin[] | null) {
     this._currentItems = currentItems;
   }
 
@@ -116,28 +133,29 @@ export default class CoinListStore implements ILocalStore {
     searchParams: string | null | string[] | ParsedQs | ParsedQs[] | undefined
   ) => {
     try {
+      this.setCurrentItems(null);
+      this.setLoadingItems(true);
+
       const result = await axios({
         method: "get",
         url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${rootStore.coinFeature.currency.key}`,
       });
 
       runInAction(() => {
-        if (result.data) {
-          if (searchParams !== null && searchParams !== undefined) {
-            this.setCoins(
-              result.data
-                .filter(filterCoinItemBySearch)
-                .filter(filterCoinItemByTrend)
-                .map(normalizeCoinItem)
-            );
-          } else {
-            this.setCoins(
-              result.data.filter(filterCoinItemByTrend).map(normalizeCoinItem)
-            );
-          }
+        if (!result.data) throw new Error("Empty data");
+        if (searchParams) {
+          this.setCoins(
+            result.data
+              .filter(filterCoinItemBySearch)
+              .filter(filterCoinItemByTrend)
+              .map(normalizeCoinItem)
+          );
         } else {
-          throw new Error("Empty result");
+          this.setCoins(
+            result.data.filter(filterCoinItemByTrend).map(normalizeCoinItem)
+          );
         }
+        this.setLoadingItems(false);
       });
     } catch (error) {
       log(error);
@@ -152,9 +170,11 @@ export default class CoinListStore implements ILocalStore {
   };
 
   changePage = async () => {
-    await this.coinRequest(rootStore.query.getParam("search"));
+    await this.coinRequest(rootStore.query.getParam(queryParamsEnum.search));
     const endOffset = this._itemOffset + this._itemsPerPage;
-    this.setCurrentItems(this._coins.slice(this._itemOffset, endOffset));
+    this._coins.length !== 0
+      ? this.setCurrentItems(this._coins.slice(this._itemOffset, endOffset))
+      : this.setCurrentItems(null);
     this.setPageCount(Math.ceil(this._coins.length / this._itemsPerPage));
   };
 
@@ -179,8 +199,8 @@ export default class CoinListStore implements ILocalStore {
   );
 
   readonly _searchHandler: IReactionDisposer = reaction(
-    () => rootStore.query.getParam("search"),
-    (searchParams) => {
+    () => rootStore.query.getParam(queryParamsEnum.search),
+    () => {
       this.changePage();
     }
   );

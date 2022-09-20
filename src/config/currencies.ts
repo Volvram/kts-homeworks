@@ -1,4 +1,4 @@
-import { OptionType } from "@components/Dropdown/Dropdown";
+import { OptionType } from "components/Dropdown/Dropdown";
 
 export const CURRENCIES: OptionType[] = [
   {
