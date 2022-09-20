@@ -14,10 +14,10 @@ import CoinCardStore from "store/CoinCardStore/CoinCardStore";
 import { Coin } from "store/CoinListStore/CoinListStore";
 import { useSaveParams } from "store/RootStore/hooks/useSaveParams";
 import rootStore from "store/RootStore/instance";
+import { log } from "utils/log";
 import { useLocalStore } from "utils/useLocalStore";
 
 import styles from "./styles.module.scss";
-import { log } from "utils/log";
 
 ChartJS.register(...registerables);
 

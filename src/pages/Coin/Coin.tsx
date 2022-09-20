@@ -2,6 +2,7 @@ import React from "react";
 
 import { Card } from "components/Card/Card";
 import Loader from "components/Loader";
+import { LoaderSize } from "config/loader";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import CoinStore from "store/CoinStore/CoinStore";
@@ -10,7 +11,6 @@ import { useLocalStore } from "utils/useLocalStore";
 import ChartLine from "./components/ChartLine/ChartLine";
 import Header from "./components/Header/Header";
 import styles from "./styles.module.scss";
-import { LoaderSize } from "config/loader";
 
 const Coin: React.FC = () => {
   const { id } = useParams();

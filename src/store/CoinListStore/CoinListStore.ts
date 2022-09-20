@@ -9,6 +9,7 @@ import {
   reaction,
   IReactionDisposer,
   runInAction,
+  toJS,
 } from "mobx";
 import { ParsedQs } from "qs";
 import {
@@ -131,52 +132,33 @@ export default class CoinListStore implements ILocalStore {
   coinRequest = async (
     searchParams: string | null | string[] | ParsedQs | ParsedQs[] | undefined
   ) => {
-    this.setCurrentItems(null);
-    this.setLoadingItems(true);
+    try {
+      this.setCurrentItems(null);
+      this.setLoadingItems(true);
 
-    if (rootStore.coinFeature.coinTrend === CoinCategoriesEnum.Favourite) {
+      const result = await axios({
+        method: "get",
+        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${rootStore.coinFeature.currency.key}`,
+      });
 
-      await new Promise(resolve => {  // Для имитации запроса и адекватной работы отмены показа графиков
-        setTimeout(resolve, 0);
-      })
-      const favouritesJSON = localStorage.getItem("favourites");
-      const favourites = favouritesJSON? JSON.parse(favouritesJSON): null;  // Преобразуем данные из localStorage в приемлемый вид
-
-      if (searchParams){
-        this.setCoins(
-          favourites.filter(filterCoinItemBySearch)
-          .map(normalizeFavourites)
-        );
-      } else {
-        this.setCoins(favourites.map(normalizeFavourites));
-      }
-      this.setLoadingItems(false);
-    } else {
-      try {
-        const result = await axios({
-          method: "get",
-          url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${rootStore.coinFeature.currency.key}`,
-        });
-  
-        runInAction(() => {
-          if (!result.data) throw new Error("Empty data");
-          if (searchParams) {
-            this.setCoins(
-              result.data
-                .filter(filterCoinItemBySearch)
-                .filter(filterCoinItemByTrend)
-                .map(normalizeCoinItem)
-            );
-          } else {
-            this.setCoins(
-              result.data.filter(filterCoinItemByTrend).map(normalizeCoinItem)
-            );
-          }
-          this.setLoadingItems(false);
-        });
-      } catch (error) {
-        log(error);
-      }
+      runInAction(() => {
+        if (!result.data) throw new Error("Empty data");
+        if (searchParams) {
+          this.setCoins(
+            result.data
+              .filter(filterCoinItemBySearch)
+              .filter(filterCoinItemByTrend)
+              .map(normalizeCoinItem)
+          );
+        } else {
+          this.setCoins(
+            result.data.filter(filterCoinItemByTrend).map(normalizeCoinItem)
+          );
+        }
+        this.setLoadingItems(false);
+      });
+    } catch (error) {
+      log(error);
     }
   };
 
@@ -190,7 +172,9 @@ export default class CoinListStore implements ILocalStore {
   changePage = async () => {
     await this.coinRequest(rootStore.query.getParam(queryParamsEnum.search));
     const endOffset = this._itemOffset + this._itemsPerPage;
-    this.setCurrentItems(this._coins.slice(this._itemOffset, endOffset));
+    this._coins.length !== 0
+      ? this.setCurrentItems(this._coins.slice(this._itemOffset, endOffset))
+      : this.setCurrentItems(null);
     this.setPageCount(Math.ceil(this._coins.length / this._itemsPerPage));
   };
 

@@ -1,7 +1,9 @@
 import { CoinCategoriesEnum } from "config/coinCategoriesEnum";
 import { CURRENCIES } from "config/currencies";
+import { getFavourites } from "config/getFavourites";
 import { queryParamsEnum } from "config/queryParamsEnum";
 import rootStore from "store/RootStore/instance";
+
 import { CoinDataModel } from "../CoinData/CoinData";
 
 export type coinItemApi = {
@@ -33,10 +35,18 @@ export const filterCoinItemBySearch = (from: coinItemApi): boolean => {
 };
 
 export const filterCoinItemByTrend = (from: coinItemApi): boolean => {
+  const favourites = getFavourites(); // Получаем данные из localStorage в нужном виде
+
   if (rootStore.coinFeature.coinTrend === CoinCategoriesEnum.Gainer) {
     return from.price_change_percentage_24h > 0;
   } else if (rootStore.coinFeature.coinTrend === CoinCategoriesEnum.Loser) {
     return from.price_change_percentage_24h < 0;
+  } else if (rootStore.coinFeature.coinTrend === CoinCategoriesEnum.Favourite) {
+    return favourites
+      ? Boolean(
+          favourites.find((favouriteId: string) => favouriteId === from.id)
+        )
+      : false;
   } else {
     return true;
   }
@@ -82,5 +92,5 @@ export const normalizeFavourites = (from: CoinDataModel): coinItemModel => {
     image: from.image,
     currentPrice: `${rootStore.coinFeature.currency.symbol} ${from.currentPrice}`,
     priceChangePercentage24h: priceChange,
-  }
-}
+  };
+};

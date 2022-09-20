@@ -33,6 +33,6 @@
   }
 
   &_favourite {
-    background: yellow;
+    filter: invert(87%) sepia(76%) saturate(728%) hue-rotate(356deg) brightness(107%) contrast(103%);
   }
 }

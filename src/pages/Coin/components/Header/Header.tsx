@@ -2,15 +2,18 @@ import React from "react";
 
 import back from "assets/img/back.svg";
 import favourite from "assets/img/favourite.svg";
+import { Button } from "components/Button";
+import { getFavourites } from "config/getFavourites";
+import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import { Link, useSearchParams } from "react-router-dom";
+import HeaderStore from "store/HeaderStore/HeaderStore";
 import { CoinDataModel } from "store/models/CoinData/CoinData";
 import { useSaveParams } from "store/RootStore/hooks/useSaveParams";
 import { log } from "utils/log";
+import { useLocalStore } from "utils/useLocalStore";
 
 import styles from "./styles.module.scss";
-import { Button } from "components/Button";
-import { toJS } from "mobx";
 
 type HeaderProps = {
   coinData: CoinDataModel | null;
@@ -18,40 +21,16 @@ type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({ coinData, loading = false }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const [isFavourite, setIsFavourite] = React.useState(false);
+  const headerStore = useLocalStore(() => new HeaderStore());
 
   const params = useSaveParams();
 
-  // React.useEffect(() => {
-  //   const favouritesJSON = localStorage.getItem("favourites");
-  //   const favourites = favouritesJSON ? JSON.parse(favouritesJSON) : null;
-  //   const favouriteExists = favourites ? favourites.find((coin: CoinDataModel) => coin.id === coinData?.id) !== undefined : false;
-
-  //   setIsFavourite(favouriteExists);
-  //   log(favouriteExists);
-  //   log(favourites);
-  // }, []);
+  React.useEffect(() => {
+    headerStore.setCoinDataId(coinData?.id);
+  }, [coinData]);
 
   const handleClick = React.useCallback(() => {
-
-    const favouritesJSON = localStorage.getItem("favourites");
-    const favourites = favouritesJSON ? JSON.parse(favouritesJSON) : null;
-    const favouriteExists = favourites ? favourites.find((coin: CoinDataModel) => coin.id === coinData?.id) !== undefined : false;
-
-    if (favourites && !favouriteExists) {
-      localStorage.setItem("favourites", JSON.stringify([coinData, ...favourites]));
-    } else if (favourites && favouriteExists) {
-      const index = favourites.findIndex((coin: CoinDataModel) => coin.id === coinData?.id);
-      favourites.splice(index, 1);
-      localStorage.setItem("favourites", JSON.stringify([...favourites]))
-    }
-    else {
-      localStorage.setItem("favourites", JSON.stringify([coinData]));
-    }
-
-    setTimeout(() => {localStorage.clear()}, 691200000);  // Очистка localStorage через 8 часов
+    headerStore.checkFavourite();
   }, [coinData]);
 
   return (
@@ -70,7 +49,13 @@ const Header: React.FC<HeaderProps> = ({ coinData, loading = false }) => {
           <div className={styles.header_symbol}>
             ({coinData?.symbol.toUpperCase()})
           </div>
-          <Button className={isFavourite ? styles.header_favourite : ""} onClick={handleClick}><img src={favourite} alt="favourite" /></Button>
+          <Button onClick={handleClick}>
+            <img
+              src={favourite}
+              className={headerStore.favourite ? styles.header_favourite : ""}
+              alt="favourite"
+            />
+          </Button>
         </>
       )}
     </div>

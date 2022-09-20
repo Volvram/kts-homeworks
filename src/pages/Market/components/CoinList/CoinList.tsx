@@ -1,7 +1,7 @@
 import React from "react";
 
-import { LoaderSize } from "config/loader";
 import WithLoader from "components/WithLoader";
+import { LoaderSize } from "config/loader";
 import { queryParamsEnum } from "config/queryParamsEnum";
 import { observer } from "mobx-react-lite";
 import { useShowChartsContext } from "pages/Market/Market";

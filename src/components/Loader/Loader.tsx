@@ -5,8 +5,6 @@ import { LoaderSize, loaderSVGmap } from "config/loader";
 
 import styles from "./styles.module.scss";
 
-
-
 type LoaderProps = {
   loading?: boolean;
   size?: LoaderSize;

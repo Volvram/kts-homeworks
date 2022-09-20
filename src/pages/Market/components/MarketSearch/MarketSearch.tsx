@@ -42,7 +42,9 @@ const MarketSearch: React.FC = () => {
           placeholder={"Search Cryptocurrency"}
         />
       </div>
-      <Button onClick={handleClick} className={styles.search_cancel}>Cancel</Button>
+      <Button onClick={handleClick} className={styles.search_cancel}>
+        Cancel
+      </Button>
     </div>
   );
 };

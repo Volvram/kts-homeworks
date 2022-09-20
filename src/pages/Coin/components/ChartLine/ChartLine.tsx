@@ -4,6 +4,7 @@ import { Chart as ChartJS, registerables } from "chart.js";
 import { Button } from "components/Button/Button";
 import Loader from "components/Loader";
 import { CHARTOPTIONS, createChart } from "config/chart";
+import { LoaderSize } from "config/loader";
 import { periodsValue } from "config/periodsEnum";
 import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
@@ -11,11 +12,10 @@ import { Chart, Line } from "react-chartjs-2";
 import { useParams } from "react-router-dom";
 import ChartStore from "store/ChartLineStore/ChartLineStore";
 import rootStore from "store/RootStore/instance";
+import { log } from "utils/log";
 import { useLocalStore } from "utils/useLocalStore";
 
 import styles from "./styles.module.scss";
-import { log } from "utils/log";
-import { LoaderSize } from "config/loader";
 
 ChartJS.register(...registerables);
 
