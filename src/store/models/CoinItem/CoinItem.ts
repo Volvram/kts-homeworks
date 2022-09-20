@@ -3,6 +3,7 @@ import { CURRENCIES } from "config/currencies";
 import { getFavourites } from "config/getFavourites";
 import { queryParamsEnum } from "config/queryParamsEnum";
 import rootStore from "store/RootStore/instance";
+import { log } from "utils/log";
 
 import { CoinDataModel } from "../CoinData/CoinData";
 
@@ -65,13 +66,23 @@ export const normalizeCoinItem = (from: coinItemApi): coinItemModel => {
     priceChange = `${from.price_change_percentage_24h.toFixed(2)}%`;
   }
 
+  const currencyFormat =
+  rootStore.coinFeature.currency.key === "rub" ? "ru-RU" : "en-US";
+
+  const formatter = new Intl.NumberFormat(currencyFormat, {
+    style: 'currency',
+    currency: rootStore.coinFeature.currency.value,
+  
+    minimumFractionDigits: 0, // (напишет 2500.10 как $2,500.1)
+  });
+
   return {
     // При получении данных с запроса вписать это в .map
     id: from.id,
     name: from.name,
     symbol: from.symbol.toUpperCase(),
     image: from.image,
-    currentPrice: `${currencySymbol} ${from.current_price.toFixed(2)}`,
+    currentPrice: `${formatter.format(from.current_price)}`,
     priceChangePercentage24h: priceChange,
   };
 };
