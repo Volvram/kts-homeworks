@@ -27,7 +27,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
   plugins: [
     new HtmlWebpackPlugin({
-     template: path.join(publicPath, "index.html")
+     template: path.join(publicPath, "index.html"),
+     favicon: path.join(publicPath, "favicon.ico"),
     }),
     !isProd && new ReactRefreshWebpackPlugin(),
     new MiniCssExtractPlugin({

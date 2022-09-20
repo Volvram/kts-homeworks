@@ -17,7 +17,7 @@ const Coins: React.FC<CoinsProps> = ({ currentCoins }) => {
         currentCoins.map((coin) => {
           return <CoinCard key={coin.id} coin={coin} />;
         })}
-      {currentCoins == null && (
+      {currentCoins === null && (
         <div className={styles.coins_not_found}>Data not found</div>
       )}
     </div>

@@ -29,12 +29,12 @@ export const normalizeCoinData = (from: CoinDataApi): CoinDataModel => {
   const currencyFormat =
     rootStore.coinFeature.currency.key === "rub" ? "ru-RU" : "en-US";
 
-    const formatter = new Intl.NumberFormat(currencyFormat, {
-      style: 'currency',
-      currency: rootStore.coinFeature.currency.value,
-    
-      minimumFractionDigits: 0, // (напишет 2500.10 как $2,500.1)
-    });
+  const formatter = new Intl.NumberFormat(currencyFormat, {
+    style: "currency",
+    currency: rootStore.coinFeature.currency.value,
+
+    minimumFractionDigits: 0, // (напишет 2500.10 как $2,500.1)
+  });
 
   const price_change_percentage_24h =
     from.market_data.price_change_percentage_24h_in_currency[
@@ -64,9 +64,11 @@ export const normalizeCoinData = (from: CoinDataApi): CoinDataModel => {
     name: from.name,
     symbol: from.symbol,
     image: from.image.large,
-    currentPrice: formatter.format(from.market_data.current_price[
-      rootStore.coinFeature.currency.key.toLowerCase()
-    ]),
+    currentPrice: formatter.format(
+      from.market_data.current_price[
+        rootStore.coinFeature.currency.key.toLowerCase()
+      ]
+    ),
     priceChange24h: price_change_24h,
     priceChange24hToString: tempPriceChange24hToString,
     priceChangePercentage24h: price_change_percentage_24h,

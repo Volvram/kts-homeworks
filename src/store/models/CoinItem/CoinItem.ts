@@ -54,7 +54,6 @@ export const filterCoinItemByTrend = (from: coinItemApi): boolean => {
 };
 
 export const normalizeCoinItem = (from: coinItemApi): coinItemModel => {
-
   let priceChange = "";
 
   if (from.price_change_percentage_24h > 0) {
@@ -64,12 +63,12 @@ export const normalizeCoinItem = (from: coinItemApi): coinItemModel => {
   }
 
   const currencyFormat =
-  rootStore.coinFeature.currency.key === "rub" ? "ru-RU" : "en-US";
+    rootStore.coinFeature.currency.key === "rub" ? "ru-RU" : "en-US";
 
   const formatter = new Intl.NumberFormat(currencyFormat, {
-    style: 'currency',
+    style: "currency",
     currency: rootStore.coinFeature.currency.value,
-  
+
     minimumFractionDigits: 0, // (напишет 2500.10 как $2,500.1)
   });
 
@@ -83,5 +82,3 @@ export const normalizeCoinItem = (from: coinItemApi): coinItemModel => {
     priceChangePercentage24h: priceChange,
   };
 };
-
-

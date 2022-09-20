@@ -1,13 +1,13 @@
 import React from "react";
 
 import cn from "classnames";
+import Loader from "components/Loader";
+import { LoaderSize } from "config/loader";
 import { observer } from "mobx-react-lite";
 import DropDownStore from "store/DropdownStore/DropdownStore";
 import { useLocalStore } from "utils/useLocalStore";
 
 import styles from "./styles.module.scss";
-import Loader from "components/Loader";
-import { LoaderSize } from "config/loader";
 
 /** Вариант для выбора в фильтре */
 export type OptionType = {
@@ -64,7 +64,8 @@ const Dropdown: React.FC<DropdownProps> = ({
       </div>
       {!dropdownStore.listClosed && (
         <div className={styles.dropdown_options_container}>
-          {!disabled && options &&
+          {!disabled &&
+            options &&
             options.map((option) => {
               return (
                 <li key={option.key} onClick={handleChoice(option)}>

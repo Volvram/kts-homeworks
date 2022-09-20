@@ -1,6 +1,7 @@
 import React from "react";
 
 import WithLoader from "components/WithLoader";
+import { getCurrencies } from "config/currencies";
 import { LoaderSize } from "config/loader";
 import { queryParamsEnum } from "config/queryParamsEnum";
 import { observer } from "mobx-react-lite";
@@ -14,7 +15,6 @@ import { useLocalStore } from "utils/useLocalStore";
 
 import Coins from "./components/Coins/Coins";
 import styles from "./styles.module.scss";
-import { getCurrencies } from "config/currencies";
 
 const CoinList: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
