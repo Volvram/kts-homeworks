@@ -16,6 +16,7 @@ $clicked-color: #0063f5;
     color: $grey-color;
 
     font-family: $main-font-family;
+    font-size: 14px;
 
     &__clicked {
       border-bottom: 3px solid $button-clicked-color;

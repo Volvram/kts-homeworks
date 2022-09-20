@@ -1,7 +1,6 @@
 import React from "react";
 
 import WithLoader from "components/WithLoader";
-import { getCurrencies } from "config/currencies";
 import { LoaderSize } from "config/loader";
 import { queryParamsEnum } from "config/queryParamsEnum";
 import { observer } from "mobx-react-lite";
@@ -35,8 +34,6 @@ const CoinList: React.FC = () => {
     }
 
     coinListStore.changePage();
-
-    getCurrencies();
   }, []);
 
   React.useEffect(() => {

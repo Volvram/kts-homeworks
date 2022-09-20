@@ -17,7 +17,7 @@ export type OptionType = {
 
 /** Пропсы, которые принимает компонент Dropdown */
 export type DropdownProps = {
-  options: OptionType[];
+  options: OptionType[] | null;
   defaultValue?: OptionType;
   /** Callback, вызываемый при выборе варианта */
   onChange: (value: OptionType) => void;

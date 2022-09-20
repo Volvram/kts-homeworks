@@ -1,5 +1,5 @@
 import { CoinCategoriesEnum } from "config/coinCategoriesEnum";
-import { CURRENCIES, formatCurrency } from "config/currencies";
+import { formatCurrency } from "config/currencies";
 import { getFavourites } from "config/getFavourites";
 import { queryParamsEnum } from "config/queryParamsEnum";
 import rootStore from "store/RootStore/instance";
