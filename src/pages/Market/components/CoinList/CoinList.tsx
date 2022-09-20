@@ -14,6 +14,7 @@ import { useLocalStore } from "utils/useLocalStore";
 
 import Coins from "./components/Coins/Coins";
 import styles from "./styles.module.scss";
+import { getCurrencies } from "config/currencies";
 
 const CoinList: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -34,6 +35,8 @@ const CoinList: React.FC = () => {
     }
 
     coinListStore.changePage();
+
+    getCurrencies();
   }, []);
 
   React.useEffect(() => {

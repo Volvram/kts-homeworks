@@ -27,7 +27,6 @@ export default class CoinStore implements ILocalStore {
     symbol: "",
     image: "",
     currentPrice: "",
-    currencySymbol: "",
     priceChange24h: 0,
     priceChange24hToString: "",
     priceChangePercentage24h: 0,

@@ -6,7 +6,10 @@ import { makeObservable, observable, action, computed } from "mobx";
 type PrivateFields = "_currency" | "_coinTrend";
 
 export default class CoinFeatureStore {
-  private _currency = CURRENCIES[0];
+  private _currency: OptionType = {
+    key: "usd",
+    value: "USD",
+  };
   private _coinTrend = CoinCategoriesEnum.All;
 
   constructor() {

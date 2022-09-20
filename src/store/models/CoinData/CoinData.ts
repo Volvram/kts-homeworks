@@ -18,7 +18,6 @@ export type CoinDataModel = {
   symbol: string;
   image: string;
   currentPrice: string;
-  currencySymbol: string;
   priceChange24h: number;
   priceChange24hToString: string;
   priceChangePercentage24h: number;
@@ -68,9 +67,6 @@ export const normalizeCoinData = (from: CoinDataApi): CoinDataModel => {
     currentPrice: formatter.format(from.market_data.current_price[
       rootStore.coinFeature.currency.key.toLowerCase()
     ]),
-      // .toFixed(2)
-      // .toLocaleString(currencyFormat),
-    currencySymbol: rootStore.coinFeature.currency.symbol,
     priceChange24h: price_change_24h,
     priceChange24hToString: tempPriceChange24hToString,
     priceChangePercentage24h: price_change_percentage_24h,

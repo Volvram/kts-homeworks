@@ -50,7 +50,7 @@ const CoinCard: React.FC<CoinCardProps> = ({ coin }) => {
 
   const chartdata = createChart(
     toJS(coinCardStore.dates),
-    rootStore.coinFeature.currency.symbol,
+    rootStore.coinFeature.currency.value,
     toJS(coinCardStore.prices),
     color,
     color,

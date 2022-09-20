@@ -7,7 +7,7 @@ type PrivateFields = "_description" | "_defaultOptionDescription";
 
 export default class CurrencyFilterStore implements ILocalStore {
   private _description = "Market-";
-  private _defaultOptionDescription = "INR";
+  private _defaultOptionDescription = "USD";
 
   constructor() {
     makeObservable<CurrencyFilterStore, PrivateFields>(this, {

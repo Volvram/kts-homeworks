@@ -1,20 +1,18 @@
 import React from "react";
 
 import cn from "classnames";
-import cnBind from "classnames/bind";
 import { observer } from "mobx-react-lite";
 import DropDownStore from "store/DropdownStore/DropdownStore";
 import { useLocalStore } from "utils/useLocalStore";
 
 import styles from "./styles.module.scss";
-
-const cx = cnBind.bind(styles);
+import Loader from "components/Loader";
+import { LoaderSize } from "config/loader";
 
 /** Вариант для выбора в фильтре */
 export type OptionType = {
   key: string;
   value: string;
-  symbol: string;
 };
 
 /** Пропсы, которые принимает компонент Dropdown */
@@ -66,7 +64,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       </div>
       {!dropdownStore.listClosed && (
         <div className={styles.dropdown_options_container}>
-          {!disabled &&
+          {!disabled && options &&
             options.map((option) => {
               return (
                 <li key={option.key} onClick={handleChoice(option)}>

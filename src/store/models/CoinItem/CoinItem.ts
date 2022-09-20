@@ -1,5 +1,5 @@
 import { CoinCategoriesEnum } from "config/coinCategoriesEnum";
-import { CURRENCIES } from "config/currencies";
+import { CURRENCIES, formatCurrency } from "config/currencies";
 import { getFavourites } from "config/getFavourites";
 import { queryParamsEnum } from "config/queryParamsEnum";
 import rootStore from "store/RootStore/instance";
@@ -54,9 +54,6 @@ export const filterCoinItemByTrend = (from: coinItemApi): boolean => {
 };
 
 export const normalizeCoinItem = (from: coinItemApi): coinItemModel => {
-  let currencySymbol: string | undefined = CURRENCIES.find(
-    (currency) => currency.key === rootStore.coinFeature.currency.key
-  )?.symbol;
 
   let priceChange = "";
 
@@ -82,26 +79,9 @@ export const normalizeCoinItem = (from: coinItemApi): coinItemModel => {
     name: from.name,
     symbol: from.symbol.toUpperCase(),
     image: from.image,
-    currentPrice: `${formatter.format(from.current_price)}`,
+    currentPrice: formatCurrency(from.current_price),
     priceChangePercentage24h: priceChange,
   };
 };
 
-export const normalizeFavourites = (from: CoinDataModel): coinItemModel => {
-  let priceChange = "";
 
-  if (from.priceChangePercentage24h > 0) {
-    priceChange = `+${from.priceChangePercentage24h}%`;
-  } else if (from.priceChangePercentage24h <= 0) {
-    priceChange = `${from.priceChangePercentage24h}%`;
-  }
-
-  return {
-    id: from.id,
-    name: from.name,
-    symbol: from.symbol.toUpperCase(),
-    image: from.image,
-    currentPrice: `${rootStore.coinFeature.currency.symbol} ${from.currentPrice}`,
-    priceChangePercentage24h: priceChange,
-  };
-};
