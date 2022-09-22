@@ -67,6 +67,7 @@ export default class HeaderStore implements ILocalStore {
       // Если избранных нет
 
       localStorage.setItem("favourites", JSON.stringify([this._coinDataId]));
+      this.setFavourite(true);
     }
 
     setTimeout(() => {
