@@ -26,6 +26,7 @@
   "scripts": {
     "dev": "npx webpack serve && SET NODE_ENV=development --mode=development",
     "build": "npx webpack serve && SET NODE_ENV=production --mode=production",
+    "bundle": "webpack",
     "ts-check": "tsc --skipLibCheck --noEmit --project tsconfig.json",
     "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix",

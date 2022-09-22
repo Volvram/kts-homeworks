@@ -4,9 +4,15 @@
 .App {
   background: #f8f9fa;
 
-  max-width: $screen-size__phone;
+  width: 100%;
+
+  max-width: $screen-width__phone;
 
   margin: $content-align-center;
+}
+
+body {
+  margin: 0;
 }
 
 .positive {

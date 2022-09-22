@@ -30,9 +30,6 @@ const Coin: React.FC = () => {
         <>
           <div className={styles.price}>
             <div className={styles.price_current}>
-              <div className={styles.price_current_currency}>
-                {coinStore.coinData.currencySymbol}
-              </div>
               <div>{coinStore.coinData.currentPrice}</div>
             </div>
             <div className={styles.price_change}>
@@ -55,7 +52,6 @@ const Coin: React.FC = () => {
             content={
               <div className={styles.coinCard_content}>
                 <div className={styles.coinCard_content_price}>
-                  {coinStore.coinData.currencySymbol}
                   {coinStore.coinData.currentPrice}
                 </div>
                 <div

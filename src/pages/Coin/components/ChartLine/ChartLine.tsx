@@ -30,7 +30,7 @@ const ChartLine: React.FC = () => {
 
   const chartdata = createChart(
     toJS(chartStore.dates),
-    rootStore.coinFeature.currency.symbol,
+    rootStore.coinFeature.currency.value,
     toJS(chartStore.prices)
   );
 

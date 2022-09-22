@@ -2,7 +2,6 @@ import React from "react";
 
 import Dropdown from "components/Dropdown";
 import { OptionType } from "components/Dropdown/Dropdown";
-import { CURRENCIES } from "config/currencies";
 import { observer } from "mobx-react-lite";
 import CurrencyFilterStore from "store/CurrencyFilterStore/CurrencyFilterStore";
 import { useLocalStore } from "utils/useLocalStore";
@@ -16,11 +15,15 @@ const CurrencyFilter: React.FC = () => {
     currencyFilterStore.setCurrency(currency);
   }, []);
 
+  React.useEffect(() => {
+    currencyFilterStore.getCurrencies();
+  }, []);
+
   return (
     <div className={styles.currencyFilter}>
       <div className={styles.currencyFilter_coinsHeader}>Coins</div>
       <Dropdown
-        options={CURRENCIES}
+        options={currencyFilterStore.currencies}
         defaultValue={currencyFilterStore.currency}
         onChange={handleChange}
         description={currencyFilterStore.description}

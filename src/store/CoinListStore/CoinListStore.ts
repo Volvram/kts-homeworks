@@ -16,7 +16,6 @@ import {
   filterCoinItemBySearch,
   filterCoinItemByTrend,
   normalizeCoinItem,
-  normalizeFavourites,
 } from "store/models/CoinItem/CoinItem";
 import rootStore from "store/RootStore/instance";
 import { log } from "utils/log";

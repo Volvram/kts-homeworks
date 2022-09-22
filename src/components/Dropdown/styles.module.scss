@@ -34,7 +34,7 @@ $option-padding: 5px 8px;
   &_choice {
     padding: $option-padding;
 
-    min-width: 71px;
+    min-width: 75px;
 
     background: $default-button-background;
     border: $default-button-border;
@@ -42,6 +42,8 @@ $option-padding: 5px 8px;
 
   &_option {
     padding: $option-padding;
+
+    min-width: 75px;
 
     background: $default-button-background;
     border: solid #dfe2e4;

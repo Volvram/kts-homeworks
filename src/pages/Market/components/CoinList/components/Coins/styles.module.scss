@@ -2,12 +2,20 @@
 
 .coins {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   flex-direction: column;
+
+  min-height:450px;
 
   &_not_found{
     margin: 50% auto;
     color: $grey-color;
     font-family: $main-font-family;
+  }
+}
+
+@media screen and (max-width: 365px) {
+  .coins {
+    min-height: 370px;
   }
 }

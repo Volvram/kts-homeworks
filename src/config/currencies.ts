@@ -1,19 +1,14 @@
-import { OptionType } from "components/Dropdown/Dropdown";
+import rootStore from "store/RootStore/instance";
 
-export const CURRENCIES: OptionType[] = [
-  {
-    key: "usd",
-    value: "USD",
-    symbol: "\u{0024}", // $
-  },
-  {
-    key: "eur",
-    value: "EUR",
-    symbol: "\u{20AC}", // €
-  },
-  {
-    key: "rub",
-    value: "RUB",
-    symbol: "\u{20BD}", // ₽
-  },
-];
+export const formatCurrency = (price: number) => {
+  const currencyFormat =
+    rootStore.coinFeature.currency.key === "rub" ? "ru-RU" : "en-US";
+  const formatter = new Intl.NumberFormat(currencyFormat, {
+    style: "currency",
+    currency: rootStore.coinFeature.currency.value,
+
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  return formatter.format(price);
+};
