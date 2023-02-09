@@ -2,6 +2,8 @@
 
 Сервис для просмотра актуальной информации по курсам криптовалют.
 
+Используется API coingecko.
+
 Подробнее https://kts-crypto-currencies.netlify.app
 
 # Getting Started
