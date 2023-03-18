@@ -161,15 +161,16 @@ export default class CoinListStore implements ILocalStore {
     }
   };
 
-  handlePageClick = (event: { selected: number }) => {
+  handlePageClick = async (event: { selected: number }) => {
+    await this.coinRequest(rootStore.query.getParam(queryParamsEnum.search));
+
     const newOffset =
       (event.selected * this._itemsPerPage) % this._coins.length;
     this.setItemOffset(newOffset);
     this.changePage();
   };
 
-  changePage = async () => {
-    await this.coinRequest(rootStore.query.getParam(queryParamsEnum.search));
+  changePage = () => {
     const endOffset = this._itemOffset + this._itemsPerPage;
     this._coins.length !== 0
       ? this.setCurrentItems(this._coins.slice(this._itemOffset, endOffset))
@@ -177,30 +178,5 @@ export default class CoinListStore implements ILocalStore {
     this.setPageCount(Math.ceil(this._coins.length / this._itemsPerPage));
   };
 
-  destroy(): void {
-    this._currencyHandler();
-    this._coinTrendHandler();
-    this._searchHandler();
-  }
-
-  readonly _currencyHandler: IReactionDisposer = reaction(
-    () => rootStore.coinFeature.currency,
-    () => {
-      this.changePage();
-    }
-  );
-
-  readonly _coinTrendHandler: IReactionDisposer = reaction(
-    () => rootStore.coinFeature.coinTrend,
-    () => {
-      this.changePage();
-    }
-  );
-
-  readonly _searchHandler: IReactionDisposer = reaction(
-    () => rootStore.query.getParam(queryParamsEnum.search),
-    () => {
-      this.changePage();
-    }
-  );
+  destroy(): void {}
 }

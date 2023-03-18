@@ -23,17 +23,27 @@ const CoinList: React.FC = () => {
   const coinListStore = useLocalStore(() => new CoinListStore());
   useQueryParamsStoreInit();
 
+  const handlePage = React.useCallback(
+    (event: { selected: number }) => {
+      coinListStore.handlePageClick(event);
+      searchParams.set(queryParamsEnum.page, `${event.selected + 1}`);
+      setSearchParams(searchParams);
+    },
+    [searchParams]
+  );
+
   React.useEffect(() => {
+    handlePage({selected: 0});
+  }, [rootStore.coinFeature.currency, rootStore.coinFeature.coinTrend, rootStore.query.getParam(queryParamsEnum.search)]);
+
+  React.useEffect(() => {
+
     const initialPage = rootStore.query.getParam(queryParamsEnum.page);
     if (initialPage) {
-      coinListStore.setItemOffset(
-        coinListStore.itemsPerPage * (Number(initialPage) - 1)
-      );
+      handlePage({selected: Number(initialPage) - 1});
     } else {
-      coinListStore.setItemOffset(0);
+      handlePage({selected: 0});
     }
-
-    coinListStore.changePage();
   }, []);
 
   React.useEffect(() => {
@@ -44,15 +54,6 @@ const CoinList: React.FC = () => {
     rootStore.coinFeature.currency,
     rootStore.coinFeature.coinTrend,
   ]);
-
-  const handlePage = React.useCallback(
-    (event: { selected: number }) => {
-      coinListStore.handlePageClick(event);
-      searchParams.set(queryParamsEnum.page, `${event.selected + 1}`);
-      setSearchParams(searchParams);
-    },
-    [searchParams]
-  );
 
   return (
     <>
